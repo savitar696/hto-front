@@ -51,7 +51,7 @@ export const Shell: React.FC = () => {
             <ColorModeButton/>
                     <AvatarGroup display="flex" justifyContent="center" alignItems="center" gap="6">
                         <MenuRoot>
-                            <MenuTrigger display="flex" flexDirection="row" alignItems="center" gap="3">
+                            <MenuTrigger display="flex" flexDirection="row" alignItems="center" gap="3" cursor='pointer'>
                                 <Avatar size="md" name="sakominov" src={`https://skin.vimeworld.com/helm/sakominov.png`}
                                 />
                                 <Text fontWeight="bold">sakominov</Text>
