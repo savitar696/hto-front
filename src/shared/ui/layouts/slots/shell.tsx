@@ -1,3 +1,3 @@
 import { createSlot } from "react-slotify";
 
-export const ShellSlot = createSlot()
+export const ShellSlot = createSlot();

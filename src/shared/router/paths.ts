@@ -1,12 +1,13 @@
 export const paths = {
-    index: "/",
-    home: "/home",
-    news: "/news",
-    leaderboard: "/leaderboard",
-    profile: "/profile/:username",
+  index: "/",
+  home: "/home",
+  news: "/news",
+  leaderboard: "/leaderboard",
+  profile: "/profile/:username",
 
-    auth: "/auth",
-    logout: "/logout",
+  auth: "/auth",
+  logout: "/logout",
 
-    catch: "*"
-} as const
+  rules: "/rules",
+  catch: "*",
+} as const;
