@@ -1,0 +1,28 @@
+{
+    "login": "Login",
+    "rating": "Rating",
+    "team": "Team",
+    "profile": {
+      "header": {
+        "edit_photo": "Edit",
+        "description": "Description"
+      },
+      "tabs": {
+        "stats": "Statistics",
+        "matches": "Matches",
+        "info": "Information"
+      }
+    },
+    "shell": {
+      "dropmenu": {
+        "profile": "Profile",
+        "settings": "Settings",
+        "logout": "Logout"
+      },
+      "links": {
+        "main": "Home",
+        "leaderboard": "Leaderboard",
+        "rules": "Rules"
+      }
+    }
+  }

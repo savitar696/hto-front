@@ -1,0 +1,28 @@
+{
+    "login": "Увійти",
+    "rating": "Рейтинг",
+    "team": "Команда",
+    "profile": {
+      "header": {
+        "edit_photo": "Змінити",
+        "description": "Опис"
+      },
+      "tabs": {
+        "stats": "Статистика",
+        "matches": "Матчі",
+        "info": "Інформація"
+      }
+    },
+    "shell": {
+      "dropmenu": {
+        "profile": "Профіль",
+        "settings": "Налаштування",
+        "logout": "Вийти"
+      },
+      "links": {
+        "main": "Головна",
+        "leaderboard": "Таблиця лідерів",
+        "rules": "Правила"
+      }
+    }
+  }

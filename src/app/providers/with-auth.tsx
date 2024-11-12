@@ -1,16 +1,20 @@
-import { useGetInfo } from "@features/user-profile/auth/api/get-info";
-import { FC, PropsWithChildren, useEffect } from "react";
+import { useGetInfo } from "@features/auth/api/get-info" // Импортируем хук для получения информации
+import { FC, PropsWithChildren, useEffect } from "react"
+
+const getAccessToken = () => {
+  return localStorage.getItem("auth") == "ADMIN"
+}
 
 export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
-  const obj = {
-    refetchInterval: 5000,
-    enabled: true,
-  };
-  const load = useGetInfo(obj);
+  const load = useGetInfo()
 
   useEffect(() => {
-    if (localStorage.getItem("DEV_TOKEN")) load;
-  }, []);
+    const token = getAccessToken()
+    if (token) {
+      console.log("yes")
+      load()
+    }
+  }, [load])
 
-  return children;
-};
+  return children
+}

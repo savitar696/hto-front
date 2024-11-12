@@ -1,10 +1,10 @@
-import { Box, Heading, Icon, List, Text } from "@chakra-ui/react";
-import ReactMarkdown from "react-markdown";
-import rulesText from "./rules.md?raw";
-import { CgChevronRight } from "react-icons/cg";
-import { useColorModeValue } from "@components/ui/color-mode";
-import { Prose } from "@components/ui/prose";
-import Markdown from "react-markdown";
+import { Box, Heading, Icon, List, Text } from "@chakra-ui/react"
+import ReactMarkdown from "react-markdown"
+import rulesText from "./rules.md?raw"
+import { CgChevronRight } from "react-icons/cg"
+import { useColorModeValue } from "@components/ui/color-mode"
+import { Prose } from "@components/ui/prose"
+import Markdown from "react-markdown"
 
 // export const RulesPage = () => {
 //   const bg = useColorModeValue("gray.100", "#0F0E14");
@@ -95,5 +95,5 @@ export const RulesPage = () => {
     <Prose padding={4} maxWidth="800px" mx="auto">
       <Markdown>{rulesText}</Markdown>
     </Prose>
-  );
-};
+  )
+}

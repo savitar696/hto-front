@@ -9,19 +9,16 @@ import {
   useBreakpointValue,
   Text,
   Tabs,
-  Collapsible,
-} from "@chakra-ui/react";
-import { Avatar } from "@components/ui/avatar";
-import { useColorModeValue } from "@components/ui/color-mode";
-import { ProfileContent } from "./content";
-import { useState } from "react";
-import { useUserStore } from "@entities/user/model";
+} from "@chakra-ui/react"
+import { Avatar } from "@components/ui/avatar"
+import { useColorModeValue } from "@components/ui/color-mode"
+import { PlayerStats, ProfileContent } from "./content"
+import { useUserStore } from "@entities/user/model"
+import { useTranslation } from "react-i18next"
 
 export const ProfileHeader = ({ username }: { username: string }) => {
-  const bg = useColorModeValue("blackAlpha.50", "blackAlpha.500");
-  const headerHeight = useBreakpointValue({ base: "180px", md: "240px" });
-  const { profile } = useUserStore();
-  const isUser = profile.username == username;
+  const { t } = useTranslation()
+  const { profile } = useUserStore()
 
   return (
     <Flex
@@ -34,7 +31,7 @@ export const ProfileHeader = ({ username }: { username: string }) => {
       <Box
         w="100%"
         maxW="1200px"
-        bg={bg}
+        bg={useColorModeValue("blackAlpha.50", "blackAlpha.500")}
         borderRadius="xl"
         overflow="hidden"
         boxShadow="2xl"
@@ -43,14 +40,17 @@ export const ProfileHeader = ({ username }: { username: string }) => {
         transition="box-shadow 0.3s ease-in-out"
         _hover={{ boxShadow: "0 4px 30px rgba(0,0,0,0.3)" }}
       >
-        <Box position="relative" height={headerHeight}>
+        <Box
+          position="relative"
+          height={useBreakpointValue({ base: "180px", md: "240px" })}
+        >
           <Image
-            src="https://i.imgur.com/Jpo6ufJ.jpeg"
+            src="https://i.imgur.com/eDPeTNd.jpeg"
             alt="header"
             width="100%"
             height="100%"
             objectFit="cover"
-            filter="brightness(0.85)"
+            filter="brightness(0.75)"
           />
           <Avatar
             src={`https://skin.vimeworld.com/helm/${username}.png`}
@@ -62,7 +62,7 @@ export const ProfileHeader = ({ username }: { username: string }) => {
             border="4px solid white"
             boxShadow="lg"
           />
-          {isUser ? (
+          {profile.username == username ? (
             <Button
               position="absolute"
               top="10px"
@@ -73,7 +73,7 @@ export const ProfileHeader = ({ username }: { username: string }) => {
               transition="opacity 0.5s ease"
               _hover={{ opacity: 1 }}
             >
-              Изменить
+              {t("profile.header.edit_photo")}
             </Button>
           ) : null}
         </Box>
@@ -83,24 +83,25 @@ export const ProfileHeader = ({ username }: { username: string }) => {
             {username}
           </Heading>
           <Flex gap={2} justify="center" wrap="wrap">
-            <Text color="gray.500">Нет описания.</Text>
+            <Text color="gray.500">{t("profile.header.description")}</Text>
           </Flex>
           <Flex gap={4} justify="center" mt={2}>
             <Badge variant="surface" colorPalette="green">
-              Рейтинг: 1000
+              {t("rating")}: 1000
             </Badge>
             <Badge variant="surface" colorPalette="red">
-              Команда: Epsilon
+              {t("team")}: LMAO
             </Badge>
           </Flex>
         </VStack>
       </Box>
       <UserTabs />
     </Flex>
-  );
-};
+  )
+}
 
 const UserTabs = () => {
+  const { t } = useTranslation()
   return (
     <Tabs.Root defaultValue="stats" alignItems="center">
       <Flex justifyContent="center" mt={4}>
@@ -110,14 +111,22 @@ const UserTabs = () => {
           boxShadow="sm"
           _hover={{ boxShadow: "0 4px 10px rgba(0,0,0,0.2)" }}
         >
-          <Tabs.Trigger value="stats">Статистика</Tabs.Trigger>
-          <Tabs.Trigger value="matches">Матчи</Tabs.Trigger>
-          <Tabs.Trigger value="info">Информация</Tabs.Trigger>
+          <Tabs.Trigger value="stats">{t("profile.tabs.stats")}</Tabs.Trigger>
+          <Tabs.Trigger value="matches">
+            {t("profile.tabs.matches")}
+          </Tabs.Trigger>
+          <Tabs.Trigger value="info">{t("profile.tabs.info")}</Tabs.Trigger>
           <Tabs.Indicator rounded="lg" />
         </Tabs.List>
       </Flex>
       <Tabs.Content value="stats">
-        <StatsContent />
+        <PlayerStats
+          kills={120}
+          deaths={30}
+          bedsBroken={15}
+          kdRatio={4.0}
+          rating={1500}
+        />
       </Tabs.Content>
       <Tabs.Content value="matches">
         <ProfileContent />
@@ -126,16 +135,8 @@ const UserTabs = () => {
         <InfoContent />
       </Tabs.Content>
     </Tabs.Root>
-  );
-};
-
-const StatsContent = () => (
-  <Box p={4} borderRadius="md" boxShadow="md">
-    <Text fontWeight="bold">Количество матчей сыграно: 250</Text>
-    <Text>Средний рейтинг: 1100</Text>
-    <Text>Лучшая серия побед: 15</Text>
-  </Box>
-);
+  )
+}
 
 const InfoContent = () => (
   <Box p={4}>
@@ -145,4 +146,4 @@ const InfoContent = () => (
       многое другое.
     </Text>
   </Box>
-);
+)

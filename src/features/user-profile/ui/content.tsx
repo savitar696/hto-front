@@ -1,20 +1,25 @@
 import {
-  Badge,
   Box,
   Flex,
   Grid,
   HStack,
+  Icon,
   Image,
+  StatRoot,
   Text,
   VStack,
-} from "@chakra-ui/react";
+} from "@chakra-ui/react"
+import { useColorModeValue } from "@components/ui/color-mode"
+import { StatLabel, StatValueText } from "@components/ui/stat"
+import { CgTrophy } from "react-icons/cg"
+import { IconType } from "react-icons/lib"
+import { LuBed, LuSkull } from "react-icons/lu"
 
 interface MatchCardProps {
-  mapImage: string;
-  mapName: string;
-  result: "Победа" | "Поражение";
-  ratingChange: number;
-  ratingDelta: number;
+  mapImage: string
+  mapName: string
+  result: "Победа" | "Поражение"
+  ratingChange: number
 }
 
 const MATCHES: MatchCardProps[] = [
@@ -23,44 +28,38 @@ const MATCHES: MatchCardProps[] = [
     mapName: "Пробуждение",
     result: "Победа",
     ratingChange: 30,
-    ratingDelta: 5,
   },
   {
     mapImage: "https://i.imgur.com/xqOHPZ5.png",
     mapName: "Джунглиос",
     result: "Поражение",
     ratingChange: 17,
-    ratingDelta: 2,
   },
   {
     mapImage: "https://i.imgur.com/TaY4I7N.jpeg",
     mapName: "Пробуждение",
     result: "Поражение",
     ratingChange: 15,
-    ratingDelta: -3,
   },
   {
     mapImage: "https://i.imgur.com/TaY4I7N.jpeg",
     mapName: "Пробуждение",
     result: "Победа",
     ratingChange: 30,
-    ratingDelta: 4,
   },
   {
     mapImage: "https://i.imgur.com/xqOHPZ5.png",
     mapName: "Джунглиос",
     result: "Поражение",
     ratingChange: 17,
-    ratingDelta: 1,
   },
   {
     mapImage: "https://i.imgur.com/xqOHPZ5.png",
     mapName: "Джунглиос",
     result: "Поражение",
     ratingChange: 17,
-    ratingDelta: -1,
   },
-];
+]
 
 export const ProfileContent = () => {
   return (
@@ -71,15 +70,14 @@ export const ProfileContent = () => {
         ))}
       </Grid>
     </Box>
-  );
-};
+  )
+}
 
 export const MatchCard = ({
   mapImage,
   mapName,
   result,
   ratingChange,
-  ratingDelta,
 }: MatchCardProps) => {
   return (
     <Box
@@ -95,19 +93,14 @@ export const MatchCard = ({
     >
       <MatchImage src={mapImage} alt={mapName} />
       <Overlay />
-      <CardInfo
-        mapName={mapName}
-        result={result}
-        ratingChange={ratingChange}
-        ratingDelta={ratingDelta}
-      />
+      <CardInfo mapName={mapName} result={result} ratingChange={ratingChange} />
     </Box>
-  );
-};
+  )
+}
 
 const MatchImage = ({ src, alt }: { src: string; alt: string }) => {
-  return <Image src={src} alt={alt} objectFit="cover" w="100%" h="100%" />;
-};
+  return <Image src={src} alt={alt} objectFit="cover" w="100%" h="100%" />
+}
 
 const Overlay = () => (
   <Box
@@ -118,17 +111,13 @@ const Overlay = () => (
     h="100%"
     bg="rgba(0, 0, 0, 0.4)"
   />
-);
+)
 
 const CardInfo = ({
   mapName,
   result,
   ratingChange,
-  ratingDelta,
-}: Pick<
-  MatchCardProps,
-  "mapName" | "result" | "ratingChange" | "ratingDelta"
->) => {
+}: Pick<MatchCardProps, "mapName" | "result" | "ratingChange">) => {
   return (
     <VStack
       position="absolute"
@@ -143,10 +132,10 @@ const CardInfo = ({
         {mapName}
       </Text>
       <MatchResult result={result} />
-      <MatchRating ratingChange={ratingChange} ratingDelta={ratingDelta} />
+      <MatchRating ratingChange={ratingChange} />
     </VStack>
-  );
-};
+  )
+}
 
 const MatchResult = ({ result }: { result: "Победа" | "Поражение" }) => {
   return (
@@ -157,17 +146,11 @@ const MatchResult = ({ result }: { result: "Победа" | "Поражение"
     >
       {result}
     </Text>
-  );
-};
+  )
+}
 
-const MatchRating = ({
-  ratingChange,
-  ratingDelta,
-}: {
-  ratingChange: number;
-  ratingDelta: number;
-}) => {
-  const isPositive = ratingChange > 0;
+const MatchRating = ({ ratingChange }: { ratingChange: number }) => {
+  const isPositive = ratingChange > 0
   return (
     <HStack justify="center" spaceX={2}>
       <Text fontSize="md">Рейтинг:</Text>
@@ -179,10 +162,58 @@ const MatchRating = ({
         >
           {ratingChange}
         </Text>
-        <Badge colorScheme={isPositive ? "green" : "red"}>
-          {ratingDelta > 0 ? `+${ratingDelta}` : ratingDelta}
-        </Badge>
       </HStack>
     </HStack>
-  );
-};
+  )
+}
+
+interface PlayerStatsProps {
+  kills: number
+  deaths: number
+  bedsBroken: number
+  kdRatio: number
+  rating: number
+}
+
+export const PlayerStats: React.FC<PlayerStatsProps> = ({
+  kills,
+  deaths,
+  bedsBroken,
+  kdRatio,
+  rating,
+}) => {
+  const bgColor = useColorModeValue("white", "gray.800")
+  const boxShadow = useColorModeValue("md", "lg")
+
+  return (
+    <Flex bg={bgColor} p={6} borderRadius="lg" boxShadow={boxShadow} gap="8">
+      <StatCard label="Kills" value={kills} icon={<LuSkull />} />
+      <StatCard label="Deaths" value={deaths} icon={<LuSkull />} />
+      <StatCard label="Beds Broken" value={bedsBroken} icon={<LuBed />} />
+      <StatCard
+        label="K/D Ratio"
+        value={kdRatio.toFixed(2)}
+        icon={<CgTrophy />}
+      />
+      <StatCard label="Rating" value={rating} icon={<CgTrophy />} />
+    </Flex>
+  )
+}
+
+const StatCard = ({
+  label,
+  value,
+  icon,
+}: {
+  label: string
+  value: number | string
+  icon: React.ReactNode
+}) => (
+  <StatRoot maxW="360px" borderWidth="1px" px="6" py="3" rounded="md">
+    <HStack justify="space-between">
+      <StatLabel>{label}</StatLabel>
+      {icon}
+    </HStack>
+    <StatValueText>{value}</StatValueText>
+  </StatRoot>
+)
