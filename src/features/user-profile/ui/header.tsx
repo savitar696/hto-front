@@ -13,12 +13,10 @@ import {
 import { Avatar } from "@components/ui/avatar"
 import { useColorModeValue } from "@components/ui/color-mode"
 import { PlayerStats, ProfileContent } from "./content"
-import { useUserStore } from "@entities/user/model"
 import { useTranslation } from "react-i18next"
 
 export const ProfileHeader = ({ username }: { username: string }) => {
   const { t } = useTranslation()
-  const { profile } = useUserStore()
 
   return (
     <Flex
@@ -62,7 +60,7 @@ export const ProfileHeader = ({ username }: { username: string }) => {
             border="4px solid white"
             boxShadow="lg"
           />
-          {profile.username == username ? (
+          {/* {profile.username == username ? (
             <Button
               position="absolute"
               top="10px"
@@ -75,7 +73,7 @@ export const ProfileHeader = ({ username }: { username: string }) => {
             >
               {t("profile.header.edit_photo")}
             </Button>
-          ) : null}
+          ) : null} */}
         </Box>
 
         <VStack mt={10} px={4} pb={4}>

@@ -33,13 +33,13 @@ const MATCHES: MatchCardProps[] = [
     mapImage: "https://i.imgur.com/xqOHPZ5.png",
     mapName: "Джунглиос",
     result: "Поражение",
-    ratingChange: 17,
+    ratingChange: -17,
   },
   {
     mapImage: "https://i.imgur.com/TaY4I7N.jpeg",
     mapName: "Пробуждение",
     result: "Поражение",
-    ratingChange: 15,
+    ratingChange: -15,
   },
   {
     mapImage: "https://i.imgur.com/TaY4I7N.jpeg",
@@ -51,7 +51,7 @@ const MATCHES: MatchCardProps[] = [
     mapImage: "https://i.imgur.com/xqOHPZ5.png",
     mapName: "Джунглиос",
     result: "Поражение",
-    ratingChange: 17,
+    ratingChange: -17,
   },
   {
     mapImage: "https://i.imgur.com/xqOHPZ5.png",

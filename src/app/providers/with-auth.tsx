@@ -1,20 +1,13 @@
-import { useGetInfo } from "@features/auth/api/get-info" // Импортируем хук для получения информации
+import { useUser } from "@entities/user"
 import { FC, PropsWithChildren, useEffect } from "react"
-
-const getAccessToken = () => {
-  return localStorage.getItem("auth") == "ADMIN"
-}
+import { useShallow } from "zustand/react/shallow"
 
 export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
-  const load = useGetInfo()
+  const getInfo = useUser(useShallow((state) => state.getInfo))
 
   useEffect(() => {
-    const token = getAccessToken()
-    if (token) {
-      console.log("yes")
-      load()
-    }
-  }, [load])
+    getInfo()
+  }, [getInfo])
 
   return children
 }

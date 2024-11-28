@@ -1,4 +1,4 @@
-import { Box, Spinner } from "@chakra-ui/react";
+import { Box, Spinner } from "@chakra-ui/react"
 
 export const Loader = () => (
   <Box
@@ -12,4 +12,4 @@ export const Loader = () => (
   >
     <Spinner size="xl" borderWidth="4px" animationDuration="0.8s" />
   </Box>
-);
+)

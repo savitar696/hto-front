@@ -10,6 +10,8 @@ import { Shell } from "@widgets/navigation/shell"
 import { Navigate, Outlet, RouteObject, useRoutes } from "react-router-dom"
 import { AuthGuard } from "./auth"
 import { SettingsPage } from "@pages/settings/ui"
+import { PlayPage } from "@pages/play/ui"
+import { MatchPage } from "@pages/match/ui"
 
 const routes = (): RouteObject[] => [
   {
@@ -41,6 +43,10 @@ const routes = (): RouteObject[] => [
         path: paths.rules,
         element: <RulesPage />,
       },
+      {
+        path: paths.match,
+        element: <MatchPage />,
+      },
     ],
   },
   {
@@ -61,6 +67,10 @@ const routes = (): RouteObject[] => [
       {
         path: "/settings",
         element: <SettingsPage />,
+      },
+      {
+        path: "/play",
+        element: <PlayPage />,
       },
     ],
   },

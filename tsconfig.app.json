@@ -30,7 +30,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "types": ["./@types/redux.d.ts", "./@types/i18n.d.ts"]
+    "types": ["./@types/i18n.d.ts", "./src/vite-env.d.ts"]
   },
   "include": ["src", "@types"]
 }

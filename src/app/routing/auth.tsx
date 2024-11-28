@@ -1,13 +1,14 @@
-import { FC, PropsWithChildren } from "react";
-import { paths } from "@shared/router";
-import { Loader } from "@shared/ui/loader";
-import { Navigate } from "react-router-dom";
-import { useUserStore } from "@entities/user/model";
+import { FC, PropsWithChildren } from "react"
+import { paths } from "@shared/router"
+import { Loader } from "@shared/ui/loader"
+import { Navigate } from "react-router-dom"
+import { useUser } from "@entities/user/model"
+import { useShallow } from "zustand/react/shallow"
 
 export interface AuthGuardProps extends PropsWithChildren {
-  guest?: boolean;
-  replace?: boolean;
-  redirect?: string;
+  guest?: boolean
+  replace?: boolean
+  redirect?: string
 }
 
 export const AuthGuard: FC<AuthGuardProps> = ({
@@ -16,11 +17,11 @@ export const AuthGuard: FC<AuthGuardProps> = ({
   redirect = paths.index,
   replace = false,
 }) => {
-  const { isAuth, loading } = useUserStore();
-  if (loading) return <Loader />;
+  const { isAuth, isLoading } = useUser(useShallow((state) => state))
+  if (isLoading) return <Loader />
 
   if ((!isAuth && !guest) || (isAuth && guest))
-    return <Navigate replace={replace} to={redirect} />;
+    return <Navigate replace={replace} to={redirect} />
 
-  return children;
-};
+  return children
+}

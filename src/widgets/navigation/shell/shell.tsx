@@ -4,7 +4,6 @@ import {
   Text,
   List,
   Link,
-  IconButton,
   Image,
   useBreakpointValue,
 } from "@chakra-ui/react"
@@ -22,15 +21,18 @@ import {
   MenuTrigger,
 } from "@components/ui/menu"
 import { Tooltip } from "@components/ui/tooltip"
-import { UserProfile, useUserStore } from "@entities/user/model"
-import logo from "@shared/assets/logo.png"
-import logoWhite from "@shared/assets/logo-white.png"
+import { LogoDark, LogoWhite } from "@shared/static/logo"
 import { config } from "@shared/lib/config"
 import { MdLanguage } from "react-icons/md"
 import { LogoutDialog } from "@features/auth/ui/logout"
 import { FC, PropsWithChildren } from "react"
 import { useTranslation } from "react-i18next"
 import ReactCountryFlag from "react-country-flag"
+import { useUser } from "@entities/user"
+import { useShallow } from "zustand/react/shallow"
+import { UserPayload } from "@entities/user/model/user.types"
+import { AuthDialog } from "@features/auth/ui/auth"
+import { useNavigate } from "react-router-dom"
 
 interface Item {
   label: string
@@ -40,9 +42,10 @@ interface Item {
 export const Shell: React.FC = () => {
   const bg = useColorModeValue("blackAlpha.50", "blackAlpha.500")
   const color = useColorModeValue("black", "white")
-  const { isAuth, profile } = useUserStore()
+  const { isAuth, payload } = useUser(useShallow((state) => state))
   const isMobile = useBreakpointValue({ base: true, md: false })
   const { colorMode } = useColorMode()
+  const navigate = useNavigate()
 
   const { t } = useTranslation()
   const TreeItems: Item[] = [
@@ -65,7 +68,7 @@ export const Shell: React.FC = () => {
       >
         <Flex align="center" gap={2}>
           <Image
-            src={colorMode === "dark" ? logoWhite : logo}
+            src={colorMode === "dark" ? LogoWhite : LogoDark}
             width="48px"
             height="48px"
           />
@@ -92,9 +95,7 @@ export const Shell: React.FC = () => {
           <ColorModeButton />
           <ChangeLanguageRoot>
             <Tooltip content="Изменить язык">
-              <IconButton variant="ghost" aria-label="Language">
-                <MdLanguage />
-              </IconButton>
+              <MdLanguage />
             </Tooltip>
           </ChangeLanguageRoot>
 
@@ -110,12 +111,23 @@ export const Shell: React.FC = () => {
             alignItems="center"
             gap="6"
           >
-            {isAuth && profile ? (
-              <ProfileRoot profile={profile} />
+            {isAuth ? (
+              <>
+                <Button
+                  rounded="full"
+                  variant="surface"
+                  onClick={() => navigate("/play")}
+                >
+                  Играть
+                </Button>
+                <ProfileRoot payload={payload} />
+              </>
             ) : (
-              <Button rounded="full" variant="surface">
-                Авторизация
-              </Button>
+              <AuthDialog>
+                <Button rounded="full" variant="surface">
+                  Авторизация
+                </Button>
+              </AuthDialog>
             )}
           </AvatarGroup>
         </Flex>
@@ -124,7 +136,7 @@ export const Shell: React.FC = () => {
   )
 }
 
-const ProfileRoot = ({ profile }: { profile: UserProfile }) => {
+const ProfileRoot = ({ payload }: { payload: UserPayload }) => {
   const { t } = useTranslation()
   return (
     <MenuRoot>
@@ -137,15 +149,15 @@ const ProfileRoot = ({ profile }: { profile: UserProfile }) => {
       >
         <Avatar
           size="md"
-          name={profile.username}
-          src={`https://skin.vimeworld.com/helm/${profile.username}.png`}
+          name={payload.profile.name}
+          src={`https://skin.vimeworld.com/helm/${payload.profile.name}.png`}
         />
-        <Text fontWeight="bold">{profile.username}</Text>
+        <Text fontWeight="bold">{payload.profile.name}</Text>
       </MenuTrigger>
 
       <MenuContent>
         <MenuItem value="profile">
-          <Link href={`/profile/${profile.username}`}>
+          <Link href={`/profile/${payload.profile.name}`}>
             {t("shell.dropmenu.profile")}
           </Link>
         </MenuItem>
