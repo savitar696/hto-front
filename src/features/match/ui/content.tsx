@@ -1,123 +1,103 @@
-import { useUser } from "@entities/user"
-import { useEffect, useState } from "react"
-import { useShallow } from "zustand/react/shallow"
-import { socket } from "../api"
-
-interface Pick {
-  maps: string[];
-  players: { client_id: string; name: string }[];
-  vote_right: number;
-  vote_right_end: number;
-  ended_when: number;
-  mapsSource: string[];
-}
-
-interface BanJoinSocketInput {
-  game_id: string;
-  name: string;
-}
-
-interface BanSocketInput {
-  game_id: string;
-  name: string;
-  ban_map: string;
-}
+import { Box, Flex, Grid, Image, Text } from "@chakra-ui/react"
+import { MapSelector } from "@features/map-selector"
+import { TeamPlayers } from "@widgets/team-players"
+import { Avatar } from "@components/ui/avatar"
+import { useMatch } from "../hooks"
+import { Unona } from "@shared/static/images"
+import { Button } from "@components/ui/button"
 
 export const Match = ({ id }: { id: string }) => {
-  const { profile } = useUser(useShallow((state) => state.payload))
-  const [socketData, setSocketData] = useState([])
-  const [banMap, setBanMap] = useState<string>('');
-  const [picks, setPicks] = useState<Pick | null>(null);
+  const { picks, state, loading } = useMatch(id)
 
-  console.log(profile.name, profile)
-  useEffect(() => {
-    socket.on("connect", () => {
-      socket.on("ban.listener", (data) => {
-        setSocketData(data)
-      })
+  if (loading) return <div>Loading...</div>
+  if (!picks || picks.players.length !== 2) return <div>Loading users</div>
 
-      socket.emit("ban.ticker", {
-        game_id: id,
-        name: profile.name,
-      });
-
-      socket.emit("ban.join", {
-        game_id: id,
-        name: profile.name,
-      });
-
-      socket.on("ban.join", (data) => {
-        setSocketData(data);
-      });
-
-      socket.on("ban.ticker", (data) => {
-        setSocketData(data)
-      })
-    })
-  }, [])
-
-  useEffect(() => {
-    socket.on('BAN_LISTENER', (updatedPicks: Pick) => {
-      setPicks(updatedPicks)
-    });
-  }, [])
-
-  const handleBan = () => {
-    const data: BanSocketInput = { game_id: id, name: profile.name, ban_map: banMap };
-    socket.emit('ban', data);
-  };
-
-  const handleTicker = () => {
-    const data: BanJoinSocketInput = { game_id: id, name: profile.name };
-    socket.emit('ban.ticker', data);
-  };
-
-  console.log(socketData)
   return (
-    <>`
-      <h2>{id}</h2>
-      <p>{socketData}</p>
-      <h2>hello</h2>
-      {picks?.maps && (
-        <div>
-          <h2>Available Maps</h2>
-          <ul>
-            {picks.maps.map((map, index) => (
-              <li key={index}>{map}</li>
-            ))}
-          </ul>
-          <input
-            type="text"
-            placeholder="Map to Ban"
-            value={banMap}
-            onChange={(e) => setBanMap(e.target.value)}
+    <Flex direction="column" gap={6} p={6}>
+      <Grid
+        templateColumns={{ base: "1fr", md: "auto 200px auto" }}
+        gap={6}
+        border="1px solid"
+        borderColor="blackAlpha.100"
+        borderRadius="md"
+        p={6}
+      >
+        <Flex align="center" gap={4} justify="flex-end">
+          <Text fontSize="md" fontWeight="semibold">
+            team_{picks.teams[0][0].name.toLowerCase()}
+          </Text>
+          <Avatar
+            src={`https://skin.vimeworld.com/helm/${picks.teams[0][0].name}.png`}
+            size="md"
           />
-          <button onClick={handleBan}>Ban Map</button>
-        </div>
-      )}
+        </Flex>
 
-      {picks && (
-        <div>
-          <h2>Voting Info</h2>
-          <p>Vote Right: {picks.vote_right}</p>
-          <p>Vote Right Ends: {new Date(picks.vote_right_end).toLocaleTimeString()}</p>
-        </div>
-      )}
+        <Flex direction="column" align="center">
+          <Text fontSize="sm">4 vs 4</Text>
+          <Text fontSize="md" fontWeight="semibold">
+            {state}
+          </Text>
+          <Text fontSize="sm">Лучший из 1</Text>
+        </Flex>
 
-      {/* Trigger Ticker */}
-    <button onClick={handleTicker}>Start Ticker</button>
+        <Flex align="center" gap={4}>
+          <Avatar
+            src={`https://skin.vimeworld.com/helm/${picks.teams[1][0].name}.png`}
+            size="md"
+          />
+          <Text fontSize="md" fontWeight="semibold">
+            team_{picks.teams[1][0].name.toLowerCase()}
+          </Text>
+        </Flex>
+      </Grid>
 
-      {/* Players List */}
-      {picks?.players && (
-        <div>
-          <h2>Players</h2>
-          <ul>
-            {picks.players.map((player, index) => (
-              <li key={index}>{player.name}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </>
+      <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={6}>
+        <TeamPlayers players={picks.teams[0]} />
+        {picks.maps.length > 1 ? (
+          <MapSelector picks={picks} game_id={id} />
+        ) : (
+          <Flex
+            justifyContent="center"
+            alignItems={"center"}
+            flexDirection="column"
+            paddingTop="8px"
+            gap={6}
+          >
+            <Box
+              border={"1px solid"}
+              borderColor="#F3F3F3"
+              p={2}
+              borderRadius="8px"
+              minWidth="400px"
+            >
+              <Flex alignItems="center" gap={4}>
+                <Image
+                  src={Unona}
+                  height="40px"
+                  width="70px"
+                  borderRadius="6px"
+                />
+                <Text fontWeight={600}>{picks.maps[0]}</Text>
+              </Flex>
+            </Box>
+            <Flex direction="row" gap={4}>
+              <Button>Скопировать команды</Button>
+            </Flex>
+          </Flex>
+
+          /* <Flex
+alignItems="center"
+gap={2}
+justifyContent={"end"}
+minWidth={"400px"}
+>
+<LuInfo />
+<Text fontWeight={500}>Информация</Text>
+</Flex> */
+        )}
+
+        <TeamPlayers players={picks.teams[1]} />
+      </Grid>
+    </Flex>
   )
 }

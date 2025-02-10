@@ -1,8 +1,5 @@
-import { Box, Heading, Icon, List, Text } from "@chakra-ui/react"
-import ReactMarkdown from "react-markdown"
+import { Box, Link, Text } from "@chakra-ui/react"
 import rulesText from "./rules.md?raw"
-import { CgChevronRight } from "react-icons/cg"
-import { useColorModeValue } from "@components/ui/color-mode"
 import { Prose } from "@components/ui/prose"
 import Markdown from "react-markdown"
 
@@ -92,8 +89,16 @@ import Markdown from "react-markdown"
 
 export const RulesPage = () => {
   return (
-    <Prose padding={4} maxWidth="800px" mx="auto">
-      <Markdown>{rulesText}</Markdown>
-    </Prose>
+    <Box pb={12}>
+      <Prose padding={4} maxWidth="1000px" mx="auto">
+        <Markdown>{rulesText}</Markdown>
+      </Prose>
+      <Text textAlign="center">
+        Правила были взяты с группы{" "}
+        <Link href="https://vk.com/tournaments_vimeworld" color="blue.400">
+          Events VimeWorld
+        </Link>
+      </Text>
+    </Box>
   )
 }

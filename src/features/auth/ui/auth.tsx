@@ -61,7 +61,6 @@ export const AuthDialog: FC<PropsWithChildren> = ({ children }) => {
         </DialogBody>
         <DialogFooter>
           <Button onClick={() => login()}>Войти</Button>
-          <Button>Вернуться назад</Button>
         </DialogFooter>
         <DialogCloseTrigger />
       </DialogContent>

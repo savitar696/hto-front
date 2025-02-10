@@ -11,5 +11,7 @@ export const MatchPage = () => {
     set({ text: `Матч ${id}` })
   }, [id, set])
 
-  return <Match id={id!} />
+  if (!id) return
+
+  return <Match id={id} />
 }

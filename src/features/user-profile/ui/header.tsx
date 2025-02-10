@@ -1,147 +1,68 @@
-import {
-  Box,
-  Image,
-  Heading,
-  Flex,
-  VStack,
-  Badge,
-  Button,
-  useBreakpointValue,
-  Text,
-  Tabs,
-} from "@chakra-ui/react"
+import { Box, Flex, Status, Text } from "@chakra-ui/react"
 import { Avatar } from "@components/ui/avatar"
-import { useColorModeValue } from "@components/ui/color-mode"
-import { PlayerStats, ProfileContent } from "./content"
-import { useTranslation } from "react-i18next"
 
-export const ProfileHeader = ({ username }: { username: string }) => {
-  const { t } = useTranslation()
-
+export const ProfileHeader = ({ payload }: { payload: any }) => {
   return (
-    <Flex
-      justifyContent="center"
-      py={{ base: "4", md: "6" }}
-      gap="4"
-      flexDirection="column"
-      alignItems="center"
-    >
+    <Flex justifyContent="center" paddingY={4}>
       <Box
-        w="100%"
-        maxW="1200px"
-        bg={useColorModeValue("blackAlpha.50", "blackAlpha.500")}
-        borderRadius="xl"
-        overflow="hidden"
-        boxShadow="2xl"
-        textAlign="center"
-        position="relative"
-        transition="box-shadow 0.3s ease-in-out"
-        _hover={{ boxShadow: "0 4px 30px rgba(0,0,0,0.3)" }}
+        border="1px solid"
+        borderColor={"gray.100"}
+        style={{
+          borderRadius: "12px",
+        }}
+        minWidth={1200}
+        padding={6}
       >
-        <Box
-          position="relative"
-          height={useBreakpointValue({ base: "180px", md: "240px" })}
-        >
-          <Image
-            src="https://i.imgur.com/eDPeTNd.jpeg"
-            alt="header"
-            width="100%"
-            height="100%"
-            objectFit="cover"
-            filter="brightness(0.75)"
-          />
-          <Avatar
-            src={`https://skin.vimeworld.com/helm/${username}.png`}
-            width="128px"
-            height="128px"
-            position="absolute"
-            bottom="-30px"
-            transform="translateX(-50%)"
-            border="4px solid white"
-            boxShadow="lg"
-          />
-          {/* {profile.username == username ? (
-            <Button
-              position="absolute"
-              top="10px"
-              right="10px"
-              variant="surface"
-              boxShadow="md"
-              opacity="0.1"
-              transition="opacity 0.5s ease"
-              _hover={{ opacity: 1 }}
-            >
-              {t("profile.header.edit_photo")}
-            </Button>
-          ) : null} */}
-        </Box>
-
-        <VStack mt={10} px={4} pb={4}>
-          <Heading as="h1" size="2xl">
-            {username}
-          </Heading>
-          <Flex gap={2} justify="center" wrap="wrap">
-            <Text color="gray.500">{t("profile.header.description")}</Text>
+        <Flex justifyContent="space-between" alignItems="center">
+          {/* avatar, name, rank */}
+          <Flex alignItems="center" gap={4} flexDirection={"row"}>
+            <Avatar
+              size="2xl"
+              name={payload.profile.name}
+              src={`https://skin.vimeworld.com/helm/${payload.profile.name}.png`}
+            />
+            <Flex flexDirection={"column"} lineHeight={1.15}>
+              <Text
+                color="blackAlpha.700"
+                style={{ fontSize: "16px", fontWeight: 500 }}
+              >
+                Пользователь
+              </Text>
+              <Text style={{ fontWeight: 600, fontSize: "22px" }}>
+                {payload.profile.name}
+              </Text>
+            </Flex>
           </Flex>
-          <Flex gap={4} justify="center" mt={2}>
-            <Badge variant="surface" colorPalette="green">
-              {t("rating")}: 1000
-            </Badge>
-            <Badge variant="surface" colorPalette="red">
-              {t("team")}: LMAO
-            </Badge>
+          {/* raiting, playing time, status */}
+          <Flex flexDirection={"row"} gap={12}>
+            <Flex flexDirection={"column"}>
+              <Text style={{ fontSize: "14px" }} color={"gray.800"}>
+                Рейтинг
+              </Text>
+              <Text fontWeight={500}>{payload.rating}</Text>
+            </Flex>
+            <Flex flexDirection={"column"}>
+              <Text style={{ fontSize: "14px" }} color={"gray.800"}>
+                Наиграно времени
+              </Text>
+              <Text fontWeight={500}>
+                {(payload.time_played / 60).toFixed(0)} мин.
+              </Text>
+            </Flex>
+            <Flex flexDirection={"column"}>
+              <Text style={{ fontSize: "14px" }} color={"gray.800"}>
+                Статус
+              </Text>
+              <Status.Root colorPalette={payload.online ? "green" : "red"}>
+                <Status.Indicator />
+                <Text fontWeight={500} fontSize={"16px"}>
+                  {payload.online ? "Онлайн" : "Оффлайн"}
+                </Text>
+              </Status.Root>
+            </Flex>
           </Flex>
-        </VStack>
+        </Flex>
       </Box>
-      <UserTabs />
     </Flex>
   )
 }
-
-const UserTabs = () => {
-  const { t } = useTranslation()
-  return (
-    <Tabs.Root defaultValue="stats" alignItems="center">
-      <Flex justifyContent="center" mt={4}>
-        <Tabs.List
-          gap="4"
-          rounded="lg"
-          boxShadow="sm"
-          _hover={{ boxShadow: "0 4px 10px rgba(0,0,0,0.2)" }}
-        >
-          <Tabs.Trigger value="stats">{t("profile.tabs.stats")}</Tabs.Trigger>
-          <Tabs.Trigger value="matches">
-            {t("profile.tabs.matches")}
-          </Tabs.Trigger>
-          <Tabs.Trigger value="info">{t("profile.tabs.info")}</Tabs.Trigger>
-          <Tabs.Indicator rounded="lg" />
-        </Tabs.List>
-      </Flex>
-      <Tabs.Content value="stats">
-        <PlayerStats
-          kills={120}
-          deaths={30}
-          bedsBroken={15}
-          kdRatio={4.0}
-          rating={1500}
-        />
-      </Tabs.Content>
-      <Tabs.Content value="matches">
-        <ProfileContent />
-      </Tabs.Content>
-      <Tabs.Content value="info">
-        <InfoContent />
-      </Tabs.Content>
-    </Tabs.Root>
-  )
-}
-
-const InfoContent = () => (
-  <Box p={4}>
-    <Text fontSize="lg">Привет! Это твой профиль.</Text>
-    <Text>
-      Здесь ты можешь управлять настройками, просматривать свою статистику и
-      многое другое.
-    </Text>
-  </Box>
-)

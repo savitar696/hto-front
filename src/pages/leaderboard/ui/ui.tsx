@@ -1,5 +1,6 @@
 import { Container, Grid, Text } from "@chakra-ui/react"
 import { useColorModeValue } from "@components/ui/color-mode"
+import { RatingList } from "@features/leaderboard/ui"
 
 export const LeaderboardPage = () => {
   const textColor = useColorModeValue("black", "white")
@@ -17,6 +18,7 @@ export const LeaderboardPage = () => {
         Leaderboard
       </Text>
       <Grid templateColumns="repeat(3, 1fr)" gap="20px" placeContent="center">
+        <RatingList />
       </Grid>
     </Container>
   )

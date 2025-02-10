@@ -1,5 +1,6 @@
-import { io } from "socket.io-client";
+import { io } from "socket.io-client"
 
-export const queueIO = io("http://localhost:5000" + "/queue", {
-    autoConnect: false,
-  });
+export const queueIO = io("http://26.187.148.14:5000" + "/queue", {
+  transports: ["websocket"],
+  autoConnect: false,
+})

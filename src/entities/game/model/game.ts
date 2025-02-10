@@ -1,1 +1,1 @@
-export const game = () => {};
+export const game = {}

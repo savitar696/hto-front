@@ -43,10 +43,6 @@ const routes = (): RouteObject[] => [
         path: paths.rules,
         element: <RulesPage />,
       },
-      {
-        path: paths.match,
-        element: <MatchPage />,
-      },
     ],
   },
   {
@@ -71,6 +67,10 @@ const routes = (): RouteObject[] => [
       {
         path: "/play",
         element: <PlayPage />,
+      },
+      {
+        path: paths.match,
+        element: <MatchPage />,
       },
     ],
   },

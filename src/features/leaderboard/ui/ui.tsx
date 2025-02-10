@@ -1,32 +1,61 @@
-import { Box, Text } from "@chakra-ui/react"
+import { Box, Icon, Skeleton, Stack, Text } from "@chakra-ui/react"
 import { Avatar, AvatarGroup } from "@components/ui/avatar"
 import { useColorModeValue } from "@components/ui/color-mode"
 import { useNavigate } from "react-router-dom"
 import { fetchRankings } from "../api"
+import { useQuery } from "@tanstack/react-query"
+import { PlayerBoxProps, RankingData } from "../api/types"
 
 export const RatingList = () => {
-  const users: RankingData[] = fetchRankings().then((resp) => resp.data.data)
-  return users.map((user, idx) => {})
+  const { data, isLoading, error, isError } = useQuery({
+    queryKey: ["rankings"],
+    queryFn: fetchRankings,
+    staleTime: 1000 * 60 * 5,
+  })
+
+  if (isLoading) return <SkeletonRatingList />
+  if (isError) return <Text color="red.500">Ошибка: {error.message}</Text>
+  const users = data?.data.data || []
+
+  if (users.length === 0) return <EmptyRatingList />
+
+  return (
+    <>
+      {users.map((user: RankingData, index) => (
+        <PlayerBox
+          key={user.id}
+          index={index + 1}
+          id={user.id}
+          name={user.profile.name}
+          rating={user.rating}
+          premium={user.premium}
+        />
+      ))}
+    </>
+  )
 }
 
-interface Profile {
-  id: string
-  vime_id: string
-  name: string
-  user_id: string
-  created_at: string
-}
+const SkeletonRatingList = () => (
+  <Stack spaceX={3}>
+    {[...Array(5)].map((_, i) => (
+      <Skeleton key={i} height="80px" borderRadius="xl" />
+    ))}
+  </Stack>
+)
 
-interface RankingData {
-  id: string
-  rating: number
-  premium: boolean
-  time_played: number
-  created_at: string
-  profile: Profile
-}
+const EmptyRatingList = () => (
+  <Box textAlign="center" py={10}>
+    <Text fontSize="xl">Рейтинг пуст</Text>
+  </Box>
+)
 
-export const PlayerBox = ({ id, name, rating, premium }: RankingData) => {
+export const PlayerBox = ({
+  index,
+  id,
+  name,
+  rating,
+  premium,
+}: PlayerBoxProps) => {
   const bg = useColorModeValue("gray.100", "#0F0E14")
   const hoverBg = useColorModeValue("gray.200", "#07060a")
   const borderColor = useColorModeValue("gray.300", "#252332")
@@ -54,17 +83,17 @@ export const PlayerBox = ({ id, name, rating, premium }: RankingData) => {
         gap="16"
       >
         <Box display="flex" flexDirection="row" alignItems="center" gap="2">
-          <Text color={textColor}>#{id}</Text>
+          <Text color={textColor}>#{index}</Text>
           <Text fontSize="18px" color={textColor}>
             {name}
           </Text>
         </Box>
-        <AvatarGroup>
+        <AvatarGroup radius="full   ">
           <Avatar
             size="xl"
             name={name}
-            shape="rounded"
             src={`https://skin.vimeworld.com/helm/${name}.png`}
+            bg={useColorModeValue("gray.200", "gray.700")}
           />
         </AvatarGroup>
       </Box>

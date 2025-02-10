@@ -6,6 +6,7 @@ import {
   Link,
   Image,
   useBreakpointValue,
+  Input,
 } from "@chakra-ui/react"
 import { Avatar, AvatarGroup } from "@components/ui/avatar"
 import { Button } from "@components/ui/button"
@@ -20,24 +21,14 @@ import {
   MenuRoot,
   MenuTrigger,
 } from "@components/ui/menu"
-import { Tooltip } from "@components/ui/tooltip"
 import { LogoDark, LogoWhite } from "@shared/static/logo"
-import { config } from "@shared/lib/config"
-import { MdLanguage } from "react-icons/md"
+import { config, Item, TreeItems } from "@shared/lib/config"
 import { LogoutDialog } from "@features/auth/ui/logout"
-import { FC, PropsWithChildren } from "react"
-import { useTranslation } from "react-i18next"
-import ReactCountryFlag from "react-country-flag"
 import { useUser } from "@entities/user"
 import { useShallow } from "zustand/react/shallow"
 import { UserPayload } from "@entities/user/model/user.types"
 import { AuthDialog } from "@features/auth/ui/auth"
 import { useNavigate } from "react-router-dom"
-
-interface Item {
-  label: string
-  url: string
-}
 
 export const Shell: React.FC = () => {
   const bg = useColorModeValue("blackAlpha.50", "blackAlpha.500")
@@ -46,13 +37,6 @@ export const Shell: React.FC = () => {
   const isMobile = useBreakpointValue({ base: true, md: false })
   const { colorMode } = useColorMode()
   const navigate = useNavigate()
-
-  const { t } = useTranslation()
-  const TreeItems: Item[] = [
-    { label: t("shell.links.main"), url: "/" },
-    { label: t("shell.links.leaderboard"), url: "/leaderboard" },
-    { label: t("shell.links.rules"), url: "/rules" },
-  ]
 
   return (
     <Box px={{ base: "4", md: "10%" }} py="6px">
@@ -80,7 +64,7 @@ export const Shell: React.FC = () => {
         {!isMobile && (
           <Flex align="center" gap={4}>
             <List.Root display="flex" alignItems="center" flexDirection="row">
-              {TreeItems.map((item) => (
+              {TreeItems.map((item: Item) => (
                 <Box key={item.url} mx="4">
                   <Link href={item.url} fontWeight="bold" color={color}>
                     {item.label}
@@ -93,11 +77,6 @@ export const Shell: React.FC = () => {
 
         <Flex align="center" gap={4}>
           <ColorModeButton />
-          <ChangeLanguageRoot>
-            <Tooltip content="Изменить язык">
-              <MdLanguage />
-            </Tooltip>
-          </ChangeLanguageRoot>
 
           {/* <Tooltip content="Уведомления">
             <IconButton variant="ghost" aria-label="Notifications">
@@ -137,7 +116,6 @@ export const Shell: React.FC = () => {
 }
 
 const ProfileRoot = ({ payload }: { payload: UserPayload }) => {
-  const { t } = useTranslation()
   return (
     <MenuRoot>
       <MenuTrigger
@@ -157,58 +135,51 @@ const ProfileRoot = ({ payload }: { payload: UserPayload }) => {
 
       <MenuContent>
         <MenuItem value="profile">
-          <Link href={`/profile/${payload.profile.name}`}>
-            {t("shell.dropmenu.profile")}
-          </Link>
+          <Link href={`/profile/${payload.profile.name}`}>Профиль</Link>
         </MenuItem>
         <MenuItem value="settings">
-          <Link href={`/settings`}>{t("shell.dropmenu.settings")}</Link>
+          <Link href={`/settings`}>Настройки</Link>
         </MenuItem>
         <LogoutDialog>
-          <MenuItem value="logout">{t("shell.dropmenu.logout")}</MenuItem>
+          <MenuItem value="logout">Выйти</MenuItem>
         </LogoutDialog>
       </MenuContent>
     </MenuRoot>
   )
 }
 
-const ChangeLanguageRoot: FC<PropsWithChildren> = ({ children }) => {
-  const { i18n } = useTranslation()
-
-  const handleLanguageChange = (lang: string) => {
-    i18n.changeLanguage(lang)
-    localStorage.setItem("language", lang)
-  }
-
-  const countries = [
-    { id: 0, lang: "us", title: "English" },
-    { id: 1, lang: "ru", title: "Русский" },
-    { id: 2, lang: "ua", title: "Українська" },
-  ]
-
+const InputSearch = () => {
   return (
-    <MenuRoot>
-      <MenuTrigger
-        display="flex"
-        flexDirection="row"
-        alignItems="center"
-        gap="5"
-        cursor="pointer"
-      >
-        {children}
-      </MenuTrigger>
-      <MenuContent>
-        {countries.map((country) => (
-          <MenuItem
-            key={country.id}
-            onClick={() => handleLanguageChange(country.lang)}
-            value={country.lang}
-          >
-            <ReactCountryFlag countryCode={country.lang} svg />
-            {country.title}
-          </MenuItem>
-        ))}
-      </MenuContent>
-    </MenuRoot>
+    <Input
+      style={{
+        backgroundColor: "rgba(255, 255, 255, 0.5)",
+        borderRadius: "16px",
+        height: "50px",
+        minWidth: "700px",
+      }}
+      placeholder="Поиск по сайту..."
+    />
+  )
+}
+
+export const RootShell = () => {
+  return (
+    <Flex
+      justifyContent="center"
+      alignItems="center"
+      flexDirection={"row"}
+      minWidth={1200}
+      paddingTop={"18px"}
+    >
+      <Flex justifyContent="space-between" alignItems={"center"} gap={12}>
+        <Flex gap="8">
+          <Image src={LogoDark} width="48px" height="48px" />
+          <InputSearch />
+        </Flex>
+        <Flex>
+          <Button>Войти</Button>
+        </Flex>
+      </Flex>
+    </Flex>
   )
 }
