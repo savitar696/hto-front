@@ -5,13 +5,11 @@ import { fetchProfileGames } from "../api/game"
 import { Flex, Spinner, Text } from "@chakra-ui/react"
 import { ContentProfile } from "./content"
 import { StatsContent } from "./stats"
+import { motion } from "framer-motion"
 
+const MotionFlex = motion(Flex)
 export const UserProfile = ({ username }: { username: string }) => {
-  const {
-    data,
-    isLoading: isProfileLoading,
-    error: profileError,
-  } = useQuery({
+  const { data, isLoading: isProfileLoading } = useQuery({
     queryKey: ["userProfile", username],
     queryFn: () => fetchProfile(username),
     placeholderData: keepPreviousData,
@@ -48,26 +46,44 @@ export const UserProfile = ({ username }: { username: string }) => {
     )
   }
 
-  if (profileError || matchesError) {
+  if (!profileData.data || matchesError) {
     return (
-      <Flex
-        py={36}
-        alignItems="center"
-        justifyContent="center"
-        flexDirection="column"
+      <MotionFlex
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        direction="column"
+        gap={6}
+        p={6}
       >
-        <Text fontSize="xl" fontWeight={500} mt={4}>
-          Пользователь не найден
-        </Text>
-      </Flex>
+        <Flex
+          py={36}
+          alignItems="center"
+          justifyContent="center"
+          flexDirection="column"
+        >
+          <Text fontSize="3xl" fontWeight={500} mt={4}>
+            Пользователь не найден
+          </Text>
+        </Flex>
+      </MotionFlex>
     )
   }
-  console.log(payloadMatches.data)
+  console.log()
   return (
-    <>
-      <ProfileHeader payload={profileData.data} />
-      <StatsContent payload={profileData.data} />
-      <ContentProfile payload={payloadMatches.data} username={username} />
-    </>
+    <MotionFlex
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+      direction="column"
+      gap={6}
+      p={6}
+    >
+      <>
+        <ProfileHeader payload={profileData.data} />
+        <StatsContent payload={profileData.data} />
+        <ContentProfile payload={payloadMatches.data} username={username} />
+      </>
+    </MotionFlex>
   )
 }

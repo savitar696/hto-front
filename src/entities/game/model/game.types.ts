@@ -1,13 +1,44 @@
+import { MatchPick } from "@features/map-selector/hooks"
+
 export type GamePayload = {
   id: string
   map_id: string
   map_name: string
   winners: GameUserPayload[] | string
   losers: GameUserPayload[] | string
-  events: any
+  events: Event[]
+  lobby: MatchPick
 }
 
+export interface Player {
+  id: number
+  username: string
+  _id: string
+  rating: number
+}
+
+export interface BaseEvent {
+  type: string
+  time: number
+}
+
+export interface KillEvent extends BaseEvent {
+  type: "kill"
+  killer: Player["id"]
+  target: Player["id"]
+  killerHealth: string
+}
+
+export interface BedBreakEvent extends BaseEvent {
+  type: "bedBreak"
+  team: string
+  player: Player["id"]
+}
+
+export type Event = KillEvent | BedBreakEvent
+
 export type GameUserPayload = {
+  username: any
   id: number
   spentGold: number
   spentBronze: number

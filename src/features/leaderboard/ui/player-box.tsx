@@ -2,9 +2,10 @@ import { Box, Text } from "@chakra-ui/react"
 import { useColorModeValue } from "@components/ui/color-mode"
 import { useNavigate } from "react-router-dom"
 import { PlayerBoxProps } from "../api"
-import { AvatarGroup, Avatar } from "@components/ui/avatar"
+import { Avatar } from "@components/avatar"
+import { GradientText } from "@shared/ui/premium-text/ui"
 
-export const PlayerBox = ({ index, name, rating }: PlayerBoxProps) => {
+export const PlayerBox = ({ index, name, rating, premium }: PlayerBoxProps) => {
   const bg = useColorModeValue("gray.100", "#0F0E14")
   const hoverBg = useColorModeValue("gray.200", "#07060a")
   const borderColor = useColorModeValue("gray.300", "#252332")
@@ -31,18 +32,23 @@ export const PlayerBox = ({ index, name, rating }: PlayerBoxProps) => {
       >
         <Box display="flex" alignItems="center" gap="2">
           <Text color={textColor}>#{index}</Text>
-          <Text fontSize="18px" color={textColor}>
-            {name}
-          </Text>
+          {premium ? (
+            <GradientText fontSize="18px" fontWeight={600}>
+              {name}
+            </GradientText>
+          ) : (
+            <Text fontSize="18px" color={textColor} fontWeight={600}>
+              {name}
+            </Text>
+          )}
         </Box>
-        <AvatarGroup>
-          <Avatar
-            size="xl"
-            name={name}
-            src={`https://skin.vimeworld.com/helm/${name}.png`}
-            bg={useColorModeValue("gray.200", "gray.700")}
-          />
-        </AvatarGroup>
+        <Avatar
+          username={name}
+          styles={{ width: 48, height: 48 }}
+          permanentPremium={premium}
+          heightPremium={18}
+          widthPremium={18}
+        />
       </Box>
       <Box display="flex" alignItems="center" gap="2">
         <Text color="gray.400">Игрок</Text>

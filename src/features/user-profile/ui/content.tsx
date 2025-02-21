@@ -1,49 +1,67 @@
-import { Box, Flex, Text } from "@chakra-ui/react"
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Box, Flex, Grid, Text } from "@chakra-ui/react"
 import { GamePayload } from "@entities/game"
+import { MapImages, MapName } from "@shared/config"
+import { getMapKey, isWinner } from "../model/map"
+import { useNavigate } from "react-router-dom"
 
 interface MatchCardProps extends GamePayload {
   username: string
+  handleClick: () => void
 }
-
 export const ContentProfile = ({
   payload,
   username,
 }: {
-  payload: GamePayload[]
+  payload: any
   username: string
 }) => {
+  const navigate = useNavigate()
   return (
     <Flex justifyContent="center" paddingY={2}>
-      <Flex direction="column" minWidth={1200} gap="2">
+      <Flex direction="column" gap="2">
         <Text fontWeight={600}>Последние матчи</Text>
-        <Flex direction="row" gap="8">
+        <Grid templateColumns="repeat(5, 1fr)" gap="20px" placeContent="center">
           {payload
-            .filter((match) => !["load", "temp"].includes(match.map_id))
-            .sort((a, b) => b["ended_at"].localeCompare(a["ended_at"]))
-            .map((match) => (
-              <MatchCard key={match.id} {...match} username={username!} />
+            .filter(
+              (match: GamePayload) => !["load", "temp"].includes(match.map_id),
+            )
+            .sort((a: any, b: any) =>
+              b["ended_at"].localeCompare(a["ended_at"]),
+            )
+            .map((match: GamePayload) => (
+              <MatchCard
+                key={match.id}
+                {...match}
+                username={username!}
+                handleClick={() => navigate("/match/" + match.id)}
+              />
             ))}
-        </Flex>
+        </Grid>
       </Flex>
     </Flex>
   )
 }
 
-const MatchCard = ({ map_name, winners, username }: MatchCardProps) => {
-  const response = JSON.parse(
-    typeof winners === "string" ? winners : JSON.stringify(winners),
-  )
-  const result = response.winners.some((user: any) => user.name === username)
+const MatchCard = ({
+  map_name,
+  winners,
+  username,
+  handleClick,
+}: MatchCardProps) => {
+  const result = isWinner(winners, username)
   return (
     <Box
       borderRadius="12px"
-      backgroundImage="url(https://i.imgur.com/HA5Nhi0.jpeg)"
+      backgroundImage={`url(${MapImages[MapName[getMapKey(map_name)!]]})`}
       backgroundSize="cover"
       backgroundPosition="center"
       backgroundRepeat="no-repeat"
       width="200px"
       height="300px"
       position="relative"
+      cursor="pointer"
+      onClick={handleClick}
     >
       <Box
         position="absolute"

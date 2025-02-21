@@ -1,7 +1,8 @@
-import { BrowserRouter } from "react-router-dom";
-import { withProviders } from "./providers";
-import { AppRouter } from "./routing";
-import { AuthProvider } from "./providers/with-auth";
+import { BrowserRouter } from "react-router-dom"
+import { withProviders } from "./providers"
+import { AppRouter } from "./routing"
+import { AuthProvider } from "./providers/with-auth"
+import "./styles/global.css"
 
 export const Core = withProviders(() => {
   return (
@@ -10,5 +11,5 @@ export const Core = withProviders(() => {
         <AppRouter />
       </AuthProvider>
     </BrowserRouter>
-  );
-});
+  )
+})

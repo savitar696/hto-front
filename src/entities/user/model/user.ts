@@ -1,7 +1,7 @@
 import { create } from "zustand"
 import { User } from "./user.types"
 import { toaster } from "@components/ui/toaster"
-import { api } from "@shared/api"
+import { api } from "@shared/lib/api"
 
 export const useUser = create<User>()((set) => ({
   isAuth: false,
@@ -60,6 +60,9 @@ export const useUser = create<User>()((set) => ({
       description: "Вы вышли с аккаунта",
       type: "success",
     })
+    setTimeout(() => {
+      window.location.reload()
+    }, 3000)
   },
   getInfo: async () => {
     const localToken = localStorage.getItem("token")
@@ -114,6 +117,21 @@ export const useUser = create<User>()((set) => ({
   getInfoByUsername: async (username: string) => {
     try {
       const response = await api.get(`/user/stats/${username}`)
+      set({
+        profile: response.data.data,
+        isLoading: false,
+      })
+    } catch (error: any) {
+      toaster.create({
+        title: "Ошибка",
+        description: error.response?.data?.message || "Что-то пошло не так...",
+        type: "error",
+      })
+    }
+  },
+  getStatsByUsername: async (username: string) => {
+    try {
+      const response = await api.get(`/user/stats/${username}/latest`)
       set({
         profile: response.data.data,
         isLoading: false,

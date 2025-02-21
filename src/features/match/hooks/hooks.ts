@@ -1,7 +1,17 @@
-import { useUser } from "@entities/user"
 import { useEffect, useState } from "react"
-import { io } from "socket.io-client"
+import { useUser } from "@entities/user"
+import { useQuery } from "@tanstack/react-query"
 import { GameState, GameStateText, MatchPick } from "./types"
+import { api } from "@shared/lib/api"
+import { GamePayload } from "@entities/game"
+import { queryClient } from "@app/providers/with-query"
+import { io } from "socket.io-client"
+
+const EVENTS = {
+  JOIN: "ban.join",
+  LISTENER: "ban.listener",
+  RESPONSE: "ban.join.response",
+}
 
 export const socket = io("http://26.187.148.14:5000/queue")
 
@@ -19,15 +29,21 @@ export const useMatch = (id: string) => {
         GameStateText[data.state.toUpperCase() as keyof typeof GameStateText] ||
           null,
       )
-      if (data.state == GameState.FINISHED) {
-        gameSocket.disconnect()
-        return
+
+      if (data.state === GameState.FINISHED) {
+        socket.on(EVENTS.RESPONSE, handleMatchResponse)
+        socket.off(EVENTS.RESPONSE, handleMatchResponse)
+        socket.disconnect()
       }
     }
 
+    const handleMatchResponse = (gameData: GamePayload) => {
+      queryClient.setQueryData(["match_game", id], { data: gameData })
+    }
+
     const gameSocket = socket.connect()
-    gameSocket.emit("ban.join", { game_id: id, name: profile.name })
-    gameSocket.on("ban.listener", handleBanListener)
+    gameSocket.emit(EVENTS.JOIN, { game_id: id, name: profile.name })
+    gameSocket.on(EVENTS.LISTENER, handleBanListener)
 
     const interval = setInterval(() => {
       if (gameSocket.connect()) {
@@ -36,10 +52,26 @@ export const useMatch = (id: string) => {
     }, 5000)
 
     return () => {
-      gameSocket.off("ban.listener", handleBanListener)
+      gameSocket.off(EVENTS.LISTENER, handleBanListener)
       clearInterval(interval)
       gameSocket.disconnect()
     }
   }, [id, profile.name])
+
   return { picks, loading, state }
 }
+
+export const useMatchData = (id: string) => {
+  return useQuery({
+    queryKey: ["match_game", id],
+    queryFn: () => fetchMatch(id),
+    staleTime: 1000 * 60 * 60,
+  })
+}
+
+const fetchMatch = async (id: string) => {
+  return await api.get(`game/${id}`).then((r) => {
+    return r.data
+  })
+}
+

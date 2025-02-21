@@ -90,7 +90,7 @@ import Markdown from "react-markdown"
 export const RulesPage = () => {
   return (
     <Box pb={12}>
-      <Prose padding={4} maxWidth="1000px" mx="auto">
+      <Prose padding={8} maxWidth="1000px" mx="auto">
         <Markdown>{rulesText}</Markdown>
       </Prose>
       <Text textAlign="center">

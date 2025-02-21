@@ -6,7 +6,6 @@ import {
   Link,
   Image,
   useBreakpointValue,
-  Input,
 } from "@chakra-ui/react"
 import { Avatar, AvatarGroup } from "@components/ui/avatar"
 import { Button } from "@components/ui/button"
@@ -22,18 +21,17 @@ import {
   MenuTrigger,
 } from "@components/ui/menu"
 import { LogoDark, LogoWhite } from "@shared/static/logo"
-import { config, Item, TreeItems } from "@shared/lib/config"
+import { config, Item, TreeItems } from "@shared/config"
 import { LogoutDialog } from "@features/auth/ui/logout"
 import { useUser } from "@entities/user"
-import { useShallow } from "zustand/react/shallow"
 import { UserPayload } from "@entities/user/model/user.types"
 import { AuthDialog } from "@features/auth/ui/auth"
 import { useNavigate } from "react-router-dom"
+import { FC } from "react"
 
-export const Shell: React.FC = () => {
-  const bg = useColorModeValue("blackAlpha.50", "blackAlpha.500")
+export const Shell: FC = () => {
   const color = useColorModeValue("black", "white")
-  const { isAuth, payload } = useUser(useShallow((state) => state))
+  const { isAuth, payload } = useUser((state) => state)
   const isMobile = useBreakpointValue({ base: true, md: false })
   const { colorMode } = useColorMode()
   const navigate = useNavigate()
@@ -42,7 +40,6 @@ export const Shell: React.FC = () => {
     <Box px={{ base: "4", md: "10%" }} py="6px">
       <Flex
         as="nav"
-        bg={bg}
         color={color}
         align="center"
         justify="space-between"
@@ -66,9 +63,7 @@ export const Shell: React.FC = () => {
             <List.Root display="flex" alignItems="center" flexDirection="row">
               {TreeItems.map((item: Item) => (
                 <Box key={item.url} mx="4">
-                  <Link href={item.url} fontWeight="bold" color={color}>
-                    {item.label}
-                  </Link>
+                  <NavigationText url={item.url}>{item.label}</NavigationText>
                 </Box>
               ))}
             </List.Root>
@@ -115,6 +110,32 @@ export const Shell: React.FC = () => {
   )
 }
 
+const NavigationText = ({
+  url,
+  children,
+}: {
+  url: string
+  children: React.ReactNode
+}) => {
+  const navigate = useNavigate()
+
+  // Функция для перехода по клику
+  const handleNavigate = () => {
+    navigate(url)
+  }
+
+  return (
+    <Text
+      fontWeight="bold"
+      cursor="pointer"
+      onClick={handleNavigate}
+      _hover={{ textDecoration: "underline" }}
+    >
+      {children}
+    </Text>
+  )
+}
+
 const ProfileRoot = ({ payload }: { payload: UserPayload }) => {
   return (
     <MenuRoot>
@@ -145,41 +166,5 @@ const ProfileRoot = ({ payload }: { payload: UserPayload }) => {
         </LogoutDialog>
       </MenuContent>
     </MenuRoot>
-  )
-}
-
-const InputSearch = () => {
-  return (
-    <Input
-      style={{
-        backgroundColor: "rgba(255, 255, 255, 0.5)",
-        borderRadius: "16px",
-        height: "50px",
-        minWidth: "700px",
-      }}
-      placeholder="Поиск по сайту..."
-    />
-  )
-}
-
-export const RootShell = () => {
-  return (
-    <Flex
-      justifyContent="center"
-      alignItems="center"
-      flexDirection={"row"}
-      minWidth={1200}
-      paddingTop={"18px"}
-    >
-      <Flex justifyContent="space-between" alignItems={"center"} gap={12}>
-        <Flex gap="8">
-          <Image src={LogoDark} width="48px" height="48px" />
-          <InputSearch />
-        </Flex>
-        <Flex>
-          <Button>Войти</Button>
-        </Flex>
-      </Flex>
-    </Flex>
   )
 }

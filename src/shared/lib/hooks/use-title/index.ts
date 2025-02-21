@@ -1,4 +1,4 @@
-import { config } from "@shared/lib/config";
+import { config } from "@shared/config";
 
 type IProps = {
   text: string;

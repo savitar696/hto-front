@@ -1,9 +1,11 @@
-import { Box, Flex, Text } from "@chakra-ui/react"
+import { Box, Flex, Image, Text } from "@chakra-ui/react"
 import { useUser } from "@entities/user"
-import { useShallow } from "zustand/react/shallow"
 import { MatchPick, useMapBan } from "../hooks"
 import { VoteTimer } from "../lib/vote-timer"
 import { Button } from "@components/ui/button"
+import { getMapKey } from "@features/user-profile/model/map"
+import { MapImages, MapName } from "@shared/config"
+import { useColorModeValue } from "@components/ui/color-mode"
 
 export const MapSelector = ({
   picks,
@@ -13,7 +15,8 @@ export const MapSelector = ({
   game_id: string
 }) => {
   const { currentBan, isBanning, handleBan } = useMapBan(game_id)
-  const { profile } = useUser(useShallow((state) => state.payload))
+  const { profile } = useUser((state) => state.payload)
+  const bgColor = useColorModeValue("white", "#0d0d0d")
   const userPick = picks.vote_right
     ? picks.players[1].name
     : picks.players[0].name
@@ -25,7 +28,11 @@ export const MapSelector = ({
           Время для бана карты игроку {userPick}
         </Text>
         <Text fontSize="2xl" fontWeight="semibold" color="red.500">
-          <VoteTimer voteRightEnd={picks.vote_right_end} />
+          <VoteTimer
+            voteRightEnd={picks.vote_right_end}
+            handleBan={handleBan}
+            availableMaps={picks.maps}
+          />
         </Text>
       </Flex>
 
@@ -33,15 +40,27 @@ export const MapSelector = ({
         {picks.maps.map((map, i) => (
           <Flex
             key={i}
-            bg="blackAlpha.50"
+            bg={bgColor}
             p={2}
             borderRadius="md"
             justify="space-between"
             align="center"
           >
-            <Text fontSize="md" fontWeight="semibold">
-              {map}
-            </Text>
+            <Flex alignItems="center" gap="2">
+              <Image
+                src={MapImages[MapName[getMapKey(map)!]]}
+                height="40px"
+                width="90px"
+                borderRadius="4px"
+                backgroundPosition="center center"
+                backgroundSize="cover"
+                backgroundRepeat="no-repeat"
+              />
+              <Text fontSize="md" fontWeight="semibold">
+                {map}
+              </Text>
+            </Flex>
+
             <Button
               colorScheme="blackAlpha"
               onClick={() => handleBan(map)}

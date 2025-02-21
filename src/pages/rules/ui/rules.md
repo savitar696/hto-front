@@ -445,5 +445,3 @@ Auslogics Internet Optimizer, CheatEngine, Clumsy, Clusters, CFosSpeed, Destruct
 
 **Пояснение:**
 Организаторы могут вносить изменения в правила для улучшения турнира.
-
----

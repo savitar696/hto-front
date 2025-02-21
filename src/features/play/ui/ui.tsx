@@ -1,4 +1,4 @@
-import { FC, memo, PropsWithChildren, useMemo, useState } from "react"
+import { FC, PropsWithChildren, useState } from "react"
 import { Button } from "@components/ui/button"
 import {
   DialogBody,
@@ -21,8 +21,7 @@ export const JoinQueue: FC<PropsWithChildren<JoinQueueProps>> = ({
   payload,
   available,
 }) => {
-  const stableUserId = useMemo(() => payload.id, [payload.id])
-  const { search, time, joinQueue, outQueue } = useQueue(stableUserId)
+  const { search, time, joinQueue, outQueue } = useQueue(payload.id)
   const [hoverSearch, setHoverSearch] = useState(false)
 
   const displayTime = `${String(Math.floor(time / 60)).padStart(2, "0")}:${String(time % 60).padStart(2, "0")}`

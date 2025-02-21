@@ -1,61 +1,80 @@
-import { Box, Flex, Status, Text } from "@chakra-ui/react"
-import { Avatar } from "@components/ui/avatar"
+import { Box, Flex, Text } from "@chakra-ui/react"
+import { Avatar } from "@components/avatar"
+import { Status } from "@chakra-ui/react"
+import { useColorModeValue } from "@components/ui/color-mode"
+import { GradientText } from "@shared/ui/premium-text/ui"
+import { useRoleConfig } from "@shared/lib/hooks/use-role"
 
 export const ProfileHeader = ({ payload }: { payload: any }) => {
+  const bgColor = useColorModeValue("white", "#0d0d0d")
+  const textColor = useColorModeValue("blackAlpha.700", "#ffffff")
+  const secondaryTextColor = useColorModeValue("gray.600", "#808080")
+  const borderColor = useColorModeValue("gray.100", "#1a1a1a")
+  const userRole = useRoleConfig(payload.roles[0].name)
+
   return (
     <Flex justifyContent="center" paddingY={4}>
       <Box
-        border="1px solid"
-        borderColor={"gray.100"}
+        border="2px solid"
+        borderColor={borderColor}
         style={{
-          borderRadius: "12px",
+          borderRadius: "16px",
         }}
         minWidth={1200}
         padding={6}
+        paddingY={8}
+        bg={bgColor}
       >
         <Flex justifyContent="space-between" alignItems="center">
-          {/* avatar, name, rank */}
           <Flex alignItems="center" gap={4} flexDirection={"row"}>
             <Avatar
-              size="2xl"
-              name={payload.profile.name}
-              src={`https://skin.vimeworld.com/helm/${payload.profile.name}.png`}
+              username={payload.profile.name}
+              permanentPremium={payload.premium}
+              styles={{ width: "4rem", height: "4rem", borderRadius: "12px" }}
             />
             <Flex flexDirection={"column"} lineHeight={1.15}>
               <Text
-                color="blackAlpha.700"
+                color={userRole.color ? userRole.color : secondaryTextColor}
                 style={{ fontSize: "16px", fontWeight: 500 }}
               >
-                Пользователь
+                {userRole.text}
               </Text>
-              <Text style={{ fontWeight: 600, fontSize: "22px" }}>
-                {payload.profile.name}
-              </Text>
+              {payload.premium ? (
+                <GradientText fontSize="22px" fontWeight="bold">
+                  {payload.profile.name}
+                </GradientText>
+              ) : (
+                <Text style={{ fontWeight: 600, fontSize: "22px" }}>
+                  {payload.profile.name}
+                </Text>
+              )}
             </Flex>
           </Flex>
           {/* raiting, playing time, status */}
           <Flex flexDirection={"row"} gap={12}>
             <Flex flexDirection={"column"}>
-              <Text style={{ fontSize: "14px" }} color={"gray.800"}>
+              <Text style={{ fontSize: "14px" }} color={secondaryTextColor}>
                 Рейтинг
               </Text>
-              <Text fontWeight={500}>{payload.rating}</Text>
+              <Text fontWeight={500} color={textColor}>
+                {payload.rating}
+              </Text>
             </Flex>
             <Flex flexDirection={"column"}>
-              <Text style={{ fontSize: "14px" }} color={"gray.800"}>
+              <Text style={{ fontSize: "14px" }} color={secondaryTextColor}>
                 Наиграно времени
               </Text>
-              <Text fontWeight={500}>
+              <Text fontWeight={500} color={textColor}>
                 {(payload.time_played / 60).toFixed(0)} мин.
               </Text>
             </Flex>
             <Flex flexDirection={"column"}>
-              <Text style={{ fontSize: "14px" }} color={"gray.800"}>
+              <Text style={{ fontSize: "14px" }} color={secondaryTextColor}>
                 Статус
               </Text>
               <Status.Root colorPalette={payload.online ? "green" : "red"}>
                 <Status.Indicator />
-                <Text fontWeight={500} fontSize={"16px"}>
+                <Text fontWeight={500} fontSize={"16px"} color={textColor}>
                   {payload.online ? "Онлайн" : "Оффлайн"}
                 </Text>
               </Status.Root>

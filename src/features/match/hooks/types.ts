@@ -7,6 +7,7 @@ export type MatchPick = {
   mapsSource: string[]
   teams: Player[][]
   state: GameState
+  logs?: string[]
 }
 
 export enum GameState {

@@ -1,9 +1,7 @@
 import { FC, useMemo } from "react"
 import { Box, Flex, Heading, Text } from "@chakra-ui/react"
 import { useUser } from "@entities/user"
-import { useShallow } from "zustand/react/shallow"
 import { JoinQueue } from "./ui"
-import { useQueue } from "../hooks"
 
 interface GameType {
   type: string
@@ -41,7 +39,7 @@ export const Card: FC<GameType> = ({ type, image, available }) => {
             {type}
           </Heading>
           <Text fontSize="14px" color="whiteAlpha.800" fontWeight="medium">
-            {available ? `В очереди: 0` : "Недоступен"}
+            {available ? `Режим доступен` : "Недоступен"}
           </Text>
         </Flex>
       </Box>

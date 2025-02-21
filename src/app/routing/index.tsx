@@ -7,11 +7,12 @@ import { BaseLayout } from "@shared/ui/layouts/base"
 import { ContentSlot, ShellSlot } from "@shared/ui/layouts/slots"
 import { SuspenseLayout } from "@shared/ui/layouts/suspense"
 import { Shell } from "@widgets/navigation/shell"
-import { Navigate, Outlet, RouteObject, useRoutes } from "react-router-dom"
+import { Outlet, RouteObject, useRoutes } from "react-router-dom"
 import { AuthGuard } from "./auth"
 import { SettingsPage } from "@pages/settings/ui"
 import { PlayPage } from "@pages/play/ui"
 import { MatchPage } from "@pages/match/ui"
+import { ErrorPage } from "@pages/404/ui"
 
 const routes = (): RouteObject[] => [
   {
@@ -76,7 +77,7 @@ const routes = (): RouteObject[] => [
   },
   {
     path: paths.catch,
-    element: <Navigate replace to={paths.index} />,
+    element: <ErrorPage title={"Ошибка"} description={"Мы не можем найти страницу, которую вы ищете"}/>,
   },
 ]
 

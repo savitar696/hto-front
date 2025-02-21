@@ -1,4 +1,4 @@
-import { Match } from "@features/match"
+import { MatchContainer } from "@features/match"
 import { useTitle } from "@shared/lib/hooks/use-title"
 import { useEffect } from "react"
 import { useParams } from "react-router-dom"
@@ -13,5 +13,5 @@ export const MatchPage = () => {
 
   if (!id) return
 
-  return <Match id={id} />
+  return <MatchContainer id={id} />
 }

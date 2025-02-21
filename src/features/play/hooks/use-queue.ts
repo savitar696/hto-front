@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { useTimer } from "use-timer"
 import { useNavigate } from "react-router-dom"
 import { queueIO } from "@entities/user/model/user.events"
@@ -20,51 +19,57 @@ export const useQueue = (userId: string) => {
   })
   const navigate = useNavigate()
 
-  const joinQueue = () => {
+  const joinQueue = useCallback(() => {
     reset()
     start()
     setSearch(true)
     queueIO.connect()
-  }
+    queueIO.emit("get.search.status")
+  }, [reset, start])
 
-  const outQueue = () => {
+  const outQueue = useCallback(() => {
     reset()
     pause()
     setSearch(false)
     queueIO.disconnect()
-  }
+  }, [reset, pause])
 
   useEffect(() => {
-    queueIO.on("connect", () => {
-      queueIO.emit("join", { id: userId }, (data: any) => {
-        setData(data)
-      })
-    })
-
-    queueIO.on("join.event", (data) => {
-      setData(data)
-    })
-  }, [])
-
-  useEffect(() => {
-    const audio1 = new Audio(music)
-    audio1.addEventListener("canplaythrough", () => {
-      if (data.status === "ready") {
-        audio1.play()
-        toaster.create({
-          description: "Идет создание лобби",
-          type: "success",
-        })
-        setTimeout(() => {
-          navigate(`/match/${data.url}`)
-        }, 2 * 1000)
-      }
-    })
-    return () => {
-      audio1.pause()
-      audio1.removeEventListener("canplaythrough", () => {})
+    const handleConnect = () => {
+      queueIO.emit("join", { id: userId }, (response: any) => setData(response))
     }
-  }, [data])
+
+    const handleJoinEvent = (eventData: any) => setData(eventData)
+
+    queueIO.on("connect", handleConnect)
+    queueIO.on("join.event", handleJoinEvent)
+
+    return () => {
+      queueIO.off("connect", handleConnect)
+      queueIO.off("join.event", handleJoinEvent)
+    }
+  }, [userId])
+
+  useEffect(() => {
+    if (data.status !== "ready") return
+
+    const audio = new Audio(music)
+    const isSoundEnabled = localStorage.getItem("sound") !== "false"
+
+    if (isSoundEnabled) audio.play()
+
+    toaster.create({ description: "Идет создание лобби", type: "success" })
+
+    const navigateTimeout = setTimeout(
+      () => navigate(`/match/${data.url}`),
+      2000,
+    )
+
+    return () => {
+      clearTimeout(navigateTimeout)
+      audio.pause()
+    }
+  }, [data.status, data.url, navigate])
 
   return { search, time, joinQueue, outQueue }
 }

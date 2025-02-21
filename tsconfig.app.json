@@ -30,7 +30,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "types": ["./@types/i18n.d.ts", "./src/vite-env.d.ts"]
+    "types": ["./src/vite-env.d.ts"]
   },
   "include": ["src", "@types"]
 }
