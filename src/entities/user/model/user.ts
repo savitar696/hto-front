@@ -41,6 +41,7 @@ export const useUser = create<User>()((set) => ({
         description: "Вы успешно вошли в аккаунт",
         type: "success",
       })
+      window.location.reload()
     } catch (e) {
       toaster.create({
         title: "Ошибка",
@@ -117,21 +118,6 @@ export const useUser = create<User>()((set) => ({
   getInfoByUsername: async (username: string) => {
     try {
       const response = await api.get(`/user/stats/${username}`)
-      set({
-        profile: response.data.data,
-        isLoading: false,
-      })
-    } catch (error: any) {
-      toaster.create({
-        title: "Ошибка",
-        description: error.response?.data?.message || "Что-то пошло не так...",
-        type: "error",
-      })
-    }
-  },
-  getStatsByUsername: async (username: string) => {
-    try {
-      const response = await api.get(`/user/stats/${username}/latest`)
       set({
         profile: response.data.data,
         isLoading: false,

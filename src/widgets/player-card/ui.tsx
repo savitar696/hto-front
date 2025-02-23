@@ -30,7 +30,7 @@ export const PlayerCard = ({ player }: { player: Player }) => {
           widthPremium={16}
         />
         {player.premium ? (
-          <GradientText fontSize="md" fontWeight={600}>
+          <GradientText fontSize="md" fontWeight={700}>
             {player.name}
           </GradientText>
         ) : (

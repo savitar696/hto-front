@@ -41,6 +41,10 @@ export const useQueue = (userId: string) => {
 
     const handleJoinEvent = (eventData: any) => setData(eventData)
 
+    if (Notification.permission !== "granted") {
+      Notification.requestPermission()
+    }
+
     queueIO.on("connect", handleConnect)
     queueIO.on("join.event", handleJoinEvent)
 
@@ -50,26 +54,32 @@ export const useQueue = (userId: string) => {
     }
   }, [userId])
 
+
   useEffect(() => {
     if (data.status !== "ready") return
+    if (data.url === undefined) return
 
     const audio = new Audio(music)
     const isSoundEnabled = localStorage.getItem("sound") !== "false"
 
     if (isSoundEnabled) audio.play()
 
+    if (Notification.permission === "granted") {
+      new Notification("Ваша игра нашлась")
+    }
+
     toaster.create({ description: "Идет создание лобби", type: "success" })
 
-    const navigateTimeout = setTimeout(
-      () => navigate(`/match/${data.url}`),
-      2000,
-    )
+    const navigateTimeout = setTimeout(() => {
+      navigate(`/match/${data.url}`)
+      window.location.reload()
+    }, 2000)
 
     return () => {
       clearTimeout(navigateTimeout)
       audio.pause()
     }
-  }, [data.status, data.url, navigate])
+  }, [data.url])
 
   return { search, time, joinQueue, outQueue }
 }

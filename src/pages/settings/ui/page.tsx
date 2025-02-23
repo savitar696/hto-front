@@ -5,6 +5,8 @@ import { SiDiscord } from "react-icons/si"
 import { useUser } from "@entities/user"
 import { useQuery } from "@tanstack/react-query"
 import { api } from "@shared/lib/api"
+import { useSearchParams } from "react-router-dom"
+import { toaster } from "@components/ui/toaster.tsx"
 
 interface SettingProps {
   id: number;
@@ -34,6 +36,34 @@ export const SettingsPage = () => {
   })
   const initialSound = localStorage.getItem("sound") !== "false"
   const [soundEnabled, setSoundEnabled] = useState(initialSound)
+  const [searchParams] = useSearchParams();
+
+  const discordLinkStatus = searchParams.get('discord_link_status');
+  const message = searchParams.get('message');
+
+  useEffect(() => {
+    if (discordLinkStatus && message) {
+      // Display toast based on discordLinkStatus and message
+      if (discordLinkStatus === 'ok') {
+        toaster.create({
+          type: "success",
+          description: message,
+        })
+      } else if (discordLinkStatus === 'info') {
+        toaster.create({
+          type: "info",
+          description: message,
+        })
+      } else if (discordLinkStatus === 'error') {
+        toaster.create({
+          type: "error",
+          description: message,
+        })
+      }
+
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, [discordLinkStatus, message]);
 
   const handleSoundToggle = (checked: boolean) => {
     setSoundEnabled(checked)

@@ -15,6 +15,7 @@ export type UserPayload = {
   profile: ProfilePayload
   rating: number
   roles: any
+  properties?: any
 }
 
 export type User = {
