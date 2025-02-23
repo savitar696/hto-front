@@ -20,6 +20,7 @@ import { getMapKey } from "@features/user-profile/model/map"
 import { MapImages, MapName } from "@shared/config"
 import { FiInfo } from "react-icons/fi"
 import { MatchPick } from "@features/match/hooks"
+import { Button } from "@components/ui/button.tsx"
 
 interface Props {
   picks: MatchPick,
@@ -30,7 +31,7 @@ interface Props {
 
 export const MatchOverview = ({ picks, state, loading, id }: Props) => {
   const bgColor = useColorModeValue("white", "#0d0d0d")
-  const textColor = useColorModeValue("blackAlpha.700", "#ffffff")
+  const textColor = useColorModeValue("#000", "#ffffff")
   const borderColor = useColorModeValue("gray.100", "#1a1a1a")
   if (loading) return <div>Loading...</div>
   return (
@@ -79,7 +80,7 @@ export const MatchOverview = ({ picks, state, loading, id }: Props) => {
         </Flex>
       </Grid>
 
-      <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={6}>
+      <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={6} alignItems={"start"}>
         <TeamPlayers players={picks.teams[0]} />
         {picks.maps.length > 1 ? (
           <MapSelector picks={picks} game_id={id} />
@@ -132,8 +133,8 @@ export const MatchOverview = ({ picks, state, loading, id }: Props) => {
               </Flex>
             </Box>
             <Flex direction="column" gap={4}>
-              <Text fontWeight={600} fontSize="14px" textAlign="center" color={textColor}>Если игру сразу не засчитало - не переживайте, ее скоро засчитают</Text>
-
+              {/*<Text fontWeight={600} fontSize="14px" textAlign="center" color={textColor}>Если игру сразу не засчитало - не переживайте, ее скоро засчитают</Text>*/}
+              <Button onClick={() => window.location.href = "https://discord.gg/EnyrgVHCQd"}>Discord</Button>
             </Flex>
           </Flex>
         )}

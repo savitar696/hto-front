@@ -3,17 +3,14 @@ import { useUser } from "@entities/user"
 import { useQuery } from "@tanstack/react-query"
 import { GameState, GameStateText, MatchPick } from "./types"
 import { api } from "@shared/lib/api"
-import { GamePayload } from "@entities/game"
+import { GamePayload, socket } from "@entities/game"
 import { queryClient } from "@app/providers/with-query"
-import { io } from "socket.io-client"
 
 const EVENTS = {
   JOIN: "ban.join",
   LISTENER: "ban.listener",
   RESPONSE: "ban.join.response",
 }
-
-export const socket = io("http://26.187.148.14:5000/queue")
 
 export const useMatch = (id: string) => {
   const { profile } = useUser((state) => state.payload)

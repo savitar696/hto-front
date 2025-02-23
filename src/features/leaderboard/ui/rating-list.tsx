@@ -8,7 +8,6 @@ export const RatingList = () => {
   if (isLoading) return <SkeletonRatingList />
   if (isError) return <Text color="red.500">Ошибка: {error?.message}</Text>
   if (users.length === 0) return <EmptyRatingList />
-  console.log(users)
 
   return (
     <Grid templateColumns="repeat(3, 1fr)" gap="20px" placeContent="center">

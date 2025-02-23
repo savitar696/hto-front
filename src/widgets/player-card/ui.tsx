@@ -1,8 +1,8 @@
 import { Box, Flex, Text } from "@chakra-ui/react"
 import { Avatar } from "@components/avatar"
 import { useColorModeValue } from "@components/ui/color-mode"
-import { Player } from "@features/match/hooks"
-import { GradientText } from "@shared/ui/premium-text/ui"
+import { Player } from "@features/map-selector/hooks"
+import { GradientText } from "@shared/ui/premium-text/ui.tsx"
 
 export const PlayerCard = ({ player }: { player: Player }) => {
   const cardBg = useColorModeValue("white", "#121212") // Фон карточки
@@ -25,11 +25,11 @@ export const PlayerCard = ({ player }: { player: Player }) => {
       <Flex p={4} align="center" gap={4}>
         <Avatar
           username={player.name}
-          styles={{ width: "36px", height: "36px" }}
+          styles={{ width: "36px", height: "36px"}}
           heightPremium={16}
           widthPremium={16}
         />
-        {player.name === "YaClary" ? (
+        {player.premium ? (
           <GradientText fontSize="md" fontWeight={600}>
             {player.name}
           </GradientText>
@@ -53,7 +53,7 @@ export const PlayerCard = ({ player }: { player: Player }) => {
           </Text>
           <Box p={2}>
             <Text fontSize="md" color={textColor}>
-              0
+              {player.stats.matches}
             </Text>
             <Text fontSize="xs" color={secondaryTextColor}>
               Матчи
@@ -72,22 +72,24 @@ export const PlayerCard = ({ player }: { player: Player }) => {
             Последние 10 матчей
           </Text>
           <Flex>
-            {["0%", "0", "0.0"].map((val, j) => (
-              <Box
-                key={j}
-                p={2}
-                flex={1}
-                borderRight={j < 2 ? "1px solid" : "none"}
-                borderColor={borderColor}
-              >
-                <Text fontSize="md" color={textColor}>
-                  {val}
-                </Text>
-                <Text fontSize="xs" color={secondaryTextColor}>
-                  {["Побед", "Убийств", "K/D"][j]}
-                </Text>
-              </Box>
-            ))}
+            {[player.stats.winrate, player.stats.kills, player.stats.kd].map(
+              (val, j) => (
+                <Box
+                  key={j}
+                  p={2}
+                  flex={1}
+                  borderRight={j < 2 ? "1px solid" : "none"}
+                  borderColor={borderColor}
+                >
+                  <Text fontSize="md" color={textColor}>
+                    {val}
+                  </Text>
+                  <Text fontSize="xs" color={secondaryTextColor}>
+                    {["Побед", "Убийств", "K/D"][j]}
+                  </Text>
+                </Box>
+              ),
+            )}
           </Flex>
         </Box>
       </Flex>

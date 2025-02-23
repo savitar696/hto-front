@@ -13,13 +13,18 @@ interface SettingProps {
 }
 
 const fetchSettings = async (username: string) => {
+  const token = localStorage.getItem("token"); // Или sessionStorage, если надо
+
   const response = await api.get<SettingProps[]>(`user/properties/${username}`, {
     headers: {
       "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
     }
   });
-  return response.data
-}
+
+  return response.data;
+};
+
 
 export const SettingsPage = () => {
   const { profile } = useUser((state) => state.payload)
@@ -51,7 +56,7 @@ export const SettingsPage = () => {
 
   const LinkDiscord = () => {
     if (!discordId) {
-      return <Button size={"xs"} variant="ghost" onClick={() => window.open(`https://discord.com/oauth2/authorize?client_id=1342539311181987941&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A5000%2Fapi%2Fdiscord%2Fauth%2Fcallback&scope=identify&state=${profile.name}`)}>Привязать</Button>
+      return <Button size={"xs"} variant="ghost" onClick={() => window.open(`https://discord.com/oauth2/authorize?client_id=1342539311181987941&response_type=code&redirect_uri=http%3A%2F%2F26.187.148.14%3A5000%2Fapi%2Fdiscord%2Fauth%2Fcallback&scope=identify&state=${profile.name}`)}>Привязать</Button>
     }
     return <Button size={"xs"} variant="ghost" disabled>Привязано</Button>
   }
@@ -73,9 +78,10 @@ export const SettingsPage = () => {
       <Group flex="1" maxWidth={400} attached>
         <InputAddon><SiDiscord /></InputAddon>
         <Input
-          flex={"1"}
-          placeholder={"Привяжите аккаунт"}
+          flex="1"
+          placeholder="Привяжите аккаунт"
           value={discordId}
+          readOnly
         />
         <InputAddon><LinkDiscord /></InputAddon>
       </Group>

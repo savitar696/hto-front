@@ -12,7 +12,7 @@ export const rolesConfig: Record<RoleName, Role> = {
     name: "ADMIN",
     text: "Админ",
     permissions: [],
-    color: "#CD5C5C"
+    color: "#d40048"
   },
   USER: {
     name: "USER",

@@ -1,29 +1,29 @@
+import { MatchOverview } from "./content";
+import { GameState, useMatch, useMatchData } from "../hooks";
+import { parseMatchData } from "../api/lib";
+import { MatchStats, EventLog } from "@widgets/match-statistics/ui";
 import { Tabs } from "@chakra-ui/react"
-import { MatchOverview } from "./content"
-import { GameState, useMatch, useMatchData } from "../hooks"
-import { parseMatchData } from "../api/lib"
-import { MatchStats, EventLog } from "@widgets/match-statistics/ui"
 
 const TABS = {
   MATCH: "match",
   STATS: "stats",
   EVENTS: "events",
-}
+};
 
-export const MatchContainer = ({ id }: { id: string }) => {
-  const { picks, state, loading } = useMatch(id)
-  const { data, isLoading } = useMatchData(id)
+export const MatchContainer = ({ id }: {id: string}) => {
+  const { picks, state, loading } = useMatch(id);
+  const { data, isLoading } = useMatchData(id);
 
-  if (isLoading) return <div>Загрузка...</div>
+  if (isLoading) return <div>Загрузка...</div>;
 
-  const parsedData = data ? parseMatchData(data) : null
-  const parsedPick = data ? JSON.parse(data.lobby) : null
+  const parsedData = data ? parseMatchData(data) : null;
+  const parsedPick = typeof data.lobby === "string" ? JSON.parse(data.lobby) : data.lobby || {};
   const isMatchFinished =
     picks?.state === GameState.FINISHED ||
-    data.data?.map_id === "load" ||
-    data.data?.map_id === undefined
+    ["load", undefined].includes(data?.map_id);
+
   return (
-    <Tabs.Root defaultValue={TABS.MATCH}>
+    <Tabs.Root lazyMount unmountOnExit defaultValue={TABS.MATCH}>
       <Tabs.List>
         <Tabs.Trigger value={TABS.MATCH}>Обзор</Tabs.Trigger>
         <Tabs.Trigger value={TABS.STATS} disabled={isMatchFinished}>
@@ -35,7 +35,7 @@ export const MatchContainer = ({ id }: { id: string }) => {
       </Tabs.List>
 
       <Tabs.Content value={TABS.MATCH}>
-        {parsedPick ? (
+        {parsedPick && !isMatchFinished ? (
           <MatchOverview
             picks={parsedPick.lobby}
             state={GameState.FINISHED}
@@ -67,5 +67,5 @@ export const MatchContainer = ({ id }: { id: string }) => {
         )}
       </Tabs.Content>
     </Tabs.Root>
-  )
-}
+  );
+};

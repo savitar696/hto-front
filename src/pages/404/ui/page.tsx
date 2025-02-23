@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, EmptyState, Link, VStack } from "@chakra-ui/react"
+import { Button, ButtonGroup, EmptyState, VStack } from "@chakra-ui/react"
 import { MdError } from "react-icons/md"
 import { FC } from "react"
 

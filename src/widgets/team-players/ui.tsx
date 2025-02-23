@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react"
-import { Player } from "@features/match/hooks"
 import { PlayerCard } from "@widgets/player-card"
+import { Player } from "@features/map-selector/hooks"
 
 export const TeamPlayers = ({ players }: { players: Player[] }) => {
   return (

@@ -1,3 +1,5 @@
+import { Player } from "@features/map-selector/hooks"
+
 export type MatchPick = {
   maps: string[]
   players: Player[]
@@ -21,5 +23,3 @@ export const GameStateText = {
   IN_GAME: "Идет игра",
   FINISHED: "Игра окончена",
 }
-
-export type Player = { client_id: string; name: string }

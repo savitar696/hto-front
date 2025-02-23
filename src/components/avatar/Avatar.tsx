@@ -11,7 +11,6 @@ export interface ComponentInterface {
 
 interface Avatar extends ComponentInterface {
   username: string | undefined
-  data?: any
   size?: number
   heightPremium?: number
   widthPremium?: number
@@ -32,25 +31,16 @@ export const Avatar: FC<Avatar> = ({
           borderRadius: "100%",
           ...styles,
         }}
-        src={`https://skin.vimeworld.com/head/${username}.png`}
+        src={`https://skin.vimeworld.com/helm/${username}.png`}
         alt={username}
       />
-      {permanentPremium ? (
+      {permanentPremium && (
         <div className={style.icon}>
           <PremiumBackgroundGradient
             width={widthPremium}
             height={heightPremium}
           />
         </div>
-      ) : (
-        "YaClary" == username && (
-          <div className={style.icon}>
-            <PremiumBackgroundGradient
-              width={widthPremium}
-              height={heightPremium}
-            />
-          </div>
-        )
       )}
     </div>
   )

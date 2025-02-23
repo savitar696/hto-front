@@ -1,5 +1,8 @@
 import { api } from "@shared/lib/api"
 
 export const fetchProfileGames = async (username: string) => {
-  return await api.get(`game/user/${username}`)
+  return await api.get(`game/user/${username}`).then((data) => {
+    return data
+  });
+
 }
