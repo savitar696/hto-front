@@ -1,6 +1,6 @@
 import { io } from "socket.io-client"
 
-export const queueIO = io("http://26.187.148.14:5000/queue", {
+export const queueIO = io("https://hto-backend-mb8nut-612117-77-239-116-138.traefik.me/queue", {
   transports: ["websocket"],
   autoConnect: false,
 })
