@@ -1,7 +1,7 @@
 import { Box, Flex, Text } from "@chakra-ui/react"
 import { Avatar } from "@components/avatar"
 import { Status } from "@chakra-ui/react"
-import { useColorMode, useColorModeValue } from "@components/ui/color-mode"
+import { useColorModeValue } from "@components/ui/color-mode"
 import { GradientText } from "@shared/ui/premium-text/ui"
 import { useRoleConfig } from "@shared/lib/hooks/use-role"
 
