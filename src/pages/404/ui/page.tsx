@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, EmptyState, VStack } from "@chakra-ui/react"
+import { Button, EmptyState, VStack } from "@chakra-ui/react"
 import { MdError } from "react-icons/md"
 import { FC } from "react"
 
@@ -20,10 +20,8 @@ export const ErrorPage: FC<NotFoundI> = ({ title, description }) => {
             {description}
           </EmptyState.Description>
         </VStack>
-        <ButtonGroup>
           <Button variant="outline"><a href={"/"}>Вернуться назад</a></Button>
           <Button colorPalette={"cyan"}><a href={"/"}>Поддержка</a></Button>
-        </ButtonGroup>
       </EmptyState.Content>
     </EmptyState.Root>
   )

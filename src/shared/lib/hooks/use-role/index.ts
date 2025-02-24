@@ -1,4 +1,4 @@
-import { RoleName, rolesConfig } from "@shared/config/roles.ts"
+import { RoleName, rolesConfig } from "@shared/lib/hooks/use-role/roles"
 
 export const useRoleConfig = (roleName: RoleName | "GUEST") => {
   return (

@@ -30,7 +30,12 @@ export const LogoutDialog: FC<PropsWithChildren> = ({ children }) => {
           <DialogActionTrigger asChild>
             <Button variant="outline">Нет</Button>
           </DialogActionTrigger>
-          <Button onClick={() => logout()}>Да</Button>
+          <Button onClick={() => {
+            logout()
+            window.location.reload()
+          }}>
+            Да
+          </Button>
         </DialogFooter>
         <DialogCloseTrigger />
       </DialogContent>
