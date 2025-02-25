@@ -6,8 +6,7 @@ import {
 } from "@components/ui/timeline"
 import { Box } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
-import { GradientText } from "@shared/ui/premium-text/ui"
-import { findPlayerById } from "../../../features/match/api/lib"
+import { findPlayerById } from "@features/match/api/lib"
 
 interface EventLogProps {
   events: Event[]

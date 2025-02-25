@@ -1,27 +1,9 @@
-import {
-  Box,
-  Flex,
-  Group,
-  IconButton,
-  Input,
-  InputAddon,
-  Text,
-} from "@chakra-ui/react"
+import { Flex, Group, Input, InputAddon, Text } from "@chakra-ui/react"
 import { useEffect } from "react"
 import { SiDiscord } from "react-icons/si"
 import { useUser } from "@entities/user"
 import { useSearchParams } from "react-router-dom"
 import { toaster } from "@components/ui/toaster.tsx"
-import { Avatar } from "@components/avatar"
-import { AddIcon } from "@shared/ui/icons/Icons"
-import { FileUploadDropzone, FileUploadRoot } from "@components/ui/file-button"
-import {
-  DialogBody,
-  DialogCloseTrigger,
-  DialogContent,
-  DialogRoot,
-  DialogTrigger,
-} from "@components/ui/dialog"
 import {
   Banner,
   DiscordLink,

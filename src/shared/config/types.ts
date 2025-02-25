@@ -11,7 +11,7 @@ import {
   Zimperia,
 } from "@shared/static/images"
 
-export const API_URL = "http://localhost:5000"
+export const API_URL = "http://api.slowryz.tech"
 
 export interface Item {
   label: string
