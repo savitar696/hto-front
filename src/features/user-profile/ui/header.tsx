@@ -27,6 +27,7 @@ export const ProfileHeader = ({ payload }: { payload: any }) => {
               : `linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.9)), url(${urlBanner})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
+          backgroundPosition: "center",
           backgroundColor: bgColor,
         }}
         minWidth={1200}
