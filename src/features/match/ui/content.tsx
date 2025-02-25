@@ -132,9 +132,9 @@ export const MatchOverview = ({ picks, state, loading, id }: Props) => {
                 </Text>
               </Flex>
             </Box>
-            <Flex direction="column" gap={4}>
+            <Flex direction="column" gap={6} pt="2">
               {/*<Text fontWeight={600} fontSize="14px" textAlign="center" color={textColor}>Если игру сразу не засчитало - не переживайте, ее скоро засчитают</Text>*/}
-              <Button onClick={() => window.location.href = "https://discord.gg/EnyrgVHCQd"}>Discord</Button>
+              <Button borderRadius="12px" onClick={() => window.location.href = "https://discord.gg/EnyrgVHCQd"}>Подключиться к Discord</Button>
             </Flex>
           </Flex>
         )}

@@ -6,6 +6,7 @@ export const paths = {
   leaderboard: "/leaderboard",
   profile: "/profile/:username",
   match: "/match/:id",
+  settings: "/settings",
 
   auth: "/auth",
   logout: "/logout",

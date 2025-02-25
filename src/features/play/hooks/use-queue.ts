@@ -1,10 +1,10 @@
-import { useEffect, useState, useCallback } from "react"
+import { useEffect, useState, useCallback, useMemo } from "react"
 import { useTimer } from "use-timer"
 import { useNavigate } from "react-router-dom"
 import { queueIO } from "@entities/user/model/user.events"
 import { toaster } from "@components/ui/toaster"
-import music from "@shared/music/found.mp3"
 import { QueueResponse } from "@entities/user/model/user.types"
+import foundedGame from '@shared/music/found.mp3'
 
 export const useQueue = (userId: string) => {
   const [search, setSearch] = useState(false)
@@ -19,6 +19,7 @@ export const useQueue = (userId: string) => {
   })
   const navigate = useNavigate()
 
+  // Мемоизация для предотвращения лишних вызовов
   const joinQueue = useCallback(() => {
     reset()
     start()
@@ -34,6 +35,7 @@ export const useQueue = (userId: string) => {
     queueIO.disconnect()
   }, [reset, pause])
 
+  // Обработчики событий из WebSocket
   useEffect(() => {
     const handleConnect = () => {
       queueIO.emit("join", { id: userId }, (response: any) => setData(response))
@@ -54,16 +56,20 @@ export const useQueue = (userId: string) => {
     }
   }, [userId])
 
+  // Мемоизация музыки (lazy loading)
+  const audio = useMemo(() => new Audio(foundedGame), [])
 
   useEffect(() => {
-    if (data.status !== "ready") return
-    if (data.url === undefined) return
+    if (data.status !== "ready" || !data.url) return
 
-    const audio = new Audio(music)
     const isSoundEnabled = localStorage.getItem("sound") !== "false"
 
-    if (isSoundEnabled) audio.play()
+    // Если звук включен, воспроизводим его
+    if (isSoundEnabled) {
+      audio.play().catch(() => {}); // Игрек для предотвращения ошибок при попытке воспроизведения
+    }
 
+    // Отправка уведомления
     if (Notification.permission === "granted") {
       new Notification("Ваша игра нашлась")
     }
@@ -77,9 +83,9 @@ export const useQueue = (userId: string) => {
 
     return () => {
       clearTimeout(navigateTimeout)
-      audio.pause()
+      audio.pause() // Останавливаем аудио после перехода
     }
-  }, [data.url])
+  }, [data.url, audio])
 
   return { search, time, joinQueue, outQueue }
 }

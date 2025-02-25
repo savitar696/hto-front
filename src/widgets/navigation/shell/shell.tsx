@@ -89,7 +89,6 @@ export const Shell: FC = () => {
               <>
                 <Button
                   rounded="full"
-                  variant="surface"
                   onClick={() => navigate("/play")}
                 >
                   Играть

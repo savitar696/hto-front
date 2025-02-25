@@ -3,7 +3,6 @@ import { paths } from "@shared/router"
 import { Loader } from "@shared/ui/loader"
 import { Navigate } from "react-router-dom"
 import { useUser } from "@entities/user/model"
-import { useShallow } from "zustand/react/shallow"
 
 export interface AuthGuardProps extends PropsWithChildren {
   guest?: boolean
@@ -17,7 +16,7 @@ export const AuthGuard: FC<AuthGuardProps> = ({
   redirect = paths.index,
   replace = false,
 }) => {
-  const { isAuth, isLoading } = useUser(useShallow((state) => state))
+  const { isAuth, isLoading } = useUser((state) => state)
   if (isLoading) return <Loader />
 
   if ((!isAuth && !guest) || (isAuth && guest))

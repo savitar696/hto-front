@@ -2,7 +2,7 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { fetchProfile } from "../api/user"
 import { ProfileHeader } from "./header"
 import { fetchProfileGames } from "../api/game"
-import { Flex, Spinner, Text } from "@chakra-ui/react"
+import { Flex, Skeleton, Spinner, Text } from "@chakra-ui/react"
 import { ContentProfile } from "./content"
 import { StatsContent } from "./stats"
 import { motion } from "framer-motion"
@@ -69,7 +69,6 @@ export const UserProfile = ({ username }: { username: string }) => {
       </MotionFlex>
     )
   }
-  console.log()
   return (
     <MotionFlex
       initial={{ opacity: 0 }}
@@ -79,11 +78,9 @@ export const UserProfile = ({ username }: { username: string }) => {
       gap={6}
       p={6}
     >
-      <>
-        <ProfileHeader payload={profileData.data} />
-        <StatsContent payload={profileData.data} />
-        <ContentProfile payload={payloadMatches.data} username={username} />
-      </>
+      <ProfileHeader payload={profileData.data} />
+      <StatsContent payload={profileData.data} />
+      <ContentProfile payload={payloadMatches.data} username={username} />
     </MotionFlex>
   )
 }

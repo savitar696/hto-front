@@ -62,11 +62,11 @@ const routes = (): RouteObject[] => [
     ),
     children: [
       {
-        path: "/settings",
+        path: paths.settings,
         element: <SettingsPage />,
       },
       {
-        path: "/play",
+        path: paths.play,
         element: <PlayPage />,
       },
       {
@@ -77,7 +77,12 @@ const routes = (): RouteObject[] => [
   },
   {
     path: paths.catch,
-    element: <ErrorPage title={"Ошибка"} description={"Мы не можем найти страницу, которую вы ищете"}/>,
+    element: (
+      <ErrorPage
+        title={"Ошибка"}
+        description={"Мы не можем найти страницу, которую вы ищете"}
+      />
+    ),
   },
 ]
 

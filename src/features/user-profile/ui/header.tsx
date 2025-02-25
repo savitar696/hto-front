@@ -11,8 +11,8 @@ export const ProfileHeader = ({ payload }: { payload: any }) => {
   const secondaryTextColor = useColorModeValue("gray.600", "#808080")
   const borderColor = useColorModeValue("gray.100", "#1a1a1a")
   const userRole = useRoleConfig(payload.roles[0].name)
-  const theme = localStorage.getItem('theme')
-
+  const theme = localStorage.getItem("theme")
+  const urlBanner = payload.properties[0] ? payload.properties[0].value : null
 
   return (
     <Flex justifyContent="center" paddingY={4}>
@@ -22,18 +22,16 @@ export const ProfileHeader = ({ payload }: { payload: any }) => {
         style={{
           borderRadius: "16px",
           backgroundImage:
-          payload.profile.name === "Gotwet"
-            ? theme === "dark"
-              ? "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url(https://i.imgur.com/byp8jVv.png)"
-              : "linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.9)), url(https://i.imgur.com/byp8jVv.png)"
-            : "none",
-          backgroundRepeat: payload.profile.name === "Gotwet" ? "no-repeat" : "none",
-          backgroundSize: payload.profile.name === "Gotwet" ? "cover" : "none",
+            theme === "dark"
+              ? `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url(${urlBanner})`
+              : `linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.9)), url(${urlBanner})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
           backgroundColor: bgColor,
         }}
         minWidth={1200}
         padding={6}
-        paddingY={8}
+        paddingY={16}
       >
         <Flex justifyContent="space-between" alignItems="center">
           <Flex alignItems="center" gap={4} flexDirection={"row"}>

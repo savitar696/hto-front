@@ -1,119 +1,83 @@
-import { Button, Flex, Group, Input, InputAddon, Text } from "@chakra-ui/react"
-import { Switch } from "@components/ui/switch"
-import { useState, useEffect } from "react"
+import {
+  Box,
+  Flex,
+  Group,
+  IconButton,
+  Input,
+  InputAddon,
+  Text,
+} from "@chakra-ui/react"
+import { useEffect } from "react"
 import { SiDiscord } from "react-icons/si"
 import { useUser } from "@entities/user"
-import { useQuery } from "@tanstack/react-query"
-import { api } from "@shared/lib/api"
 import { useSearchParams } from "react-router-dom"
 import { toaster } from "@components/ui/toaster.tsx"
-
-interface SettingProps {
-  id: number;
-  type: string;
-  value: string;
-}
-
-const fetchSettings = async (username: string) => {
-  const token = localStorage.getItem("token"); // Или sessionStorage, если надо
-
-  const response = await api.get<SettingProps[]>(`user/properties/${username}`, {
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
-    }
-  });
-
-  return response.data;
-};
-
+import { Avatar } from "@components/avatar"
+import { AddIcon } from "@shared/ui/icons/Icons"
+import { FileUploadDropzone, FileUploadRoot } from "@components/ui/file-button"
+import {
+  DialogBody,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogRoot,
+  DialogTrigger,
+} from "@components/ui/dialog"
+import {
+  Banner,
+  DiscordLink,
+  SoundToggle,
+  useSettings,
+} from "@features/settings"
 
 export const SettingsPage = () => {
   const { profile } = useUser((state) => state.payload)
-  const { data } = useQuery({
-    queryKey: ['settings'],
-    queryFn: () => fetchSettings(profile.name),
-  })
-  const initialSound = localStorage.getItem("sound") !== "false"
-  const [soundEnabled, setSoundEnabled] = useState(initialSound)
-  const [searchParams] = useSearchParams();
+  const { properties } = useSettings(profile.name)
+  const [searchParams] = useSearchParams()
 
-  const discordLinkStatus = searchParams.get('discord_link_status');
-  const message = searchParams.get('message');
+  const discordLinkStatus = searchParams.get("discord_link_status")
+  const message = searchParams.get("message")
 
   useEffect(() => {
-    if (discordLinkStatus && message) {
-      // Display toast based on discordLinkStatus and message
-      if (discordLinkStatus === 'ok') {
-        toaster.create({
-          type: "success",
-          description: message,
-        })
-      } else if (discordLinkStatus === 'info') {
-        toaster.create({
-          type: "info",
-          description: message,
-        })
-      } else if (discordLinkStatus === 'error') {
-        toaster.create({
-          type: "error",
-          description: message,
-        })
-      }
+    if (!discordLinkStatus || !message) return
 
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
-  }, [discordLinkStatus, message]);
-
-  const handleSoundToggle = (checked: boolean) => {
-    setSoundEnabled(checked)
-    localStorage.setItem("sound", checked.toString())
-  }
-
-  useEffect(() => {
-    const handleStorageChange = (event: StorageEvent) => {
-      if (event.key === "sound") {
-        setSoundEnabled(event.newValue !== "false")
-      }
+    const statusMap: Record<string, "success" | "info" | "error"> = {
+      ok: "success",
+      info: "info",
+      error: "error",
     }
 
-    window.addEventListener("storage", handleStorageChange)
-    return () => {
-      window.removeEventListener("storage", handleStorageChange)
-    }
-  }, [])
-  const discordId = data?.find((item) => item.type === "discord_name")?.value || "";
+    const type = statusMap[discordLinkStatus]
 
-  const LinkDiscord = () => {
-    if (!discordId) {
-      return <Button size={"xs"} variant="ghost" onClick={() => window.open(`https://discord.com/oauth2/authorize?client_id=1342539311181987941&response_type=code&redirect_uri=https%3A%2F%2Fapi.slowryz.tech%2Fapi%2Fdiscord%2Fauth%2Fcallback&scope=identify&state=${profile.name}`)}>Привязать</Button>
+    if (type) {
+      toaster.create({ type, description: message })
     }
-    return <Button size={"xs"} variant="ghost" disabled>Привязано</Button>
-  }
+
+    window.history.replaceState({}, document.title, window.location.pathname)
+  }, [discordLinkStatus, message])
 
   return (
     <Flex direction="column" gap={4} p={4}>
       <Text fontSize="xl" fontWeight="bold">
         Настройки пользователя
       </Text>
+      <Banner username={profile.name} />
       <Flex direction="row" gap={6} align="center">
-        <Switch
-          name="sound-toggle"
-          checked={soundEnabled}
-          onChange={() => handleSoundToggle(!soundEnabled)}
-        >
-          Включить звук в игре
-        </Switch>
+        <SoundToggle />
       </Flex>
       <Group flex="1" maxWidth={400} attached>
-        <InputAddon><SiDiscord /></InputAddon>
+        <InputAddon>
+          <SiDiscord />
+        </InputAddon>
         <Input
           flex="1"
           placeholder="Привяжите аккаунт"
-          value={discordId}
+          aria-label="Привязка аккаунта Discord"
+          value={properties.discord_name}
           readOnly
         />
-        <InputAddon><LinkDiscord /></InputAddon>
+        <InputAddon>
+          <DiscordLink username={profile.name} />
+        </InputAddon>
       </Group>
     </Flex>
   )

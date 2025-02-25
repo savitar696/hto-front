@@ -24,20 +24,7 @@ export const EventLog = ({ events, players }: EventLogProps) => {
           <TimelineContent>
             {event.type === "kill" ? (
               <Box flex={1} flexDirection="row">
-                Игрок{" "}
-                <GradientText
-                  as="span"
-                  fontWeight="bold"
-                  cursor="pointer"
-                  onClick={() =>
-                    navigate(
-                      `/profile/${findPlayerById(event.killer, players)?.username}`,
-                    )
-                  }
-                >
-                  {findPlayerById(event.killer, players)?.username || "Unknown"}
-                </GradientText>{" "}
-                убил игрока{" "}
+                Игрок {findPlayerById(event.killer, players)?.username || "Unknown"} убил игрока{" "}
                 <Box
                   as="span"
                   fontWeight="bold"

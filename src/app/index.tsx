@@ -9,7 +9,6 @@ if (!root) {
   throw new Error("Root Element not found!")
 }
 
-
 createRoot(root).render(
   <StrictMode>
     <Core />
