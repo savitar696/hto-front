@@ -87,13 +87,57 @@ export const Shell: FC = () => {
           >
             {isAuth ? (
               <>
-                <Button
-                  rounded="full"
-                  onClick={() => navigate("/play")}
-                >
+                <Button rounded="full" onClick={() => navigate("/play")}>
                   Играть
                 </Button>
+                {/* <DrawerRoot open={open} onOpenChange={(e) => setOpen(e.open)}>
+                  <DrawerBackdrop />
+                  <DrawerTrigger> */}
                 <ProfileRoot payload={payload} />
+                {/* <Avatar
+                      size="md"
+                      name={payload.profile.name}
+                      src={`https://skin.vimeworld.com/helm/${payload.profile.name}.png`}
+                      cursor="pointer"
+                    /> */}
+                {/* </DrawerTrigger>
+                  <DrawerContent>
+                    <DrawerHeader>
+                      <DrawerTitle>
+                        <Flex alignItems="center" gap="3">
+                          <Avatar
+                            size="md"
+                            name={payload.profile.name}
+                            src={`https://skin.vimeworld.com/helm/${payload.profile.name}.png`}
+                          />
+                          <Text fontWeight={600} fontSize="20px">
+                            {payload.profile.name}
+                          </Text>
+                        </Flex>
+                      </DrawerTitle>
+                    </DrawerHeader>
+                    <DrawerBody>
+                      <Flex
+                        flexDirection="column"
+                        gap="32px"
+                        alignItems="center"
+                        pt="5"
+                      >
+                        <Text fontSize="32px" fontWeight={600}>
+                          <Link href={`/profile/${payload.profile.name}`}>
+                            Профиль
+                          </Link>
+                        </Text>
+                        <Text fontSize="32px" fontWeight={600}>
+                          <Link href={`/settings`}>Настройки</Link>
+                        </Text>
+                        <Text fontSize="32px" fontWeight={600}>
+                          Выход
+                        </Text>
+                      </Flex>
+                    </DrawerBody>
+                  </DrawerContent>
+                </DrawerRoot> */}
               </>
             ) : (
               <AuthDialog>
@@ -118,7 +162,6 @@ const NavigationText = ({
 }) => {
   const navigate = useNavigate()
 
-  // Функция для перехода по клику
   const handleNavigate = () => {
     navigate(url)
   }

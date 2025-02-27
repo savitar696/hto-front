@@ -16,10 +16,12 @@ export enum GameState {
   PICK_MAPS = "Идет пик карт",
   IN_GAME = "Идет игра",
   FINISHED = "Игра окончена",
+  CANCELED = "Игра отменена"
 }
 
 export const GameStateText = {
   PICK_MAPS: "Идет пик карт",
   IN_GAME: "Идет игра",
   FINISHED: "Игра окончена",
+  CANCELED: "Игра отменена",
 }

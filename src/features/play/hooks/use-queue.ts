@@ -5,9 +5,11 @@ import { queueIO } from "@entities/user/model/user.events"
 import { toaster } from "@components/ui/toaster"
 import { QueueResponse } from "@entities/user/model/user.types"
 import foundedGame from '@shared/music/found.mp3'
+import afterFoundedGame from '@shared/music/accepted.wav'
 
 export const useQueue = (userId: string) => {
   const [search, setSearch] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [data, setData] = useState<QueueResponse<any[]>>({
     status: "searching",
     payload: [],
@@ -25,7 +27,6 @@ export const useQueue = (userId: string) => {
     start()
     setSearch(true)
     queueIO.connect()
-    queueIO.emit("get.search.status")
   }, [reset, start])
 
   const outQueue = useCallback(() => {
@@ -35,7 +36,6 @@ export const useQueue = (userId: string) => {
     queueIO.disconnect()
   }, [reset, pause])
 
-  // Обработчики событий из WebSocket
   useEffect(() => {
     const handleConnect = () => {
       queueIO.emit("join", { id: userId }, (response: any) => setData(response))
@@ -56,20 +56,15 @@ export const useQueue = (userId: string) => {
     }
   }, [userId])
 
-  // Мемоизация музыки (lazy loading)
   const audio = useMemo(() => new Audio(foundedGame), [])
+  const audio2 = useMemo(() => new Audio(afterFoundedGame), [])
 
   useEffect(() => {
     if (data.status !== "ready" || !data.url) return
+    setLoading(true)
 
-    const isSoundEnabled = localStorage.getItem("sound") !== "false"
+    audio.play().catch(() => {});
 
-    // Если звук включен, воспроизводим его
-    if (isSoundEnabled) {
-      audio.play().catch(() => {}); // Игрек для предотвращения ошибок при попытке воспроизведения
-    }
-
-    // Отправка уведомления
     if (Notification.permission === "granted") {
       new Notification("Ваша игра нашлась")
     }
@@ -78,14 +73,14 @@ export const useQueue = (userId: string) => {
 
     const navigateTimeout = setTimeout(() => {
       navigate(`/match/${data.url}`)
-      window.location.reload()
-    }, 2000)
+      audio2.play()
+    }, 6000)
 
     return () => {
       clearTimeout(navigateTimeout)
-      audio.pause() // Останавливаем аудио после перехода
+      audio.pause()
     }
   }, [data.url, audio])
 
-  return { search, time, joinQueue, outQueue }
+  return { search, time, loading, joinQueue, outQueue }
 }

@@ -1,11 +1,4 @@
-import {
-  Box,
-  Flex,
-  Grid,
-  IconButton,
-  Image,
-  Text
-} from "@chakra-ui/react"
+import { Box, Flex, Grid, IconButton, Image, Text } from "@chakra-ui/react"
 import { MapSelector } from "@features/map-selector"
 import { TeamPlayers } from "@widgets/team-players"
 import { Avatar } from "@components/ui/avatar"
@@ -23,10 +16,10 @@ import { MatchPick } from "@features/match/hooks"
 import { Button } from "@components/ui/button.tsx"
 
 interface Props {
-  picks: MatchPick,
-  state: string,
-  loading: boolean;
-  id: string;
+  picks: MatchPick
+  state: string
+  loading: boolean
+  id: string
 }
 
 export const MatchOverview = ({ picks, state, loading, id }: Props) => {
@@ -58,12 +51,12 @@ export const MatchOverview = ({ picks, state, loading, id }: Props) => {
 
         <Flex direction="column" align="center">
           <Text fontSize="sm" color={textColor}>
-            4 vs 4
+            4v4
           </Text>
-          <Text fontSize="md" fontWeight="semibold" color={textColor}>
+          <Text fontSize="14px" fontWeight="bold" color={textColor}>
             {state}
           </Text>
-          <Text fontSize="sm" color={textColor}>
+          <Text fontSize="12px" color={"rgb(167, 167, 167)"}>
             Лучший из 1
           </Text>
         </Flex>
@@ -80,7 +73,11 @@ export const MatchOverview = ({ picks, state, loading, id }: Props) => {
         </Flex>
       </Grid>
 
-      <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={6} alignItems={"start"}>
+      <Grid
+        templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }}
+        gap={6}
+        alignItems={"start"}
+      >
         <TeamPlayers players={picks.teams[0]} />
         {picks.maps.length > 1 ? (
           <MapSelector picks={picks} game_id={id} />
@@ -92,15 +89,26 @@ export const MatchOverview = ({ picks, state, loading, id }: Props) => {
             paddingTop="8px"
             gap={2}
           >
-            <Flex alignItems="center" justifyContent="space-between" minWidth="400px">
+            <Flex
+              alignItems="center"
+              justifyContent="space-between"
+              minWidth="400px"
+            >
               <Text fontWeight={600} fontSize="14px" color={textColor}>
                 Карта:
               </Text>
-              <PopoverRoot positioning={{ placement: "right"}}>
+              <PopoverRoot positioning={{ placement: "right" }}>
                 <PopoverTrigger asChild>
-                  <IconButton aria-label="Информация" size="xs" variant="ghost" cursor={"pointer"}><FiInfo /></IconButton>
+                  <IconButton
+                    aria-label="Информация"
+                    size="xs"
+                    variant="ghost"
+                    cursor={"pointer"}
+                  >
+                    <FiInfo />
+                  </IconButton>
                 </PopoverTrigger>
-                <PopoverContent minWidth={350} >
+                <PopoverContent minWidth={350}>
                   <PopoverBody>
                     <Text whiteSpace="pre-line" fontSize="sm" color={textColor}>
                       {picks.logs?.join("\n")}
@@ -134,7 +142,14 @@ export const MatchOverview = ({ picks, state, loading, id }: Props) => {
             </Box>
             <Flex direction="column" gap={6} pt="2">
               {/*<Text fontWeight={600} fontSize="14px" textAlign="center" color={textColor}>Если игру сразу не засчитало - не переживайте, ее скоро засчитают</Text>*/}
-              <Button borderRadius="12px" onClick={() => window.location.href = "https://discord.gg/EnyrgVHCQd"}>Подключиться к Discord</Button>
+              <Button
+                borderRadius="12px"
+                onClick={() =>
+                  (window.location.href = "https://discord.gg/EnyrgVHCQd")
+                }
+              >
+                Подключиться к Discord
+              </Button>
             </Flex>
           </Flex>
         )}

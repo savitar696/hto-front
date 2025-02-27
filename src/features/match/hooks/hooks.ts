@@ -3,8 +3,8 @@ import { useUser } from "@entities/user"
 import { useQuery } from "@tanstack/react-query"
 import { GameState, GameStateText, MatchPick } from "./types"
 import { api } from "@shared/lib/api"
-import { GamePayload, socket } from "@entities/game"
-import { queryClient } from "@app/providers/with-query"
+import { socket } from "@entities/game"
+import { useSocketEvent } from "./socket.event"
 
 const EVENTS = {
   JOIN: "ban.join",
@@ -13,50 +13,43 @@ const EVENTS = {
 }
 
 export const useMatch = (id: string) => {
-  const { profile } = useUser((state) => state.payload)
-  const [picks, setPicks] = useState<MatchPick | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [state, setState] = useState<string | null>(null)
+    const { profile } = useUser((state) => state.payload);
+    const [loading, setLoading] = useState(true);
+    const [state, setState] = useState<string | null>(null);
 
-  useEffect(() => {
-    const handleBanListener = (data: MatchPick) => {
-      setPicks(data)
-      setLoading(false)
-      setState(
-        GameStateText[data.state.toUpperCase() as keyof typeof GameStateText] ||
-          null,
-      )
+    const picks = useSocketEvent<MatchPick>({ event: EVENTS.LISTENER });
 
-      if (data.state === GameState.FINISHED) {
-        socket.on(EVENTS.RESPONSE, handleMatchResponse)
-        socket.off(EVENTS.RESPONSE, handleMatchResponse)
-        socket.disconnect()
+    useEffect(() => {
+      if (picks) {
+        setLoading(false);
+        setState(
+          GameStateText[picks.state.toUpperCase() as keyof typeof GameStateText] || null,
+        );
+        if (picks.state === GameState.FINISHED) {
+          socket.off(EVENTS.RESPONSE);
+          socket.disconnect();
+        }
       }
-    }
+    }, [picks]);
 
-    const handleMatchResponse = (gameData: GamePayload) => {
-      queryClient.setQueryData(["match_game", id], { data: gameData })
-    }
+    useEffect(() => {
+      socket.connect();
+      socket.emit(EVENTS.JOIN, { game_id: id, name: profile.name });
 
-    const gameSocket = socket.connect()
-    gameSocket.emit(EVENTS.JOIN, { game_id: id, name: profile.name })
-    gameSocket.on(EVENTS.LISTENER, handleBanListener)
+      const interval = setInterval(() => {
+        if (socket.connected) {
+          socket.emit('ban.listener', { game_id: id, name: profile.name });
+        }
+      }, 5000);
 
-    const interval = setInterval(() => {
-      if (gameSocket.connect()) {
-        gameSocket.emit("ban.listener", { game_id: id, name: profile.name })
-      }
-    }, 5000)
+      return () => {
+        clearInterval(interval);
+        socket.disconnect();
+      };
+    }, [id, profile.name]);
 
-    return () => {
-      gameSocket.off(EVENTS.LISTENER, handleBanListener)
-      clearInterval(interval)
-      gameSocket.disconnect()
-    }
-  }, [id, profile.name])
-
-  return { picks, loading, state }
-}
+    return { picks, loading, state };
+  };
 
 export const useMatchData = (id: string) => {
   return useQuery({
@@ -71,4 +64,3 @@ const fetchMatch = async (id: string) => {
     return r.data
   })
 }
-

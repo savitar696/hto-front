@@ -21,7 +21,7 @@ export const JoinQueue: FC<PropsWithChildren<JoinQueueProps>> = ({
   payload,
   available,
 }) => {
-  const { search, time, joinQueue, outQueue } = useQueue(payload.id)
+  const { search, time, loading, joinQueue, outQueue } = useQueue(payload.id)
   const [hoverSearch, setHoverSearch] = useState(false)
 
   const displayTime = `${String(Math.floor(time / 60)).padStart(2, "0")}:${String(time % 60).padStart(2, "0")}`
@@ -45,6 +45,7 @@ export const JoinQueue: FC<PropsWithChildren<JoinQueueProps>> = ({
             onMouseEnter={() => setHoverSearch(false)}
             onMouseLeave={() => setHoverSearch(true)}
             onClick={search ? outQueue : joinQueue}
+            loading={loading}
           >
             {displayText}
           </Button>
