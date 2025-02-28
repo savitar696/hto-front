@@ -23,7 +23,7 @@ export const useQueue = (userId: string) => {
   })
   const navigate = useNavigate()
   const joinQueue = useCallback(() => {
-    if (!profile || profile.properties.find((property: any) => property.type === "discord_id") === undefined) {
+    if (!profile || !profile.properties.find((property: any) => property.type === "discord_id")) {
       toaster.create({ description: "Необходимо привязать Discord", type: "error" })
       return
     }
