@@ -10,7 +10,7 @@ export function useTitle() {
 
   const set = ({ text }: IProps): void => {
     if (!text) return;
-    document.title = `${text} - ${WEB_TITLE}`;
+    document.title = `${text} ${WEB_TITLE}`;
   };
 
   const get = (): string => document.title;

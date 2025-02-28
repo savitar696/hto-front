@@ -8,7 +8,7 @@ export const MatchPage = () => {
   const { set } = useTitle()
 
   useEffect(() => {
-    set({ text: `Матч ${id}` })
+    ;({ text: `Соревновательный матч` })
   }, [id, set])
 
   if (!id) return

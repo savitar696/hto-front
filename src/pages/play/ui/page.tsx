@@ -1,9 +1,15 @@
 import { Box, Flex, Heading, Text } from "@chakra-ui/react"
 import { useColorMode } from "@components/ui/color-mode"
 import { PlayCards } from "@features/play"
+import { useTitle } from "@shared/lib/hooks/use-title"
+import { useEffect } from "react"
 
 export const PlayPage = () => {
+  const { set } = useTitle()
   const { colorMode } = useColorMode()
+  useEffect(() => {
+    set({ text: "Поиск игры" })
+  }, [set])
   return (
     <Flex justifyContent="center" pt="16" gap="8" flexDirection="column">
       <Box display="flex" flexDirection="column" alignItems="center" gap="6">

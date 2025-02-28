@@ -78,7 +78,7 @@ const TableItem = ({
           </Text>
         </Flex>
         <Box>
-          <Table.Root variant="outline" size="md" borderRadius="12px">
+          <Table.Root variant="outline" size="lg" borderRadius="12px">
             <Table.Header>
               <Table.Row>
                 <Table.ColumnHeader width="20%">Игрок</Table.ColumnHeader>

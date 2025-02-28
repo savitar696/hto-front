@@ -35,10 +35,20 @@ export interface BedBreakEvent extends BaseEvent {
   player: Player["id"]
 }
 
-export type Event = KillEvent | BedBreakEvent
+export interface ReconnectEvent extends BaseEvent {
+  type: "reconnect"
+  player: Player["id"]
+}
+
+export interface LeaveEvent extends BaseEvent {
+  type: "leave" 
+  player: Player["id"]
+}
+
+export type Event = KillEvent | BedBreakEvent | ReconnectEvent | LeaveEvent
 
 export type GameUserPayload = {
-  username: any
+  username: string
   id: number
   spentGold: number
   spentBronze: number
