@@ -6,11 +6,9 @@ import { toaster } from "@components/ui/toaster"
 import { QueueResponse } from "@entities/user/model/user.types"
 import foundedGame from '@shared/music/found.mp3'
 import afterFoundedGame from '@shared/music/accepted.wav'
-import { useUser } from "@entities/user"
 
 export const useQueue = (userId: string) => {
   const [search, setSearch] = useState(false)
-  const { profile } = useUser((state) => state.profile)
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<QueueResponse<any[]>>({
     status: "searching",
@@ -23,10 +21,6 @@ export const useQueue = (userId: string) => {
   })
   const navigate = useNavigate()
   const joinQueue = useCallback(() => {
-    if (!profile || !profile.properties.find((property: any) => property.type === "discord_id")) {
-      toaster.create({ description: "Необходимо привязать Discord", type: "error" })
-      return
-    }
     reset()
     start()
     setSearch(true)
