@@ -1,4 +1,4 @@
-import { Player } from "@features/map-selector/hooks"
+import { Player } from "@features/map-selector/model"
 
 export type MatchPick = {
   maps: string[]

@@ -1,13 +1,11 @@
-import { Box, Flex, IconButton, Image } from "@chakra-ui/react"
-import { Avatar } from "@components/avatar"
+import { Box, Flex, IconButton, Image, Text } from "@chakra-ui/react"
+import { Avatar } from "@shared/ui/avatar"
 import {
   DialogBody,
-  DialogCloseTrigger,
   DialogContent,
   DialogRoot,
   DialogTrigger,
 } from "@components/ui/dialog"
-import { FileUploadDropzone, FileUploadRoot } from "@components/ui/file-button"
 import { AddIcon } from "@shared/ui/icons/Icons"
 import { useSettings } from "../hooks"
 
@@ -24,11 +22,11 @@ export const Banner = ({ username }: { username: string }) => {
         backgroundColor="rgba(22, 22, 26, 0.03)"
       >
         <Image
-          src={properties.banner_url || "https://i.imgur.com/27QbtQt.png"}
+          src={properties.banner_url || "https://i.imgur.com/saiCDyI.jpeg"}
           style={{
             width: "100%",
             height: "100%",
-            objectFit: "fill",
+            objectFit: "cover",
           }}
           alt="Cover"
         />
@@ -76,26 +74,12 @@ export const Banner = ({ username }: { username: string }) => {
                 flex="1"
                 alignItems="center"
                 justifyContent={"center"}
-                p="12"
+                p="8"
               >
-                <FileUploadRoot
-                  alignItems="stretch"
-                  maxFiles={1}
-                  cursor="pointer"
-                  accept={["image/png,", "image/jpeg"]}
-                  onFileChange={async (file) => {
-                    if (file.acceptedFiles.length > 0) {
-                      console.log(file.acceptedFiles)
-                    }
-                  }}
-                >
-                  <FileUploadDropzone
-                    label="Загрузите новую обложку для страницы вашего профиля."
-                    description="Мы рекомендуем загружать изображения в разрешении 1463x300. Максимум 5мб."
-                  />
-                </FileUploadRoot>
+                <Text fontSize="2xl" fontWeight="bold" textAlign="center" marginBottom="3px">Функция находится в разработке</Text>
+                <Text fontSize="md" color="gray.500" textAlign="center">Мы работаем над этой функцией и скоро она будет доступна для вас.</Text>
               </DialogBody>
-              <DialogCloseTrigger />
+
             </DialogContent>
           </DialogRoot>
         </Box>

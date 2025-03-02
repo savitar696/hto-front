@@ -2,7 +2,7 @@ import { Event, Player } from "@entities/game"
 import { Box, Flex, Text } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
 import { findPlayerById } from "@features/match/api/lib"
-import { Avatar } from "@components/avatar/Avatar"
+import { Avatar } from "@shared/ui/avatar/Avatar"
 import { useColorMode } from "@components/ui/color-mode"
 
 interface EventLogProps {

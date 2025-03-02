@@ -1,6 +1,6 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react"
 import { useUser } from "@entities/user"
-import { MatchPick, useMapBan } from "../hooks"
+import { MatchPick, useMapBan } from "../model"
 import { VoteTimer } from "../lib/vote-timer"
 import { Button } from "@components/ui/button"
 import { getMapKey } from "@features/user-profile/model/map"
@@ -14,12 +14,12 @@ export const MapSelector = ({
   picks: MatchPick
   game_id: string
 }) => {
-  const { currentBan, isBanning, handleBan } = useMapBan(game_id)
+  const userPick = picks.vote_right
+  ? picks.players[1].name
+  : picks.players[0].name
+  const { currentBan, isBanning, handleBan } = useMapBan(game_id, userPick)
   const { profile } = useUser((state) => state.payload)
   const bgColor = useColorModeValue("white", "#0d0d0d")
-  const userPick = picks.vote_right
-    ? picks.players[1].name
-    : picks.players[0].name
 
   return (
     <Box borderRadius="md" p={6}>

@@ -2,7 +2,7 @@ import { Box, Text } from "@chakra-ui/react"
 import { useColorModeValue } from "@components/ui/color-mode"
 import { useNavigate } from "react-router-dom"
 import { PlayerBoxProps } from "../api"
-import { Avatar } from "@components/avatar"
+import { Avatar } from "@shared/ui/avatar"
 import { GradientText } from "@shared/ui/premium-text/ui"
 
 export const PlayerBox = ({ index, name, rating, premium }: PlayerBoxProps) => {

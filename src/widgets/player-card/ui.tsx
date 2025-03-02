@@ -1,7 +1,7 @@
 import { Box, Flex, Text } from "@chakra-ui/react"
-import { Avatar } from "@components/avatar"
+import { Avatar } from "@shared/ui/avatar"
 import { useColorModeValue } from "@components/ui/color-mode"
-import { Player } from "@features/map-selector/hooks"
+import { Player } from "@features/map-selector/model"
 import { GradientText } from "@shared/ui/premium-text/ui.tsx"
 
 export const PlayerCard = ({ player }: { player: Player }) => {

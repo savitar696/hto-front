@@ -41,7 +41,9 @@ export const useUser = create<User>()((set) => ({
         description: "Вы успешно вошли в аккаунт",
         type: "success",
       })
-      window.location.reload()
+      setTimeout(() => {
+        window.location.reload()
+      }, 3000)
     } catch (e) {
       toaster.create({
         title: "Ошибка",

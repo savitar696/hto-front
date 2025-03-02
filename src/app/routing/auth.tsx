@@ -1,8 +1,8 @@
 import { FC, PropsWithChildren } from "react"
-import { paths } from "@shared/router"
 import { Loader } from "@shared/ui/loader"
 import { Navigate } from "react-router-dom"
 import { useUser } from "@entities/user/model"
+import { paths } from "@shared/config/router"
 
 export interface AuthGuardProps extends PropsWithChildren {
   guest?: boolean

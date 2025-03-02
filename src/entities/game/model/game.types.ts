@@ -1,4 +1,4 @@
-import { MatchPick } from "@features/map-selector/hooks"
+import { MatchPick } from "@features/map-selector/model"
 
 export type GamePayload = {
   id: string
@@ -69,39 +69,20 @@ export type Game = {
   setPayload: (payload: GamePayload) => void
   getInfo: () => void
 }
+export type TeamType = "red" | "blue" | "green" | "yellow" | "aqua" | "white" | "pink" | "gray";
 
-// export type GamePayload = {
-//     id: string
-//     map_id: string
-//     map_name: string
-//     winners: GameUserPayload[]
-//     losers: GameUserPayload[]
-//     events: any
-//   }
+export interface Team {
+  id: TeamType
+  players: Player[]
+  bedAlive: boolean
+}
 
-//   export type GameUserPayload = {
-//     id: number
-//     spentGold: number
-//     spentBronze: number
-//     spentIron: number
-//     aliveTime: number
-//     kills: number
-//     deaths: number
-//     brokenBeds: number
-//     dead: boolean
-//     _id: string
-//     rating: number
-//     name: string
-//   }
-
-//   type GameState = {
-//     payload: GamePayload | null
-//     loading: boolean
-//     error: string | null
-//   }
-
-//   type GameActions = {
-//     setPayload: (payload: GamePayload) => void
-//     getInfo: (gameId: string) => Promise<void>
-//     reset: () => void
-//   }
+export interface BedwarsMatch {
+  id: string
+  mode: string
+  status: "waiting" | "in_progress" | "finished"
+  startTime: number
+  endTime?: number
+  teams: Team[]
+  winner?: string
+}

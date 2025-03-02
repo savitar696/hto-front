@@ -12,7 +12,7 @@ import {
 import { useQueue } from "../hooks/use-queue"
 
 interface JoinQueueProps {
-  payload: { id: string }
+  payload: any
   available: boolean
 }
 
@@ -21,7 +21,7 @@ export const JoinQueue: FC<PropsWithChildren<JoinQueueProps>> = ({
   payload,
   available,
 }) => {
-  const { search, time, loading, joinQueue, outQueue } = useQueue(payload.id)
+  const { search, time, loading, joinQueue, outQueue } = useQueue(payload)
   const [hoverSearch, setHoverSearch] = useState(false)
 
   const displayTime = `${String(Math.floor(time / 60)).padStart(2, "0")}:${String(time % 60).padStart(2, "0")}`

@@ -4,6 +4,7 @@ type SettingsMap = Record<string, string>
 
 export const useSettings = (username: string) => {
   const { data, ...rest } = useQuery({
+    enabled: !!username,
     queryKey: ["settings", username],
     queryFn: () => fetchSettings(username),
   })

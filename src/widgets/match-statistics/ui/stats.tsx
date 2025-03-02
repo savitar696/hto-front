@@ -1,5 +1,5 @@
 import { Box, Flex, Text, Table } from "@chakra-ui/react"
-import { Avatar } from "@components/avatar"
+import { Avatar } from "@shared/ui/avatar"
 import { Event, Player } from "@entities/game"
 import { countStatsPlayer } from "@features/match/api/lib"
 import { GradientText } from "@shared/ui/premium-text/ui"
