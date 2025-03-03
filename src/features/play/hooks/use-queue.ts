@@ -57,8 +57,9 @@ export const useQueue = (payload: any) => {
       });
     };
 
-    const handleJoinEvent = (eventData: SetStateAction<QueueResponse<any[]>>) => {
+    const handleJoinEvent = (eventData: QueueResponse<any[]>) => {
       if (eventData) {
+        if (eventData.url === undefined) return;
         setData(eventData);
       } else {
         console.error("Received invalid join event data");

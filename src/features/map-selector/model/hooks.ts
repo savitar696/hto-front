@@ -1,21 +1,22 @@
 import { useState, useCallback } from "react"
-import { useSocket } from "@features/match/api"
+import { socket } from "@entities/game"
+import { useUser } from "@entities/user"
+import { useShallow } from "zustand/react/shallow"
 
-export const useMapBan = (game_id: string, name: string) => {
+export const useMapBan = (game_id: string) => {
+  const { profile } = useUser(useShallow((state) => state.payload))
   const [currentBan, setCurrentBan] = useState<string>("")
   const [isBanning, setIsBanning] = useState(false)
-  const socket = useSocket()
-
 
   const handleBan = useCallback(
     async (map: string) => {
-      if (!map) return
+      if (!map || !profile?.name) return
 
       try {
         setIsBanning(true)
         socket.emit("ban", {
           game_id: game_id,
-          name: name,
+          name: profile.name,
           ban_map: map,
         })
         setCurrentBan(map)
@@ -23,7 +24,7 @@ export const useMapBan = (game_id: string, name: string) => {
         setIsBanning(false)
       }
     },
-    [game_id, name, socket],
+    [game_id, profile?.name],
   )
 
   return { currentBan, isBanning, handleBan }

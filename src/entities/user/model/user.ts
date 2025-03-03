@@ -2,7 +2,6 @@ import { create } from "zustand"
 import { User } from "./user.types"
 import { toaster } from "@components/ui/toaster"
 import { api } from "@shared/lib/api"
-
 export const useUser = create<User>()((set) => ({
   isAuth: false,
   payload: {},
@@ -25,6 +24,8 @@ export const useUser = create<User>()((set) => ({
   auth: async (token) => {
     try {
       const response = await api.post("/auth", { token: token })
+      if (!response.data) return
+
       localStorage.setItem("token", response.data)
 
       const infoResponse = await api.get(`/auth/info`, {
@@ -41,9 +42,6 @@ export const useUser = create<User>()((set) => ({
         description: "Вы успешно вошли в аккаунт",
         type: "success",
       })
-      setTimeout(() => {
-        window.location.reload()
-      }, 3000)
     } catch (e) {
       toaster.create({
         title: "Ошибка",
@@ -63,9 +61,6 @@ export const useUser = create<User>()((set) => ({
       description: "Вы вышли с аккаунта",
       type: "success",
     })
-    setTimeout(() => {
-      window.location.reload()
-    }, 3000)
   },
   getInfo: async () => {
     const localToken = localStorage.getItem("token")
