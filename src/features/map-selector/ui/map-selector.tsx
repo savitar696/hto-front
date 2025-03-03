@@ -15,8 +15,8 @@ export const MapSelector = ({
   game_id: string
 }) => {
   const userPick = picks.vote_right
-  ? picks.players[1].name
-  : picks.players[0].name
+  ? picks.teams[1][0].name
+  : picks.teams[0][0].name
   const { currentBan, isBanning, handleBan } = useMapBan(game_id)
   const { profile } = useUser((state) => state.payload)
   const bgColor = useColorModeValue("white", "#0d0d0d")
