@@ -4,12 +4,16 @@ interface RawMatchData {
   winners: string
   losers: string
   events: string
+  started_at: string
+  ended_at: string
 }
 
 interface ParsedMatchData {
   winners: Player[]
   losers: Player[]
   events: Event[]
+  started_at: number | null
+  ended_at: number | null
 }
 
 export const parseMatchData = (rawData: RawMatchData): ParsedMatchData => {
@@ -19,11 +23,13 @@ export const parseMatchData = (rawData: RawMatchData): ParsedMatchData => {
       : []
     const losers = rawData.losers ? JSON.parse(rawData.losers).losers || [] : []
     const events = rawData.events ? JSON.parse(rawData.events).events || [] : []
+    const started_at = rawData.started_at ? new Date(rawData.started_at).getTime() : null
+    const ended_at = rawData.ended_at ? new Date(rawData.ended_at).getTime() : null
 
-    return { winners, losers, events }
+    return { winners, losers, events, started_at, ended_at }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    return { winners: [], losers: [], events: [] }
+    return { winners: [], losers: [], events: [], started_at: null, ended_at: null }
   }
 }
 

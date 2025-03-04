@@ -22,10 +22,10 @@ export const PlayerCard = ({ player }: { player: Player }) => {
         background: borderColor,
       }}
     >
-      <Flex p={4} align="center" gap={4}>
+      <Flex p={3} align="center" gap={4}>
         <Avatar
           username={player.name}
-          styles={{ width: "36px", height: "36px"}}
+          styles={{ width: "36px", height: "36px", borderRadius: "25%"}}
           heightPremium={16}
           widthPremium={16}
         />

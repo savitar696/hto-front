@@ -12,11 +12,13 @@ import {
 } from "@components/ui/dialog"
 import { useUser } from "@entities/user"
 import { FC, PropsWithChildren, useCallback, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { useShallow } from "zustand/react/shallow"
 
 export const AuthDialog: FC<PropsWithChildren> = ({ children }) => {
   const auth = useUser(useShallow((state) => state.auth))
   const [token, setToken] = useState<string>("")
+  const navigate = useNavigate()
 
   const escFunction = useCallback((event: any) => {
     if (event.key === "Enter") {
@@ -33,6 +35,7 @@ export const AuthDialog: FC<PropsWithChildren> = ({ children }) => {
       auth(token.replace("https://api.vime.world/web/token/", ""))
     } else {
       auth(token)
+      navigate("/")
     }
   }
 
@@ -60,7 +63,10 @@ export const AuthDialog: FC<PropsWithChildren> = ({ children }) => {
           />
         </DialogBody>
         <DialogFooter>
-          <Button onClick={() => login()}>Войти</Button>
+          <Button onClick={() => {
+            login()
+            }}>
+              Войти</Button>
         </DialogFooter>
         <DialogCloseTrigger />
       </DialogContent>

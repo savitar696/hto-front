@@ -15,13 +15,48 @@ export const MatchContainer = ({ id }: { id: string }) => {
   const { data, isLoading } = useMatchData(id)
 
   if (isLoading) return <div>Загрузка...</div>
-
   const parsedData = data ? parseMatchData(data) : null
   const parsedPick =
     typeof data.lobby === "string" ? JSON.parse(data.lobby) : data.lobby || {}
   const isMatchFinished =
     picks?.state === GameState.FINISHED ||
     ["load", undefined].includes(data?.map_id)
+
+    const items = [
+      {
+        title: "Обзор",
+        value: TABS.MATCH,
+        content: parsedPick && !isMatchFinished ? (
+          <MatchOverview
+            picks={parsedPick.lobby}
+            state={GameState.FINISHED}
+            loading={isLoading}
+            id={parsedPick.lobby.game_id}
+            startedTime={parsedData?.started_at ?? undefined}
+            endedTime={parsedData?.ended_at ?? undefined}
+          />
+        ) : (
+          picks && (
+            <MatchOverview
+              picks={picks}
+              state={state || ""}
+              loading={loading || isLoading}
+              id={id}
+            />
+          )
+        )
+      },
+      {
+        title: "Статистика",
+        value: TABS.STATS,
+        content: parsedData && <MatchStats {...parsedData} />
+      },
+      {
+        title: "События",
+        value: TABS.EVENTS,
+        content: parsedData && <EventLog events={parsedData.events} players={[...parsedData.winners, ...parsedData.losers]} />
+      }
+    ]
 
   return (
     <Tabs.Root lazyMount unmountOnExit defaultValue={TABS.MATCH}>
@@ -34,39 +69,18 @@ export const MatchContainer = ({ id }: { id: string }) => {
           События
         </Tabs.Trigger>
       </Tabs.List>
-
-      <Tabs.Content value={TABS.MATCH}>
-        {parsedPick && !isMatchFinished ? (
-          <MatchOverview
-            picks={parsedPick.lobby}
-            state={GameState.FINISHED}
-            loading={isLoading}
-            id={parsedPick.lobby.game_id}
-          />
-        ) : (
-          picks && (
-            <MatchOverview
-              picks={picks}
-              state={state || ""}
-              loading={loading || isLoading}
-              id={id}
-            />
-          )
-        )}
-      </Tabs.Content>
-
-      <Tabs.Content value={TABS.STATS}>
-        {parsedData && <MatchStats {...parsedData} />}
-      </Tabs.Content>
-
-      <Tabs.Content value={TABS.EVENTS}>
-        {parsedData && (
-          <EventLog
-            events={parsedData.events}
-            players={[...parsedData.winners, ...parsedData.losers]}
-          />
-        )}
-      </Tabs.Content>
+      {items.map((item, index) => (
+        <Tabs.Content key={index} value={item.value} _open={{
+          animationName: "fade-in, scale-in",
+          animationDuration: "300ms",
+        }}
+        _closed={{
+          animationName: "fade-out, scale-out",
+          animationDuration: "120ms",
+        }}>
+          {item.content}
+        </Tabs.Content>
+      ))}
     </Tabs.Root>
   )
 }

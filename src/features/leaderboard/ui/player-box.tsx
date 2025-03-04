@@ -1,14 +1,14 @@
-import { Box, Text } from "@chakra-ui/react"
+import { Box, Text, Flex } from "@chakra-ui/react"
 import { useColorModeValue } from "@components/ui/color-mode"
 import { useNavigate } from "react-router-dom"
 import { PlayerBoxProps } from "../api"
-import { Avatar } from "@shared/ui/avatar"
 import { GradientText } from "@shared/ui/premium-text/ui"
+import { Avatar } from "@shared/ui/avatar"
 
 export const PlayerBox = ({ index, name, rating, premium }: PlayerBoxProps) => {
-  const bg = useColorModeValue("gray.100", "#0F0E14")
-  const hoverBg = useColorModeValue("gray.200", "#07060a")
-  const borderColor = useColorModeValue("gray.300", "#252332")
+  const bg = useColorModeValue("white", "gray.950")
+  const borderColor = useColorModeValue("gray.200", "gray.600")
+  const hoverBg = useColorModeValue("gray.100", "gray.900")
   const textColor = useColorModeValue("black", "white")
   const navigate = useNavigate()
 
@@ -21,16 +21,16 @@ export const PlayerBox = ({ index, name, rating, premium }: PlayerBoxProps) => {
       borderRadius="15px"
       width="100%"
       outline={`2px solid ${borderColor}`}
-      _hover={{ bg: hoverBg, transform: "scale(0.9)" }}
+      _hover={{ bg: hoverBg, transform: "scale(1.02)" }}
+      boxShadow="md"
       onClick={() => navigate(`/profile/${name}`)}
     >
-      <Box
-        display="flex"
+      <Flex
         alignItems="center"
         justifyContent="space-between"
         gap="16"
       >
-        <Box display="flex" alignItems="center" gap="2">
+        <Flex alignItems="center" gap="2">
           <Text color={textColor}>#{index}</Text>
           {premium ? (
             <GradientText fontSize="18px" fontWeight={600}>
@@ -41,7 +41,7 @@ export const PlayerBox = ({ index, name, rating, premium }: PlayerBoxProps) => {
               {name}
             </Text>
           )}
-        </Box>
+        </Flex>
         <Avatar
           username={name}
           styles={{ width: 48, height: 48 }}
@@ -49,11 +49,11 @@ export const PlayerBox = ({ index, name, rating, premium }: PlayerBoxProps) => {
           heightPremium={18}
           widthPremium={18}
         />
-      </Box>
-      <Box display="flex" alignItems="center" gap="2">
+      </Flex>
+      <Flex alignItems="center" gap="2" mt={2}>
         <Text color="gray.400">Игрок</Text>
         <Text color={textColor}>{rating}</Text>
-      </Box>
+      </Flex>
     </Box>
   )
 }

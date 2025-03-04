@@ -45,7 +45,13 @@ export interface LeaveEvent extends BaseEvent {
   player: Player["id"]
 }
 
-export type Event = KillEvent | BedBreakEvent | ReconnectEvent | LeaveEvent
+export interface KickEvent extends BaseEvent {
+  type: "kick"
+  player: Player["id"]
+  executor: Player["id"]
+}
+
+export type Event = KillEvent | BedBreakEvent | ReconnectEvent | LeaveEvent | KickEvent
 
 export type GameUserPayload = {
   username: string

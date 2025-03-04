@@ -13,9 +13,11 @@ import {
 import { useUser } from "@entities/user"
 import { FC, PropsWithChildren } from "react"
 import { useShallow } from "zustand/react/shallow"
+import { useNavigate } from "react-router-dom"
 
 export const LogoutDialog: FC<PropsWithChildren> = ({ children }) => {
   const logout = useUser(useShallow((state) => state.logout))
+  const navigate = useNavigate()
   return (
     <DialogRoot>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -32,6 +34,7 @@ export const LogoutDialog: FC<PropsWithChildren> = ({ children }) => {
           </DialogActionTrigger>
           <Button onClick={() => {
             logout()
+            navigate("/")
             window.location.reload()
           }}>
             Да
