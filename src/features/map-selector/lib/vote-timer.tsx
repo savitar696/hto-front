@@ -10,8 +10,14 @@ export const VoteTimer = ({
   handleBan: (map: string) => void
   availableMaps: string[]
 }) => {
+
+  const getMoscowTime = () => {
+    const timeDate = new Date().toLocaleString("ru-RU", {timeZone: "Europe/Moscow"})
+    return new Date(timeDate)
+  }
+
   const [timeLeft, setTimeLeft] = useState(
-    Math.max(0, Math.floor((voteRightEnd - Date.now()) / 1000)),
+    Math.max(0, Math.floor((voteRightEnd - getMoscowTime().getTime()) / 1000)),
   )
 
   useEffect(() => {

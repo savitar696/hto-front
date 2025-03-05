@@ -96,6 +96,11 @@ export const useUser = create<User>()((set) => ({
           type: "error",
         })
       }
+    } else {
+      set({
+        isAuth: false,
+        isLoading: false,
+      })
     }
   },
   getGames: async (username: string) => {

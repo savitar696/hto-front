@@ -10,7 +10,5 @@ if (!root) {
 }
 
 createRoot(root).render(
-  <StrictMode>
     <Core />
-  </StrictMode>,
 )
