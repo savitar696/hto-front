@@ -22,9 +22,10 @@ export const EventLog = ({ events, players }: EventLogProps) => {
 
   return (
     <Box p={4} borderWidth={1} borderRadius="md" boxShadow="md" bg={bgColor}>
-      {events.map((event, index) => (
-        <Flex key={index} mb={4} p={3} borderWidth={1} borderRadius="md" alignItems="center" flexDirection="row" bg={boxBgColor} boxShadow="sm">
-          {/* <Box flex={1} borderLeftWidth={4} borderLeftColor={event.type === "kill" ? "red.500" : "blue.500"} pl={3}> */}
+      <Box maxHeight="700px" overflowY="auto">
+        {events.map((event, index) => (
+          <Flex key={index} mb={4} p={3} borderWidth={1} borderRadius="md" alignItems="center" flexDirection="row" bg={boxBgColor} boxShadow="sm">
+            {/* <Box flex={1} borderLeftWidth={4} borderLeftColor={event.type === "kill" ? "red.500" : "blue.500"} pl={3}> */}
             {event.type === "kill" ? (
               <Flex alignItems="flex-start" justifyContent="space-between" width="100%">
                 <Box display="flex" alignItems="center">
@@ -99,9 +100,10 @@ export const EventLog = ({ events, players }: EventLogProps) => {
                 Игрок {findPlayerById(event.player, players)?.username || "Unknown"} был кикнут ({findPlayerById(event.executor, players)?.username || "Unknown"}).
               </Text>
             ) : null}
-          {/* </Box> */}
-        </Flex>
-      ))}
+            {/* </Box> */}
+          </Flex>
+        ))}
+      </Box>
     </Box>
   )
 }

@@ -9,7 +9,7 @@ import { Button } from "@components/ui/button"
 
 export const MatchStatusWidget = () => {
   const location = useLocation()
-  const { profile } = useUser((state) => state.payload)
+  const { isAuth, profile } = useUser((state) => state) || {}
   const [match, setMatch] = useState<any>()
   const [visible, setVisible] = useState(false)
   const bgColor = useColorModeValue("white", "#1a1a1a");
@@ -17,7 +17,7 @@ export const MatchStatusWidget = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!profile || !profile.name) return
+    if (!profile || !profile.name || !isAuth) return
 
     socket.emit("match:update", { name: profile.name })
 
@@ -28,7 +28,7 @@ export const MatchStatusWidget = () => {
     return () => {
       socket.off("match:update")
     }
-  }, [profile])
+  }, [profile, isAuth])
 
   useEffect(() => {
     setVisible(!!match && !location.pathname.startsWith(`/match/${match.id}`))
@@ -52,6 +52,10 @@ export const MatchStatusWidget = () => {
       </motion.div>
     );
   }, [match, navigate, bgColor, textColor]);
+
+  if (!isAuth || !profile) {
+    return null;
+  }
 
   return visible ? renderContent() : null;
 }

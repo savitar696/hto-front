@@ -18,7 +18,7 @@ export const DiscordLink = ({ username }: { username: string }) => {
     )
   }
   return (
-    <Button size="xs" variant="ghost" disabled>
+    <Button size="xs">
       Привязано
     </Button>
   )

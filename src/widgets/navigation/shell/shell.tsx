@@ -6,6 +6,9 @@ import {
   Link,
   Image,
   useBreakpointValue,
+  AvatarImage,
+  AvatarFallback,
+  DrawerTrigger,
 } from "@chakra-ui/react"
 import { Avatar, AvatarGroup } from "@components/ui/avatar"
 import { Button } from "@components/ui/button"
@@ -27,14 +30,16 @@ import { useUser } from "@entities/user"
 import { UserPayload } from "@entities/user/model/user.types"
 import { AuthDialog } from "@features/auth/ui/auth"
 import { useNavigate } from "react-router-dom"
-import { FC } from "react"
+import { FC, useState, useEffect } from "react"
+import { DrawerRoot, DrawerBackdrop, DrawerContent, DrawerHeader, DrawerTitle, DrawerBody } from "@components/ui/drawer"
 
 export const Shell: FC = () => {
   const color = useColorModeValue("black", "white")
-  const { isAuth, payload } = useUser((state) => state)
+  const { isAuth, payload} = useUser((state) => state)
   const isMobile = useBreakpointValue({ base: true, md: false })
   const { colorMode } = useColorMode()
   const navigate = useNavigate()
+  // const [open, setOpen] = useState(false)
 
   return (
     <Box px={{ base: "4", md: "10%" }} py="6px">
@@ -63,7 +68,11 @@ export const Shell: FC = () => {
             <List.Root display="flex" alignItems="center" flexDirection="row">
               {TreeItems.map((item: Item) => (
                 <Box key={item.url} mx="4">
-                  <NavigationText url={item.url}>{item.label}</NavigationText>
+                  <NavigationText
+                    url={item.url}
+                  >
+                    {item.label}
+                  </NavigationText>
                 </Box>
               ))}
             </List.Root>
@@ -87,6 +96,11 @@ export const Shell: FC = () => {
           >
             {isAuth ? (
               <>
+              {/* <AvatarGroup gap="0" spaceX="-3" size="sm">
+              <Avatar src="https://skin.vimeworld.com/helm/YaClary.png" />
+              <Avatar src="https://skin.vimeworld.com/helm/Shaitan.png" />
+              <Avatar src="https://skin.vimeworld.com/helm/Realish.png" />
+            </AvatarGroup> */}
                 <Button rounded="full" onClick={() => navigate("/play")}>
                   Играть
                 </Button>
@@ -99,8 +113,9 @@ export const Shell: FC = () => {
                       name={payload.profile.name}
                       src={`https://skin.vimeworld.com/helm/${payload.profile.name}.png`}
                       cursor="pointer"
-                    /> */}
-                {/* </DrawerTrigger>
+                      bg={open ? "yellow.200" : "transparent"}
+                    />
+                </DrawerTrigger>
                   <DrawerContent>
                     <DrawerHeader>
                       <DrawerTitle>
@@ -131,7 +146,7 @@ export const Shell: FC = () => {
                         <Text fontSize="32px" fontWeight={600}>
                           <Link href={`/settings`}>Настройки</Link>
                         </Text>
-                        <Text fontSize="32px" fontWeight={600}>
+                        <Text fontSize="32px" fontWeight={600} cursor="pointer" onClick={handleLogout}>
                           Выход
                         </Text>
                       </Flex>
@@ -179,6 +194,12 @@ const NavigationText = ({
 }
 
 const ProfileRoot = ({ payload }: { payload: UserPayload }) => {
+  const { logout } = useUser((state) => state)
+  const navigate = useNavigate()
+  const handleLogout = () => {
+    logout()
+    navigate("/")
+  }
   return (
     <MenuRoot>
       <MenuTrigger
@@ -204,7 +225,7 @@ const ProfileRoot = ({ payload }: { payload: UserPayload }) => {
           <Link href={`/settings`}>Настройки</Link>
         </MenuItem>
         <LogoutDialog>
-          <MenuItem value="logout">Выйти</MenuItem>
+          <MenuItem value="logout" onClick={handleLogout}>Выйти</MenuItem>
         </LogoutDialog>
       </MenuContent>
     </MenuRoot>
