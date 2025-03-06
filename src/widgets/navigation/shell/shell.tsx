@@ -6,9 +6,6 @@ import {
   Link,
   Image,
   useBreakpointValue,
-  AvatarImage,
-  AvatarFallback,
-  DrawerTrigger,
 } from "@chakra-ui/react"
 import { Avatar, AvatarGroup } from "@components/ui/avatar"
 import { Button } from "@components/ui/button"
@@ -30,8 +27,7 @@ import { useUser } from "@entities/user"
 import { UserPayload } from "@entities/user/model/user.types"
 import { AuthDialog } from "@features/auth/ui/auth"
 import { useNavigate } from "react-router-dom"
-import { FC, useState, useEffect } from "react"
-import { DrawerRoot, DrawerBackdrop, DrawerContent, DrawerHeader, DrawerTitle, DrawerBody } from "@components/ui/drawer"
+import { FC } from "react"
 
 export const Shell: FC = () => {
   const color = useColorModeValue("black", "white")
