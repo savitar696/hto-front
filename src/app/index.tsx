@@ -8,6 +8,5 @@ if (!root) {
   throw new Error("Root Element not found!")
 }
 
-createRoot(root).render(
-    <Core />
+createRoot(root).render(<Core />
 )

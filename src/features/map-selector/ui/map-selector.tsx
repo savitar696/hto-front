@@ -60,7 +60,6 @@ export const MapSelector = ({
                 {map}
               </Text>
             </Flex>
-
             <Button
               colorScheme="blackAlpha"
               onClick={() => handleBan(map)}

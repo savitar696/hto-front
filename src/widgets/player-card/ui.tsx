@@ -1,19 +1,20 @@
-import { Box, Flex, Text } from "@chakra-ui/react"
+import { Box, Flex, Icon, Text } from "@chakra-ui/react"
 import { Avatar } from "@shared/ui/avatar"
 import { useColorModeValue } from "@components/ui/color-mode"
 import { Player } from "@features/map-selector/model"
 import { GradientText } from "@shared/ui/premium-text/ui.tsx"
+import { PiCrownSimpleFill } from "react-icons/pi"
 
 export const PlayerCard = ({ player }: { player: Player }) => {
-  const cardBg = useColorModeValue("white", "#121212") // Фон карточки
+  const cardBg = useColorModeValue("white", "#0F0F0F") // Фон карточки
   const textColor = useColorModeValue("blackAlpha.900", "#ffffff") // Основной текст
-  const borderColor = useColorModeValue("blackAlpha.100", "#333333") // Цвет границ
+  const borderColor = useColorModeValue("blackAlpha.100", "whiteAlpha.50") // Цвет границ
   const secondaryTextColor = useColorModeValue("blackAlpha.600", "#a0a0a0")
 
   return (
     <Box
       key={player.client_id}
-      borderRadius="md"
+      borderRadius="2xl"
       border="1px solid"
       borderColor={borderColor}
       bg={cardBg}
@@ -22,22 +23,30 @@ export const PlayerCard = ({ player }: { player: Player }) => {
         background: borderColor,
       }}
     >
-      <Flex p={3} align="center" gap={4}>
+      <Flex justifyContent="space-between" alignItems="center">
+        <Flex p={3} align="center" gap={4}>
         <Avatar
           username={player.name}
           styles={{ width: "36px", height: "36px", borderRadius: "25%"}}
-          heightPremium={16}
-          widthPremium={16}
+          permanentPremium={player.premium}
+          heightPremium={12}
+          widthPremium={12}
         />
         {player.premium ? (
           <GradientText fontSize="md" fontWeight={700}>
-            {player.name}
+            {player.name} {player.captain && <Icon color="yellow.500" marginBottom={1} marginLeft={1} width={4} height={4}><PiCrownSimpleFill /></Icon>}
           </GradientText>
         ) : (
           <Text fontSize="md" fontWeight="semibold" color={textColor}>
-            {player.name}
+            {player.name} {player.captain && <Icon color="yellow.500" marginBottom={1} marginLeft={1}><PiCrownSimpleFill /></Icon>}
           </Text>
         )}
+        </Flex>
+        <Flex p={3} marginRight={5} align="center">
+          <Text fontSize="sm" fontWeight="semibold" color={textColor}>
+            {player.rating}
+          </Text>
+        </Flex>
       </Flex>
 
       <Flex borderTop="1px solid" borderColor={borderColor}>

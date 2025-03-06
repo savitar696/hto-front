@@ -141,7 +141,7 @@ export const Shell: FC = () => {
               </>
             ) : (
               <AuthDialog>
-                <Button rounded="full" variant="surface">
+                <Button rounded="2xl">
                   Авторизация
                 </Button>
               </AuthDialog>

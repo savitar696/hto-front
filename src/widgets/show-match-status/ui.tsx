@@ -5,6 +5,7 @@ import { useUser } from "@entities/user"
 import { socket } from "@entities/game"
 import { Box, Flex, Text } from "@chakra-ui/react"
 import { useColorModeValue } from "@components/ui/color-mode"
+import { Button } from "@components/ui/button"
 
 export const MatchStatusWidget = () => {
   const location = useLocation()
@@ -43,20 +44,11 @@ export const MatchStatusWidget = () => {
         transition={{ duration: 0.3 }}
         style={{ position: "fixed", bottom: "20px", left: "20px", zIndex: 999 }}
       >
-        <Box
-          bg={bgColor}
-          border="1px solid"
-          borderColor={useColorModeValue("gray.100", "#1a1a1a")}
-          borderRadius="8px"
-          width="auto"
-          maxWidth="500px"
-        >
-          <Flex alignItems="center" p="3" onClick={() => navigate(`/match/${match.id}`)} cursor="pointer">
-              <Text fontWeight="bold" color={textColor} mr="2">
+          <Flex alignItems="center" onClick={() => navigate(`/match/${match.id}`)} cursor="pointer">
+              <Button>
                 Текущий матч
-              </Text>
+              </Button>
           </Flex>
-        </Box>
       </motion.div>
     );
   }, [match, navigate, bgColor, textColor]);

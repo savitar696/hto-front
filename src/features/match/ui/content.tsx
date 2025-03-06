@@ -26,11 +26,11 @@ interface Props {
 
 export const MatchOverview = ({ picks, state, loading, id, endedTime, startedTime }: Props) => {
   const bgColor = useColorModeValue("white", "#0d0d0d")
-  const textColor = useColorModeValue("#000", "#ffffff")
+  const textColor = useColorModeValue("#000", "gray.300")
   const borderColor = useColorModeValue("gray.100", "#1a1a1a")
   if (loading) return <div>Loading...</div>
   return (
-    <Flex direction="column" gap={6} p={6}>
+    <Flex direction="column" gap={3}>
       <Grid
         templateColumns={{ base: "1fr", md: "auto 200px auto" }}
         gap={6}

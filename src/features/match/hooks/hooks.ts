@@ -10,6 +10,7 @@ const EVENTS = {
   JOIN: "ban.join",
   LISTENER: "ban.listener",
   RESPONSE: "ban.join.response",
+  TICKER: "ban.ticker",
 }
 
 export const useMatch = (id: string) => {
@@ -18,7 +19,6 @@ export const useMatch = (id: string) => {
     const [state, setState] = useState<string | null>(null);
 
     const picks = useSocketEvent<MatchPick>({ event: EVENTS.LISTENER });
-
     useEffect(() => {
       if (picks) {
         setLoading(false);

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getRandomMap } from "./random-map"
+import { DateTime } from 'luxon';
 
 export const VoteTimer = ({
   voteRightEnd,
@@ -12,37 +12,37 @@ export const VoteTimer = ({
 }) => {
 
   const getMoscowTime = () => {
-    const timeDate = new Date().toLocaleString("ru-RU", {timeZone: "Europe/Moscow"})
-    return new Date(timeDate)
+    return DateTime.now().setZone('Europe/Moscow')
   }
 
   const [timeLeft, setTimeLeft] = useState(
-    Math.max(0, Math.floor((voteRightEnd - getMoscowTime().getTime()) / 1000)),
+    Math.max(0, Math.floor((voteRightEnd - getMoscowTime().toMillis()) / 1000)),
   )
 
   useEffect(() => {
     const updateTimer = () => {
-      const now = Date.now()
-      const timeRemaining = voteRightEnd - now
-      if (timeRemaining > 0) {
-        setTimeLeft(Math.floor(timeRemaining / 1000))
-      } else {
-        setTimeLeft(0)
-        const randomMap = getRandomMap(availableMaps)
-        if (randomMap) handleBan(randomMap)
-      }
+      const now = getMoscowTime().toMillis()
+      console.log("Current time:", now)
+      console.log("Vote end time:", voteRightEnd)
+
+      const newTimeLeft = Math.max(0, Math.floor((voteRightEnd - now) / 1000))
+      setTimeLeft(newTimeLeft)
     }
     const interval = setInterval(updateTimer, 1000)
+    updateTimer()
 
     return () => clearInterval(interval)
   }, [availableMaps, handleBan, voteRightEnd])
 
-  const minutes = Math.floor(timeLeft / 60)
-  const seconds = timeLeft % 60
+  const formatTimeLeft = () => {
+    const minutes = String(Math.floor(timeLeft / 60)).padStart(2, '0')
+    const seconds = String(timeLeft > 0 ? (timeLeft % 60) + 1 : 0).padStart(2, '0')
+    return `${minutes}:${seconds}`
+  }
 
   return (
     <>
-      {minutes}:{seconds.toString().padStart(2, "0")}
+      {formatTimeLeft()}
     </>
   )
 }
