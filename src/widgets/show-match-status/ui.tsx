@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom"
 import { motion } from "framer-motion"
 import { useUser } from "@entities/user"
 import { socket } from "@entities/game"
-import { Box, Flex, Text } from "@chakra-ui/react"
+import { Flex } from "@chakra-ui/react"
 import { useColorModeValue } from "@components/ui/color-mode"
 import { Button } from "@components/ui/button"
 
