@@ -1,5 +1,5 @@
 import {
-    Actuon,
+  Actuon,
   Aquarium,
   Awakening,
   Crimentis,
@@ -47,7 +47,7 @@ export const MapImages: Record<MapName, string> = {
   [MapName.Troster]: Troster,
   [MapName.Actuon]: Actuon,
   [MapName.Unona]: Unona,
-  [MapName.Crimnentis]: Crimentis
+  [MapName.Crimnentis]: Crimentis,
 }
 
 export interface Event {
