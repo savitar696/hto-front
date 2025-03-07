@@ -9,7 +9,7 @@ export const useLeaderboard = () => {
   })
 
   return {
-    users: data?.data.data || [],
+    users: data?.data || [],
     isLoading,
     isError,
     error,
