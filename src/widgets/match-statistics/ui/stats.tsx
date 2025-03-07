@@ -96,8 +96,8 @@ const TableItem = ({
                         username={player.username}
                         styles={{
                           borderRadius: "4px",
-                          width: "24px",
-                          height: "24px",
+                          width: "32px",
+                          height: "32px",
                         }}
                         widthPremium={8}
                         heightPremium={8}
@@ -119,15 +119,33 @@ const TableItem = ({
                             navigate(`/profile/${player.username}`)
                           }
                           cursor="pointer"
+                          fontSize="18px"
                         >
                           {player.username}
                         </Text>
                       )}
                     </Flex>
                   </Table.Cell>
-                  <Table.Cell>{kills[player.id] || 0}</Table.Cell>
-                  <Table.Cell>{deaths[player.id] || 0}</Table.Cell>
-                  <Table.Cell>{player.rating}</Table.Cell>
+                  <Table.Cell>
+                    <Text fontSize="18px">{kills[player.id] || 0}</Text>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Text fontSize="18px">{deaths[player.id] || 0}</Text>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Flex align="start" gap={2}>
+                      <Text fontSize="18px">{player.rating}</Text>
+                      {player.ratingChange > 0 ? (
+                        <Text color="green.500" fontSize="16px">
+                          (+{player.ratingChange})
+                        </Text>
+                      ) : (
+                        <Text color="red.500" fontSize="16px">
+                          ({player.ratingChange})
+                        </Text>
+                      )}
+                    </Flex>
+                  </Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>

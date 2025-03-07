@@ -15,6 +15,7 @@ export interface Player {
   username: string
   _id: string
   rating: number
+  ratingChange: number
 }
 
 export interface BaseEvent {
@@ -41,7 +42,7 @@ export interface ReconnectEvent extends BaseEvent {
 }
 
 export interface LeaveEvent extends BaseEvent {
-  type: "leave" 
+  type: "leave"
   player: Player["id"]
 }
 
@@ -51,7 +52,12 @@ export interface KickEvent extends BaseEvent {
   executor: Player["id"]
 }
 
-export type Event = KillEvent | BedBreakEvent | ReconnectEvent | LeaveEvent | KickEvent
+export type Event =
+  | KillEvent
+  | BedBreakEvent
+  | ReconnectEvent
+  | LeaveEvent
+  | KickEvent
 
 export type GameUserPayload = {
   username: string
@@ -75,7 +81,15 @@ export type Game = {
   setPayload: (payload: GamePayload) => void
   getInfo: () => void
 }
-export type TeamType = "red" | "blue" | "green" | "yellow" | "aqua" | "white" | "pink" | "gray";
+export type TeamType =
+  | "red"
+  | "blue"
+  | "green"
+  | "yellow"
+  | "aqua"
+  | "white"
+  | "pink"
+  | "gray"
 
 export interface Team {
   id: TeamType

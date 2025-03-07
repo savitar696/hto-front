@@ -14,7 +14,7 @@ export const TeamPlayers = ({ players }: { players: Player[] }) => {
   return (
     <Flex flexDirection={"column"} gap={2} width={"100%"}>
       {players.map((player) => (
-        <MenuRoot>
+        <MenuRoot key={player.client_id}>
           <MenuTrigger flex="1">
             <PlayerCard player={player} key={player.client_id} />
           </MenuTrigger>

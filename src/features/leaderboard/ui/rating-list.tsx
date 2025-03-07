@@ -4,6 +4,7 @@ import { PlayerBox } from "./player-box"
 
 export const RatingList = () => {
   const { users, isLoading, isError, error } = useLeaderboard()
+  console.log(users)
 
   if (isLoading) return <SkeletonRatingList />
   if (isError) return <Text color="red.500">Ошибка: {error?.message}</Text>
@@ -29,7 +30,6 @@ const SkeletonRatingList = () => (
   <Grid templateColumns="repeat(3, 1fr)" gap="20px" placeContent="center">
     {[...Array(9)].map((_, i) => (
       <Skeleton key={i} borderRadius="xl">
-        <Text>Hello</Text>
         <PlayerBox
           key={i}
           index={i}
