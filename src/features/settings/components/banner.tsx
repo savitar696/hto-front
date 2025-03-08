@@ -1,4 +1,4 @@
-import { Box, Flex, IconButton, Image, Skeleton, Text } from "@chakra-ui/react"
+import { Box, Flex, IconButton, Image, Skeleton } from "@chakra-ui/react"
 import { Avatar } from "@shared/ui/avatar"
 import {
   DialogBody,
