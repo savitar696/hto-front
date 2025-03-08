@@ -29,16 +29,30 @@ export const useQueue = (payload: any) => {
   })
   const navigate = useNavigate()
 
-  const handleError = useCallback((message: string) => {
-    if (errorMessages.has(message)) return
+  const handleError = useCallback(
+    (errorData: { message: string; url?: string }) => {
+      const { message, url } = errorData
+      if (errorMessages.has(message)) return
 
-    errorMessages.add(message)
-    toaster.create({ description: message, type: "error" })
+      errorMessages.add(message)
+      toaster.create({
+        description: message,
+        type: "error",
+        action: url
+          ? {
+              label: "Вернуться в матч",
+              onClick: () => {
+                navigate(`/match/${url}`)
+              },
+            }
+          : undefined,
+      }),
+        setError(message)
 
-    setError(message)
-
-    setTimeout(() => errorMessages.delete(message), 5000)
-  }, [])
+      setTimeout(() => errorMessages.delete(message), 5000)
+    },
+    [],
+  )
 
   const hasDiscordId = useMemo(() => {
     return payload?.properties.some(
@@ -48,7 +62,9 @@ export const useQueue = (payload: any) => {
 
   const joinQueue = useCallback(() => {
     if (!payload?.properties || !hasDiscordId) {
-      handleError("Привяжите Discord для того, чтобы войти в очередь.")
+      handleError({
+        message: "Привяжите Discord для того, чтобы войти в очередь.",
+      })
       return
     }
 
@@ -67,8 +83,12 @@ export const useQueue = (payload: any) => {
   }, [reset, pause])
 
   useEffect(() => {
-    const handleServerError = (errorData: { message: string }) => {
-      handleError(errorData.message || "Ошибка с сервера")
+    const handleServerError = (errorData: {
+      message: string
+      url?: string
+    }) => {
+      const message = errorData.message || "Ошибка с сервера"
+      handleError({ message, url: errorData.url })
       queueIO.disconnect()
       setSearch(false)
     }
@@ -89,7 +109,7 @@ export const useQueue = (payload: any) => {
           if (response) {
             setData(response)
           } else {
-            handleError("Failed to join queue")
+            handleError({ message: "Failed to join queue" })
           }
         },
       )
@@ -102,7 +122,7 @@ export const useQueue = (payload: any) => {
         }
         setData(eventData)
       } else {
-        handleError("Received invalid join event data")
+        handleError({ message: "Received invalid join event data" })
       }
     }
 
