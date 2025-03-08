@@ -14,7 +14,6 @@ export const toaster = createToaster({
   pauseOnPageIdle: true,
   overlap: true,
   max: 3,
-
 })
 
 export const Toaster = () => {

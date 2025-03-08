@@ -134,7 +134,9 @@ const TableItem = ({
                   </Table.Cell>
                   <Table.Cell>
                     <Flex align="start" gap={2}>
-                      <Text fontSize="18px">{player.rating}</Text>
+                      <Text fontSize="18px">
+                        {player.rating - player.ratingChange}
+                      </Text>
                       {player.ratingChange > 0 ? (
                         <Text color="green.500" fontSize="16px">
                           (+{player.ratingChange})

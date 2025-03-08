@@ -1,5 +1,6 @@
 import { FC, PropsWithChildren, useState } from "react"
 import { Button } from "@components/ui/button"
+import { Text } from "@chakra-ui/react"
 import {
   DialogBody,
   DialogCloseTrigger,
@@ -10,6 +11,7 @@ import {
   DialogTrigger,
 } from "@components/ui/dialog"
 import { useQueue } from "../hooks/use-queue"
+import { useColorModeValue } from "@components/ui/color-mode"
 
 interface JoinQueueProps {
   payload: any
@@ -32,20 +34,34 @@ export const JoinQueue: FC<PropsWithChildren<JoinQueueProps>> = ({
     : "Начать поиск"
 
   return available ? (
-    <DialogRoot placement="center" motionPreset="slide-in-bottom">
+    <DialogRoot placement="center" motionPreset="scale">
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent borderRadius="12px">
+      <DialogContent borderRadius="16px">
         <DialogHeader>
           <DialogTitle textAlign="center" fontSize="22px">
             Поиск игры
+            <Text
+              fontSize="14px"
+              color={useColorModeValue("gray.500", "whiteAlpha.700")}
+            >
+              Перезагрузка страницы приведет к отключению Вас из очереди
+            </Text>
           </DialogTitle>
         </DialogHeader>
-        <DialogBody display="flex" alignItems="center" justifyContent="center">
+        <DialogBody
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          flexDirection="column"
+          gap="12px"
+        >
           <Button
             onMouseEnter={() => setHoverSearch(false)}
             onMouseLeave={() => setHoverSearch(true)}
             onClick={search ? outQueue : joinQueue}
             loading={loading}
+            borderRadius="12px"
+            minWidth="70%"
           >
             {displayText}
           </Button>

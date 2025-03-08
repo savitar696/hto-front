@@ -1,6 +1,12 @@
 import { useQuery } from "@tanstack/react-query"
 import { fetchSettings } from "../api"
-type SettingsMap = Record<string, string>
+import { useMemo } from "react"
+
+type SettingsMap = {
+  banner_url?: string
+  discord_name?: string
+  discord_id?: string
+}
 
 export const useSettings = (username: string) => {
   const { data, ...rest } = useQuery({
@@ -9,11 +15,22 @@ export const useSettings = (username: string) => {
     queryFn: () => fetchSettings(username),
   })
 
-  const properties: SettingsMap =
-    data?.reduce((acc, prop) => {
-      acc[prop.type] = prop.value
+  const properties = useMemo(() => {
+    const defaults = {
+      banner_url: "https://i.imgur.com/saiCDyI.jpeg",
+      discord_name: "",
+      discord_id: "",
+    }
+
+    if (!data) return defaults
+    return data.reduce((acc, prop) => {
+      if (prop.type in defaults) {
+        acc[prop.type as keyof SettingsMap] =
+          prop.value || defaults[prop.type as keyof SettingsMap]
+      }
       return acc
-    }, {} as SettingsMap) || {}
+    }, defaults as SettingsMap)
+  }, [data])
 
   return { properties, ...rest }
 }

@@ -16,6 +16,7 @@ export type UserPayload = {
   rating: number
   roles: any
   properties?: any
+  party?: { id: string; name: string }
 }
 
 export type User = {

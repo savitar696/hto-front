@@ -31,7 +31,7 @@ import { FC } from "react"
 
 export const Shell: FC = () => {
   const color = useColorModeValue("black", "white")
-  const { isAuth, payload} = useUser((state) => state)
+  const { isAuth, payload } = useUser((state) => state)
   const isMobile = useBreakpointValue({ base: true, md: false })
   const { colorMode } = useColorMode()
   const navigate = useNavigate()
@@ -64,11 +64,7 @@ export const Shell: FC = () => {
             <List.Root display="flex" alignItems="center" flexDirection="row">
               {TreeItems.map((item: Item) => (
                 <Box key={item.url} mx="4">
-                  <NavigationText
-                    url={item.url}
-                  >
-                    {item.label}
-                  </NavigationText>
+                  <NavigationText url={item.url}>{item.label}</NavigationText>
                 </Box>
               ))}
             </List.Root>
@@ -92,11 +88,15 @@ export const Shell: FC = () => {
           >
             {isAuth ? (
               <>
-              {/* <AvatarGroup gap="0" spaceX="-3" size="sm">
-              <Avatar src="https://skin.vimeworld.com/helm/YaClary.png" />
-              <Avatar src="https://skin.vimeworld.com/helm/Shaitan.png" />
-              <Avatar src="https://skin.vimeworld.com/helm/Realish.png" />
-            </AvatarGroup> */}
+                <AvatarGroup gap="0" size="md">
+                  {payload.party &&
+                    payload.party.map((user: any) => (
+                      <Avatar
+                        key={user.id}
+                        src={`https://skin.vimeworld.com/helm/${user.name}.png`}
+                      />
+                    ))}
+                </AvatarGroup>
                 <Button rounded="full" onClick={() => navigate("/play")}>
                   Играть
                 </Button>
@@ -152,9 +152,7 @@ export const Shell: FC = () => {
               </>
             ) : (
               <AuthDialog>
-                <Button rounded="2xl">
-                  Авторизация
-                </Button>
+                <Button rounded="2xl">Авторизация</Button>
               </AuthDialog>
             )}
           </AvatarGroup>
@@ -221,7 +219,9 @@ const ProfileRoot = ({ payload }: { payload: UserPayload }) => {
           <Link href={`/settings`}>Настройки</Link>
         </MenuItem>
         <LogoutDialog>
-          <MenuItem value="logout" onClick={handleLogout}>Выйти</MenuItem>
+          <MenuItem value="logout" onClick={handleLogout}>
+            Выйти
+          </MenuItem>
         </LogoutDialog>
       </MenuContent>
     </MenuRoot>
