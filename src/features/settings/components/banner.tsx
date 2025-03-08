@@ -48,7 +48,7 @@ export const Banner = ({ username }: { username: string }) => {
         error: (error: any) => ({
           title: "Ошибка при загрузке баннера",
           description:
-            error.response?.data?.error || "Ошибка при загрузке баннера",
+            error.response?.data?.message || "Ошибка при загрузке баннера",
         }),
       })
 
@@ -156,8 +156,9 @@ export const Banner = ({ username }: { username: string }) => {
                     cursor={isLoading ? "progress" : "pointer"}
                   >
                     <FileUploadDropzone
-                      label="Drag and drop here to upload"
-                      description=".png, .jpg up to 5MB"
+                      label={
+                        "Загрузите новую обложку для страницы вашего профиля. Мы рекомендуем загружать изображения в разрешении 1463x300. Максимум 5мб."
+                      }
                     />
                   </DialogBody>
                 </FileUploadRoot>
