@@ -1,4 +1,4 @@
-import { Box, Link, Text } from "@chakra-ui/react"
+import { Box, Heading } from "@chakra-ui/react"
 import rulesText from "./rules.md?raw"
 import { Prose } from "@components/ui/prose"
 import Markdown from "react-markdown"
@@ -90,15 +90,18 @@ import Markdown from "react-markdown"
 export const RulesPage = () => {
   return (
     <Box pb={12}>
-      <Prose padding={8} maxWidth="1000px" mx="auto">
+      <Heading as="h1" size="4xl" mt={4} textAlign="center">
+        Правила Matchmaking
+      </Heading>
+      <Prose padding={2} maxWidth="1000px" mx="auto">
         <Markdown>{rulesText}</Markdown>
       </Prose>
-      <Text textAlign="center">
+      {/* <Text textAlign="center">
         Правила были взяты с группы{" "}
         <Link href="https://vk.com/tournaments_vimeworld" color="blue.400">
-          Events VimeWorld
+          Events VimeWorld <LuExternalLink />
         </Link>
-      </Text>
+      </Text> */}
     </Box>
   )
 }
