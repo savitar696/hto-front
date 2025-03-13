@@ -14,12 +14,10 @@ const TABS = {
 export const MatchContainer = ({ id }: { id: string }) => {
   const { picks, state, loading } = useMatch(id)
   const { data, isLoading } = useMatchData(id)
-  console.log(picks, data)
 
   if (isLoading) return <LoadingContent text="Загружаем матч..." />
-  const parsedData = data ? parseMatchData(data) : null
-  const parsedPick =
-    typeof data.lobby === "string" ? JSON.parse(data.lobby) : data.lobby || {}
+  const parsedData = data || {}
+  const parsedPick = data?.lobby || {}
   const isMatchFinished =
     picks?.state === GameState.FINISHED ||
     ["load", undefined].includes(data?.map_id)

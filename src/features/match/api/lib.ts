@@ -21,15 +21,24 @@ export const parseMatchData = (rawData: RawMatchData): ParsedMatchData => {
     const winners = rawData.winners
       ? JSON.parse(rawData.winners).winners || []
       : []
-    const losers = rawData.losers ? JSON.parse(rawData.losers).losers || [] : []
-    const events = rawData.events ? JSON.parse(rawData.events).events || [] : []
-    const started_at = rawData.started_at ? new Date(rawData.started_at).getTime() : null
-    const ended_at = rawData.ended_at ? new Date(rawData.ended_at).getTime() : null
+    const losers = rawData.losers ? rawData.losers || [] : []
+    const events = rawData.events ? rawData.events || [] : []
+    const started_at = rawData.started_at
+      ? new Date(rawData.started_at).getTime()
+      : null
+    const ended_at = rawData.ended_at
+      ? new Date(rawData.ended_at).getTime()
+      : null
 
     return { winners, losers, events, started_at, ended_at }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    return { winners: [], losers: [], events: [], started_at: null, ended_at: null }
+    return {
+      winners: [],
+      losers: [],
+      events: [],
+      started_at: null,
+      ended_at: null,
+    }
   }
 }
 
