@@ -25,22 +25,38 @@ export const PlayerCard = ({ player }: { player: Player }) => {
     >
       <Flex justifyContent="space-between" alignItems="center">
         <Flex p={3} align="center" gap={4}>
-        <Avatar
-          username={player.name}
-          styles={{ width: "36px", height: "36px", borderRadius: "25%"}}
-          permanentPremium={player.premium}
-          heightPremium={12}
-          widthPremium={12}
-        />
-        {player.premium ? (
-          <GradientText fontSize="md" fontWeight={700}>
-            {player.name} {player.captain && <Icon color="yellow.500" marginBottom={1} marginLeft={1} width={4} height={4}><PiCrownSimpleFill /></Icon>}
-          </GradientText>
-        ) : (
-          <Text fontSize="md" fontWeight="semibold" color={textColor}>
-            {player.name} {player.captain && <Icon color="yellow.500" marginBottom={1} marginLeft={1}><PiCrownSimpleFill /></Icon>}
-          </Text>
-        )}
+          <Avatar
+            username={player.name}
+            styles={{ width: "36px", height: "36px", borderRadius: "25%" }}
+            permanentPremium={player.premium}
+            heightPremium={12}
+            widthPremium={12}
+          />
+          {player.premium ? (
+            <GradientText fontSize="md" fontWeight={700}>
+              {player.name}{" "}
+              {player.captain && (
+                <Icon
+                  color="yellow.500"
+                  marginBottom={1}
+                  marginLeft={1}
+                  width={4}
+                  height={4}
+                >
+                  <PiCrownSimpleFill />
+                </Icon>
+              )}
+            </GradientText>
+          ) : (
+            <Text fontSize="md" fontWeight="semibold" color={textColor}>
+              {player.name}{" "}
+              {player.captain && (
+                <Icon color="yellow.500" marginBottom={1} marginLeft={1}>
+                  <PiCrownSimpleFill />
+                </Icon>
+              )}
+            </Text>
+          )}
         </Flex>
         <Flex p={3} marginRight={5} align="center">
           <Text fontSize="sm" fontWeight="semibold" color={textColor}>

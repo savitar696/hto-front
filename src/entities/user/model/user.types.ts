@@ -24,13 +24,10 @@ export type User = {
   isLoading: boolean
   payload: UserPayload | any
   profile: UserPayload | any
-  games: GamePayload[]
 
   setAuth: (value: boolean) => void
   setPayload: (payload: UserPayload) => void
   setProfile: (payload: UserPayload) => void
-  getInfoByUsername: (username: string) => void
-  getGames: (username: string) => void
   auth: (token: string) => void
   logout: () => void
   getInfo: () => void

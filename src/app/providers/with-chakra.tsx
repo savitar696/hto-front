@@ -1,4 +1,4 @@
-import { system } from "@app/styles/theme"
+import { system } from "@app/theme"
 import { ChakraProvider } from "@chakra-ui/react"
 import { ColorModeProvider } from "@components/ui/color-mode"
 import { ReactElement } from "react"

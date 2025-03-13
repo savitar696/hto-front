@@ -1,0 +1,35 @@
+.button {
+  display: flex;
+  -moz-box-align: center;
+  align-items: center;
+  -moz-box-pack: center;
+  justify-content: center;
+  flex-flow: row nowrap;
+  position: relative;
+  white-space: nowrap;
+  background: transparent none repeat scroll 0 0;
+  line-height: 40px;
+  height: 40px;
+  padding-left: 15.2px;
+  padding-right: 15.2px;
+  min-width: auto;
+  border: 1px solid var(--black10);
+  border-radius: var(--radii-5);
+  font-size: var(--fontSizes-0);
+  font-family: inherit;
+  transition: var(--transition15);
+  transform-origin: center center 0;
+  user-select: none;
+  color: var(--black100);
+  font-weight: var(--fontWeights-semibold);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--blackNN04);
+    border-color: var(--black10);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}

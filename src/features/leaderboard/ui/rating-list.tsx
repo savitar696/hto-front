@@ -4,7 +4,6 @@ import { PlayerBox } from "./player-box"
 
 export const RatingList = () => {
   const { users, isLoading, isError, error } = useLeaderboard()
-  console.log(users)
 
   if (isLoading) return <SkeletonRatingList />
   if (isError) return <Text color="red.500">Ошибка: {error?.message}</Text>

@@ -1,42 +1,38 @@
-import { Input } from "@chakra-ui/react"
-import { Button } from "@components/ui/button"
-import {
-  DialogBody,
-  DialogCloseTrigger,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogRoot,
-  DialogTitle,
-  DialogTrigger,
-} from "@components/ui/dialog"
 import { useUser } from "@entities/user"
-import { FC, PropsWithChildren, useCallback, useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { ModalWrapper, ModalContent, ModalBackDrop } from "@shared/ui/modal"
+import { FC, useCallback, useEffect } from "react"
 import { useShallow } from "zustand/react/shallow"
+import modalStyle from "@shared/ui/modal/Modal.module.scss"
+import { Button } from "@shared/ui/button"
 
-export const AuthDialog: FC<PropsWithChildren> = ({ children }) => {
+interface AuthModalFC {
+  state: { value: boolean; setHandler: React.Dispatch<any> }
+  token: { value: string; setHandler: React.Dispatch<any> }
+  handlers: Array<any>
+}
+export const AuthModal: FC<AuthModalFC> = ({ state, token }) => {
   const auth = useUser(useShallow((state) => state.auth))
-  const [token, setToken] = useState<string>("")
-  const navigate = useNavigate()
 
   const escFunction = useCallback((event: any) => {
-    if (event.key === "Enter") {
-      if (token.includes("https://api.vime.world/web/token/")) {
-        auth(token.replace("https://api.vime.world/web/token/", ""))
+    if (event.key === "Enter" && state.value) {
+      if (token.value.includes("https://api.vime.world/web/token/")) {
+        auth(token.value.replace("https://api.vime.world/web/token/", ""))
       } else {
-        auth(token)
+        auth(token.value)
       }
+      state.setHandler(false)
+      token.setHandler("")
     }
   }, [])
 
   const login = () => {
-    if (token.includes("https://api.vime.world/web/token/")) {
-      auth(token.replace("https://api.vime.world/web/token/", ""))
+    if (token.value.includes("https://api.vime.world/web/token/")) {
+      auth(token.value.replace("https://api.vime.world/web/token/", ""))
     } else {
-      auth(token)
-      navigate("/")
+      auth(token.value)
     }
+    state.setHandler(false)
+    token.setHandler("")
   }
 
   useEffect(() => {
@@ -48,28 +44,51 @@ export const AuthDialog: FC<PropsWithChildren> = ({ children }) => {
   }, [escFunction])
 
   return (
-    <DialogRoot>
-      <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent rounded="2xl">
-        <DialogHeader>
-          <DialogTitle>Авторизация</DialogTitle>
-        </DialogHeader>
-        <DialogBody>
-          <span>Вставьте сюда Ваш токен для авторизации</span>
-          <Input
-            placeholder="Токен /api auth"
-            value={token}
-            onChange={(e) => setToken(e.target.value)}
-          />
-        </DialogBody>
-        <DialogFooter>
-          <Button onClick={() => {
-            login()
-            }}>
-              Войти</Button>
-        </DialogFooter>
-        <DialogCloseTrigger />
-      </DialogContent>
-    </DialogRoot>
+    <ModalBackDrop state={state.value} setState={state.setHandler}>
+      <ModalWrapper setState={state.setHandler}>
+        <ModalContent width={450} setState={state.setHandler}>
+          <div className={modalStyle.header}>
+            <h1 className={modalStyle.title}>Войти в свой аккаунт</h1>
+          </div>
+          <div className={modalStyle.body}>
+            <span className={modalStyle.text}>
+              Вставьте Ваш токен авторизации для входа
+            </span>
+            <div className={modalStyle.textInput}>
+              <span className={modalStyle.text}>Токен</span>
+              <div className={modalStyle.inputWrapper}>
+                <input
+                  placeholder="https://api.vime.world/web/token/"
+                  value={token.value}
+                  onChange={(e) => token.setHandler(e.target.value)}
+                  className={modalStyle.input}
+                />
+              </div>
+            </div>
+          </div>
+          <div className={modalStyle.footer}>
+            <Button
+              styles={{
+                backgroundColor: "var(--black100)",
+                color: "var(--white100)",
+                height: "48px",
+                border: "none",
+              }}
+              onClick={() => login()}
+            >
+              Войти
+            </Button>
+            <Button
+              styles={{
+                height: "48px",
+              }}
+              onClick={() => state.setHandler(false)}
+            >
+              Вернуться назад
+            </Button>
+          </div>
+        </ModalContent>
+      </ModalWrapper>
+    </ModalBackDrop>
   )
 }

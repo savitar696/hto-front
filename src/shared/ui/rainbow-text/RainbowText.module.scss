@@ -1,0 +1,30 @@
+.textGradientAll {
+  position: relative;
+  display: inline-block;
+
+  .textGradient {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: 4s linear 0s infinite normal none running textGradient;
+    font-weight: var(--fontWeights-semibold);
+  }
+
+  .textGradientBlur {
+    left: 0;
+    position: absolute;
+    display: inline;
+    filter: blur(32px);
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: 4s linear 0s infinite normal none running textGradient;
+    font-weight: var(--fontWeights-semibold);
+  }
+
+  @keyframes textGradient {
+    100% {
+      background-position: 200% center;
+    }
+  }
+}

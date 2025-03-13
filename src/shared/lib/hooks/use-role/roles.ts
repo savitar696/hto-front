@@ -5,7 +5,7 @@ type Role = {
   color?: string
 }
 
-export type RoleName = "ADMIN" | "USER" | "MODERATOR" | "WARDEN"
+export type RoleName = "ADMIN" | "USER" | "MODERATOR" | "WARDEN" | "GUEST"
 
 export const rolesConfig: Record<RoleName, Role> = {
   ADMIN: {
@@ -30,5 +30,10 @@ export const rolesConfig: Record<RoleName, Role> = {
     text: "Главный модератор",
     permissions: [],
     color: "#00bebe",
+  },
+  GUEST: {
+    name: "GUEST",
+    text: "Гость",
+    permissions: [],
   },
 }

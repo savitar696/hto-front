@@ -11,7 +11,7 @@ import {
   Zimperia,
 } from "@shared/static/images"
 
-export const API_URL = "https://api.hardtournaments.space"
+export const API_URL = "http://localhost:5000"
 
 export interface Item {
   label: string
@@ -49,23 +49,3 @@ export const MapImages: Record<MapName, string> = {
   [MapName.Unona]: Unona,
   [MapName.Crimnentis]: Crimentis,
 }
-
-export interface Event {
-  type: string
-  time: number
-}
-
-export interface KillEvent extends Event {
-  type: "kill"
-  killer: number
-  target: number
-  killerHealth: string
-}
-
-export interface BedBreakEvent extends Event {
-  type: "bedBreak"
-  team: string
-  player: number
-}
-
-export type Events = (KillEvent | BedBreakEvent)[]

@@ -1,5 +1,6 @@
-import { api } from "@shared/lib/api"
+import { api } from "@shared/api"
 
 export const fetchRankings = async () => {
-  return await api.get("user/ranking")
+  const response = await api.get("user/ranking")
+  return response.data
 }

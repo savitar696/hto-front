@@ -1,6 +1,6 @@
 import { Button } from "@components/ui/button"
 import { useSettings } from "../hooks"
-import { api } from "@shared/lib/api"
+import { api } from "@shared/api"
 import { toaster } from "@components/ui/toaster"
 
 export const DiscordLink = ({ username }: { username: string }) => {

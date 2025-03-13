@@ -1,4 +1,4 @@
-import { api } from "@shared/lib/api"
+import { api } from "@shared/api"
 import { SettingProps } from "../types"
 
 export const fetchSettings = async (username: string) => {

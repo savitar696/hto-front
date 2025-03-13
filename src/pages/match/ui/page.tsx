@@ -12,6 +12,16 @@ export const MatchPage = () => {
   }, [id, set])
 
   if (!id) return
-
-  return <MatchContainer id={id} />
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "var(--space-6)",
+        minHeight: "calc(100vh - 333px)",
+      }}
+    >
+      <MatchContainer id={id} />
+    </div>
+  )
 }

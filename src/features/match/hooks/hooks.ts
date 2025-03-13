@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useUser } from "@entities/user"
 import { useQuery } from "@tanstack/react-query"
 import { GameState, GameStateText, MatchPick } from "./types"
-import { api } from "@shared/lib/api"
+import { api } from "@shared/api"
 import { socket } from "@entities/game"
 import { useSocketEvent } from "./socket.event"
 
@@ -14,42 +14,44 @@ const EVENTS = {
 }
 
 export const useMatch = (id: string) => {
-    const { profile } = useUser((state) => state.payload);
-    const [loading, setLoading] = useState(true);
-    const [state, setState] = useState<string | null>(null);
+  const { profile } = useUser((state) => state.payload)
+  const [loading, setLoading] = useState(true)
+  const [state, setState] = useState<string | null>(null)
 
-    const picks = useSocketEvent<MatchPick>({ event: EVENTS.LISTENER });
-    useEffect(() => {
-      if (picks) {
-        setLoading(false);
-        setState(
-          GameStateText[picks.state.toUpperCase() as keyof typeof GameStateText] || null,
-        );
-        if (picks.state === GameState.FINISHED) {
-          socket.off(EVENTS.RESPONSE);
-          socket.disconnect();
-        }
+  const picks = useSocketEvent<MatchPick>({ event: EVENTS.LISTENER })
+  useEffect(() => {
+    if (picks) {
+      setLoading(false)
+      setState(
+        GameStateText[
+          picks.state.toUpperCase() as keyof typeof GameStateText
+        ] || null,
+      )
+      if (picks.state === GameState.FINISHED) {
+        socket.off(EVENTS.RESPONSE)
+        socket.disconnect()
       }
-    }, [picks]);
+    }
+  }, [picks])
 
-    useEffect(() => {
-      socket.connect();
-      socket.emit(EVENTS.JOIN, { game_id: id, name: profile.name });
+  useEffect(() => {
+    socket.connect()
+    socket.emit(EVENTS.JOIN, { game_id: id, name: profile.name })
 
-      const interval = setInterval(() => {
-        if (socket.connected) {
-          socket.emit('ban.listener', { game_id: id, name: profile.name });
-        }
-      }, 5000);
+    const interval = setInterval(() => {
+      if (socket.connected) {
+        socket.emit("ban.listener", { game_id: id, name: profile.name })
+      }
+    }, 5000)
 
-      return () => {
-        clearInterval(interval);
-        socket.disconnect();
-      };
-    }, [id, profile.name]);
+    return () => {
+      clearInterval(interval)
+      socket.disconnect()
+    }
+  }, [id, profile.name])
 
-    return { picks, loading, state };
-  };
+  return { picks, loading, state }
+}
 
 export const useMatchData = (id: string) => {
   return useQuery({

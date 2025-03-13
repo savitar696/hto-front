@@ -1,16 +1,12 @@
-import React, { FC, MouseEventHandler } from "react"
+import React, { FC } from "react"
 
 import style from "./Avatar.module.scss"
-import { PremiumBackgroundGradient } from "@shared/ui/icons/Icons"
-export interface ComponentInterface {
-  children?: React.ReactNode
-  styles?: any
-  className?: string
-  onClick?: MouseEventHandler<any>
-}
+import { PremiumBackgroundGradient } from "../icons/Icons"
+import { ComponentInterface } from "@shared/lib/types"
 
 interface Avatar extends ComponentInterface {
   username: string | undefined
+  data?: any
   size?: number
   heightPremium?: number
   widthPremium?: number
@@ -34,14 +30,14 @@ export const Avatar: FC<Avatar> = ({
         src={`https://skin.vimeworld.com/helm/${username}.png`}
         alt={username}
       />
-      {permanentPremium && (
+      {permanentPremium ? (
         <div className={style.icon}>
           <PremiumBackgroundGradient
             width={widthPremium}
             height={heightPremium}
           />
         </div>
-      )}
+      ) : null}
     </div>
   )
 }

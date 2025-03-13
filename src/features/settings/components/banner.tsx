@@ -7,7 +7,7 @@ import {
   DialogTrigger,
 } from "@components/ui/dialog"
 import { AddIcon } from "@shared/ui/icons/Icons"
-import { api } from "@shared/lib/api"
+import { api } from "@shared/api"
 import { toaster } from "@components/ui/toaster"
 import { FileUploadDropzone, FileUploadRoot } from "@components/ui/file-button"
 import { forwardRef, useRef, useState } from "react"

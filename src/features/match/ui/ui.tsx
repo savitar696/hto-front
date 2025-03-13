@@ -4,6 +4,7 @@ import { parseMatchData } from "../api/lib"
 import { MatchStats, EventLog } from "@widgets/match-statistics/ui"
 import { Tabs } from "@chakra-ui/react"
 import { LoadingContent } from "@widgets/loading-content/ui"
+import style from "./match.module.scss"
 const TABS = {
   MATCH: "match",
   STATS: "stats",
@@ -13,6 +14,7 @@ const TABS = {
 export const MatchContainer = ({ id }: { id: string }) => {
   const { picks, state, loading } = useMatch(id)
   const { data, isLoading } = useMatchData(id)
+  console.log(picks, data)
 
   if (isLoading) return <LoadingContent text="Загружаем матч..." />
   const parsedData = data ? parseMatchData(data) : null
@@ -22,11 +24,12 @@ export const MatchContainer = ({ id }: { id: string }) => {
     picks?.state === GameState.FINISHED ||
     ["load", undefined].includes(data?.map_id)
 
-    const items = [
-      {
-        title: "Обзор",
-        value: TABS.MATCH,
-        content: parsedPick && !isMatchFinished ? (
+  const items = [
+    {
+      title: "Обзор",
+      value: TABS.MATCH,
+      content:
+        parsedPick && !isMatchFinished ? (
           <MatchOverview
             picks={parsedPick.lobby}
             state={GameState.FINISHED}
@@ -34,7 +37,7 @@ export const MatchContainer = ({ id }: { id: string }) => {
             id={parsedPick.lobby.game_id}
             startedTime={parsedData?.started_at ?? undefined}
             endedTime={parsedData?.ended_at ?? undefined}
-            />
+          />
         ) : (
           picks && (
             <MatchOverview
@@ -44,19 +47,24 @@ export const MatchContainer = ({ id }: { id: string }) => {
               id={id}
             />
           )
-        )
-      },
-      {
-        title: "Статистика",
-        value: TABS.STATS,
-        content: parsedData && <MatchStats {...parsedData} />
-      },
-      {
-        title: "События",
-        value: TABS.EVENTS,
-        content: parsedData && <EventLog events={parsedData.events} players={[...parsedData.winners, ...parsedData.losers]} />
-      }
-    ]
+        ),
+    },
+    {
+      title: "Статистика",
+      value: TABS.STATS,
+      content: parsedData && <MatchStats {...parsedData} />,
+    },
+    {
+      title: "События",
+      value: TABS.EVENTS,
+      content: parsedData && (
+        <EventLog
+          events={parsedData.events}
+          players={[...parsedData.winners, ...parsedData.losers]}
+        />
+      ),
+    },
+  ]
 
   return (
     <Tabs.Root lazyMount unmountOnExit defaultValue={TABS.MATCH} flex="1">
@@ -70,14 +78,18 @@ export const MatchContainer = ({ id }: { id: string }) => {
         </Tabs.Trigger>
       </Tabs.List>
       {items.map((item, index) => (
-        <Tabs.Content key={index} value={item.value} _open={{
-          animationName: "fade-in, scale-in",
-          animationDuration: "300ms",
-        }}
-        _closed={{
-          animationName: "fade-out, scale-out",
-          animationDuration: "120ms",
-        }}>
+        <Tabs.Content
+          key={index}
+          value={item.value}
+          _open={{
+            animationName: "fade-in, scale-in",
+            animationDuration: "300ms",
+          }}
+          _closed={{
+            animationName: "fade-out, scale-out",
+            animationDuration: "120ms",
+          }}
+        >
           {item.content}
         </Tabs.Content>
       ))}

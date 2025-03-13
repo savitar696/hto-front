@@ -8,7 +8,7 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react"
 import { Avatar, AvatarGroup } from "@components/ui/avatar"
-import { Button } from "@components/ui/button"
+import { Button } from "@shared/ui/button"
 import {
   ColorModeButton,
   useColorMode,
@@ -25,20 +25,20 @@ import { config, Item, TreeItems } from "@shared/config"
 import { LogoutDialog } from "@features/auth/ui/logout"
 import { useUser } from "@entities/user"
 import { UserPayload } from "@entities/user/model/user.types"
-import { AuthDialog } from "@features/auth/ui/auth"
+import { AuthModal } from "@features/auth/ui/auth"
 import { useNavigate } from "react-router-dom"
-import { FC } from "react"
+import { FC, useState } from "react"
 
 export const Shell: FC = () => {
   const color = useColorModeValue("black", "white")
-  const { isAuth, payload } = useUser((state) => state)
+  const { isAuth, payload, logout, auth } = useUser((state) => state)
   const isMobile = useBreakpointValue({ base: true, md: false })
   const { colorMode } = useColorMode()
   const navigate = useNavigate()
-  // const [open, setOpen] = useState(false)
-
+  const [token, setToken] = useState("")
+  const [isOpenModalAuth, setIsOpenModalAuth] = useState(false)
   return (
-    <Box px={{ base: "4", md: "10%" }} py="6px">
+    <Box px={{ base: "4", md: "10%" }} py="3px">
       <Flex
         as="nav"
         color={color}
@@ -72,14 +72,6 @@ export const Shell: FC = () => {
         )}
 
         <Flex align="center" gap={4}>
-          <ColorModeButton />
-
-          {/* <Tooltip content="Уведомления">
-            <IconButton variant="ghost" aria-label="Notifications">
-              <LuBell />
-            </IconButton>
-          </Tooltip> */}
-
           <AvatarGroup
             display="flex"
             justifyContent="center"
@@ -97,9 +89,7 @@ export const Shell: FC = () => {
                       />
                     ))}
                 </AvatarGroup>
-                <Button rounded="full" onClick={() => navigate("/play")}>
-                  Играть
-                </Button>
+                <Button onClick={() => navigate("/play")}>Играть</Button>
                 {/* <DrawerRoot open={open} onOpenChange={(e) => setOpen(e.open)}>
                   <DrawerBackdrop />
                   <DrawerTrigger> */}
@@ -151,9 +141,27 @@ export const Shell: FC = () => {
                 </DrawerRoot> */}
               </>
             ) : (
-              <AuthDialog>
-                <Button rounded="2xl">Авторизация</Button>
-              </AuthDialog>
+              <>
+                <AuthModal
+                  state={{
+                    value: isOpenModalAuth,
+                    setHandler: setIsOpenModalAuth,
+                  }}
+                  token={{ value: token, setHandler: setToken }}
+                  handlers={[auth]}
+                />
+                <Button
+                  styles={{
+                    display: !isAuth ? "flex" : "none",
+                    backgroundColor: "var(--black100)",
+                    color: "var(--white100)",
+                    border: "none",
+                  }}
+                  onClick={() => setIsOpenModalAuth(true)}
+                >
+                  Войти в свой аккаунт
+                </Button>
+              </>
             )}
           </AvatarGroup>
         </Flex>

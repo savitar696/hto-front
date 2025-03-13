@@ -1,4 +1,4 @@
-import { api } from "@shared/lib/api"
+import { api } from "@shared/api"
 import { useQuery } from "@tanstack/react-query"
 
 export const fetchMatch = async (id: string) => {
