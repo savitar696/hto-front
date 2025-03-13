@@ -1,5 +1,4 @@
 import { Box, Heading } from "@chakra-ui/react"
-import { GradientText } from "@shared/ui/premium-text/ui"
 import { RainbowText } from "@shared/ui/rainbow-text"
 
 export const HomePage = () => {

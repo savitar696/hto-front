@@ -28,7 +28,7 @@ export const promiseToast = (
           </span>
         </div>
       ),
-      success: (data) => (
+      success: () => (
         <div
           style={{
             display: "flex",
@@ -55,7 +55,7 @@ export const promiseToast = (
           </span>
         </div>
       ),
-      error: (err) => (
+      error: () => (
         <div
           style={{
             display: "flex",

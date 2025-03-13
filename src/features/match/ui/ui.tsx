@@ -4,7 +4,7 @@ import { parseMatchData } from "../api/lib"
 import { MatchStats, EventLog } from "@widgets/match-statistics/ui"
 import { Tabs } from "@chakra-ui/react"
 import { LoadingContent } from "@widgets/loading-content/ui"
-import style from "./match.module.scss"
+
 const TABS = {
   MATCH: "match",
   STATS: "stats",

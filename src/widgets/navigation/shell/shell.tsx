@@ -9,11 +9,7 @@ import {
 } from "@chakra-ui/react"
 import { Avatar, AvatarGroup } from "@components/ui/avatar"
 import { Button } from "@shared/ui/button"
-import {
-  ColorModeButton,
-  useColorMode,
-  useColorModeValue,
-} from "@components/ui/color-mode"
+import { useColorMode, useColorModeValue } from "@components/ui/color-mode"
 import {
   MenuContent,
   MenuItem,
@@ -31,7 +27,7 @@ import { FC, useState } from "react"
 
 export const Shell: FC = () => {
   const color = useColorModeValue("black", "white")
-  const { isAuth, payload, logout, auth } = useUser((state) => state)
+  const { isAuth, payload, auth } = useUser((state) => state)
   const isMobile = useBreakpointValue({ base: true, md: false })
   const { colorMode } = useColorMode()
   const navigate = useNavigate()

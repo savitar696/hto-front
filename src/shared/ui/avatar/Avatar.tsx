@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import { FC } from "react"
 
 import style from "./Avatar.module.scss"
 import { PremiumBackgroundGradient } from "../icons/Icons"

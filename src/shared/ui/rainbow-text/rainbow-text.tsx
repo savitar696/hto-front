@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import { FC } from "react"
 
 import style from "./RainbowText.module.scss"
 import { ComponentInterface } from "@shared/lib/types"

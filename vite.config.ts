@@ -1,10 +1,9 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import path from "path";
-import dotenv from 'dotenv'
-
+import { defineConfig } from "vite"
+import react from "@vitejs/plugin-react"
+import path from "path"
+import dotenv from "dotenv"
+import tsconfigPaths from "vite-tsconfig-paths"
 dotenv.config()
-
 
 export default defineConfig({
   resolve: {
@@ -19,9 +18,9 @@ export default defineConfig({
       "@assets": path.resolve(__dirname, "./assets"),
     },
   },
-  plugins: [react()],
+  plugins: [react(), tsconfigPaths()],
   server: {
     port: 8080,
     allowedHosts: true,
   },
-});
+})
