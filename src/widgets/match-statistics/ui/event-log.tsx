@@ -18,29 +18,39 @@ export const EventLog = ({ events, players }: EventLogProps) => {
   const textColor = colorMode === "dark" ? "whiteAlpha.900" : "gray.700"
   const boxBgColor = colorMode === "dark" ? "gray.900" : "white"
 
-  console.log(players, events)
-
   return (
     <Box p={4} borderWidth={1} borderRadius="md" boxShadow="md" bg={bgColor}>
       <Box maxHeight="700px" overflowY="auto">
         {events.map((event, index) => (
-          <Flex key={index} mb={4} p={3} borderWidth={1} borderRadius="md" alignItems="center" flexDirection="row" bg={boxBgColor} boxShadow="sm">
+          <Flex
+            key={index}
+            mb={4}
+            p={3}
+            borderWidth={1}
+            borderRadius="md"
+            alignItems="center"
+            flexDirection="row"
+            bg={boxBgColor}
+            boxShadow="sm"
+          >
             {/* <Box flex={1} borderLeftWidth={4} borderLeftColor={event.type === "kill" ? "red.500" : "blue.500"} pl={3}> */}
             {event.type === "kill" ? (
-              <Flex alignItems="flex-start" justifyContent="space-between" width="100%">
+              <Flex
+                alignItems="flex-start"
+                justifyContent="space-between"
+                width="100%"
+              >
                 <Box display="flex" alignItems="center">
-                  <Avatar username={findPlayerById(event.killer, players)?.username} styles={{ width: "30px", height: "30px", borderRadius: "20%" }}  />
+                  <Avatar
+                    username={findPlayerById(event.killer, players)?.username}
+                    styles={{
+                      width: "30px",
+                      height: "30px",
+                      borderRadius: "20%",
+                    }}
+                  />
                   <Text ml={2} color={textColor}>
-                    Игрок <Box
-                      as="span"
-                      fontWeight="bold"
-                      cursor="pointer"
-                      onClick={() =>
-                        navigate(
-                          `/profile/${findPlayerById(event.target, players)?.username}`,
-                        )
-                      }
-                    >{findPlayerById(event.killer, players)?.username || "Unknown"}</Box> убил игрока {" "}
+                    Игрок{" "}
                     <Box
                       as="span"
                       fontWeight="bold"
@@ -51,9 +61,27 @@ export const EventLog = ({ events, players }: EventLogProps) => {
                         )
                       }
                     >
-                      {findPlayerById(event.target, players)?.username || "Unknown"}{" "}    
+                      {findPlayerById(event.killer, players)?.username ||
+                        "Unknown"}
+                    </Box>{" "}
+                    убил игрока{" "}
+                    <Box
+                      as="span"
+                      fontWeight="bold"
+                      cursor="pointer"
+                      onClick={() =>
+                        navigate(
+                          `/profile/${findPlayerById(event.target, players)?.username}`,
+                        )
+                      }
+                    >
+                      {findPlayerById(event.target, players)?.username ||
+                        "Unknown"}{" "}
                     </Box>
-                    и у него осталось <Box as="span" color="#f83f37">{event.killerHealth} HP</Box>
+                    и у него осталось{" "}
+                    <Box as="span" color="#f83f37">
+                      {event.killerHealth} HP
+                    </Box>
                   </Text>
                 </Box>
                 <Text fontSize="sm" color="gray.500" ml="auto">
@@ -61,11 +89,22 @@ export const EventLog = ({ events, players }: EventLogProps) => {
                 </Text>
               </Flex>
             ) : event.type === "bedBreak" ? (
-              <Flex alignItems="flex-start" justifyContent="space-between" width="100%">
+              <Flex
+                alignItems="flex-start"
+                justifyContent="space-between"
+                width="100%"
+              >
                 <Box display="flex" alignItems="center">
-                  <Avatar username={findPlayerById(event.player, players)?.username} styles={{ width: "30px", height: "30px", borderRadius: "20%" }}  />
+                  <Avatar
+                    username={findPlayerById(event.player, players)?.username}
+                    styles={{
+                      width: "30px",
+                      height: "30px",
+                      borderRadius: "20%",
+                    }}
+                  />
                   <Text ml={2} color={textColor}>
-                    Игрок 
+                    Игрок
                     <Box
                       as="span"
                       fontWeight="bold"
@@ -75,10 +114,18 @@ export const EventLog = ({ events, players }: EventLogProps) => {
                           `/profile/${findPlayerById(event.player, players)?.username}`,
                         )
                       }
-                    > {" "}
-                      {findPlayerById(event.player, players)?.username || "Unknown"}
-                    </Box> сломал кровать команде 
-                    <Box as="span" fontWeight="bold" color={event.team === "blue" ? "blue.500" : "red.500"}> {" "}
+                    >
+                      {" "}
+                      {findPlayerById(event.player, players)?.username ||
+                        "Unknown"}
+                    </Box>{" "}
+                    сломал кровать команде
+                    <Box
+                      as="span"
+                      fontWeight="bold"
+                      color={event.team === "blue" ? "blue.500" : "red.500"}
+                    >
+                      {" "}
                       {event.team === "blue" ? "Синие" : "Красные"}
                     </Box>
                   </Text>
@@ -89,15 +136,23 @@ export const EventLog = ({ events, players }: EventLogProps) => {
               </Flex>
             ) : event.type === "reconnect" ? (
               <Text color={textColor}>
-                Игрок {findPlayerById(event.player, players)?.username || "Unknown"} переподключился.
+                Игрок{" "}
+                {findPlayerById(event.player, players)?.username || "Unknown"}{" "}
+                переподключился.
               </Text>
             ) : event.type === "leave" ? (
               <Text color={textColor}>
-                Игрок {findPlayerById(event.player, players)?.username || "Unknown"} вышел.
+                Игрок{" "}
+                {findPlayerById(event.player, players)?.username || "Unknown"}{" "}
+                вышел.
               </Text>
             ) : event.type === "kick" ? (
               <Text color={textColor}>
-                Игрок {findPlayerById(event.player, players)?.username || "Unknown"} был кикнут ({findPlayerById(event.executor, players)?.username || "Unknown"}).
+                Игрок{" "}
+                {findPlayerById(event.player, players)?.username || "Unknown"}{" "}
+                был кикнут (
+                {findPlayerById(event.executor, players)?.username || "Unknown"}
+                ).
               </Text>
             ) : null}
             {/* </Box> */}

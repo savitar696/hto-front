@@ -20,18 +20,9 @@ interface Props {
   state: string
   loading: boolean
   id: string
-  endedTime?: number
-  startedTime?: number
 }
 
-export const MatchOverview = ({
-  picks,
-  state,
-  loading,
-  id,
-  endedTime,
-  startedTime,
-}: Props) => {
+export const MatchOverview = ({ picks, state, loading, id }: Props) => {
   const bgColor = useColorModeValue("white", "#0d0d0d")
   const textColor = useColorModeValue("#000", "gray.300")
   const borderColor = useColorModeValue("gray.100", "#1a1a1a")
@@ -66,17 +57,7 @@ export const MatchOverview = ({
             {state}
           </Text>
           <Text fontSize="12px" color={"rgb(167, 167, 167)"}>
-            {startedTime
-              ? (() => {
-                  const start = startedTime * 1000
-                  const end = endedTime! * 1000
-
-                  const totalSeconds = Math.floor((end - start) / 1000)
-                  const minutes = Math.floor(totalSeconds / 60)
-                  const seconds = totalSeconds % 60
-                  return `${minutes} мин. ${seconds.toString().padStart(2, "0")} сек.`
-                })()
-              : "Лучший из 1"}
+            Лучший из 1
           </Text>
         </Flex>
 

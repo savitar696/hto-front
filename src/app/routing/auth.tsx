@@ -17,6 +17,7 @@ export const AuthGuard: FC<AuthGuardProps> = ({
   replace = false,
 }) => {
   const { isAuth, isLoading } = useUser((state) => state)
+
   if (isLoading) return <Loader />
 
   if ((!isAuth && !guest) || (isAuth && guest))

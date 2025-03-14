@@ -32,8 +32,6 @@ export const MatchContainer = ({ id }: { id: string }) => {
             state={GameState.FINISHED}
             loading={isLoading}
             id={parsedPick.lobby.game_id}
-            startedTime={parsedData?.started_at ?? undefined}
-            endedTime={parsedData?.ended_at ?? undefined}
           />
         ) : (
           picks && (
