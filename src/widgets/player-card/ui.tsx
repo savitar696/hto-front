@@ -97,24 +97,26 @@ export const PlayerCard = ({ player }: { player: Player }) => {
             Последние 10 матчей
           </Text>
           <Flex>
-            {[player.stats.winrate, player.stats.kills, player.stats.kd].map(
-              (val, j) => (
-                <Box
-                  key={j}
-                  p={2}
-                  flex={1}
-                  borderRight={j < 2 ? "1px solid" : "none"}
-                  borderColor={borderColor}
-                >
-                  <Text fontSize="md" color={textColor}>
-                    {val}
-                  </Text>
-                  <Text fontSize="xs" color={secondaryTextColor}>
-                    {["Побед", "Убийств", "K/D"][j]}
-                  </Text>
-                </Box>
-              ),
-            )}
+            {[
+              player.stats.winrate,
+              player.stats.killsPerMatch,
+              player.stats.kd,
+            ].map((val, j) => (
+              <Box
+                key={j}
+                p={2}
+                flex={1}
+                borderRight={j < 2 ? "1px solid" : "none"}
+                borderColor={borderColor}
+              >
+                <Text fontSize="md" color={textColor}>
+                  {val}
+                </Text>
+                <Text fontSize="xs" color={secondaryTextColor}>
+                  {["Побед", "KPM", "K/D"][j]}
+                </Text>
+              </Box>
+            ))}
           </Flex>
         </Box>
       </Flex>

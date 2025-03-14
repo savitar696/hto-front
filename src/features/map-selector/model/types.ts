@@ -8,4 +8,17 @@ export type MatchPick = {
   teams: Player[][]
 }
 
-export type Player = { client_id: string; name: string; premium: boolean; rating: number; captain: boolean; stats: {matches: number, kd: string; winrate: string; kills: number} }
+export type Player = {
+  client_id: string
+  name: string
+  premium: boolean
+  rating: number
+  captain: boolean
+  stats: {
+    matches: number
+    kd: string
+    winrate: string
+    kills: number
+    killsPerMatch: string
+  }
+}
