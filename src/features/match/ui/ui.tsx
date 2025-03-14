@@ -15,7 +15,7 @@ export const MatchContainer = ({ id }: { id: string }) => {
   const { data, isLoading } = useMatchData(id)
 
   if (isLoading) return <LoadingContent text="Загружаем матч..." />
-  const parsedData = data.data || {}
+  const parsedData = data || {}
   const parsedPick = data?.lobby || {}
   const isMatchFinished =
     picks?.state === GameState.FINISHED ||
@@ -57,7 +57,10 @@ export const MatchContainer = ({ id }: { id: string }) => {
       content: parsedData && (
         <EventLog
           events={parsedData.events}
-          players={[...parsedData.winners, ...parsedData.losers]}
+          players={[
+            ...(parsedData.winners || []),
+            ...(parsedData.losers || []),
+          ]}
         />
       ),
     },
