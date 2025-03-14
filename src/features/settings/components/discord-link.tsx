@@ -1,14 +1,15 @@
 import { Button } from "@components/ui/button"
 import { useSettings } from "../hooks"
 import { api } from "@shared/api"
-import { toaster } from "@components/ui/toaster"
+import { successToast } from "@shared/lib/utils"
+import toast from "react-hot-toast"
 
 export const DiscordLink = ({ username }: { username: string }) => {
   const { properties } = useSettings(username)
 
   const handleUnlink = async () => {
     try {
-      const unlinkPromise = api.post(
+      await api.post(
         "/discord/unlink",
         { username },
         {
@@ -17,20 +18,34 @@ export const DiscordLink = ({ username }: { username: string }) => {
           },
         },
       )
-
-      await toaster.promise(unlinkPromise, {
-        loading: {
-          title: "Отвязка...",
-        },
-        success: {
-          title: "Отвязка прошла успешно",
-          description: "Вы отвязали свой аккаунт Discord",
-        },
-        error: (error: any) => ({
-          title: "Ошибка при отвязке",
-          description: error.response?.data?.message || "Попробуйте позже",
-        }),
-      })
+      return toast.success(
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "var(--space-1)",
+          }}
+        >
+          <span
+            style={{
+              color: "var(--white100)",
+              fontWeight: "var(--fontWeights-semibold)",
+            }}
+          >
+            Успех
+          </span>
+          <span
+            style={{
+              color: "var(--white60)",
+              fontWeight: "var(--fontWeights-medium)",
+              fontSize: "var(--fontSizes-0)",
+            }}
+          >
+            Вы успешно отвязали свой аккаунт Discord
+          </span>
+        </div>,
+        successToast,
+      )
     } catch (error) {
       console.error("Unlink error:", error)
     }

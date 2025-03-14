@@ -65,7 +65,7 @@ export const useUser = create<User>((set) => ({
       isAuth: false,
       payload: null,
     })
-    toast.error(
+    toast.success(
       <div
         style={{
           display: "flex",

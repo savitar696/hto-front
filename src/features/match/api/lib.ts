@@ -1,9 +1,9 @@
 import { Event, Player } from "@entities/game"
 
 interface RawMatchData {
-  winners: string
-  losers: string
-  events: string
+  winners: []
+  losers: []
+  events: []
   started_at: string
   ended_at: string
 }
@@ -18,9 +18,7 @@ interface ParsedMatchData {
 
 export const parseMatchData = (rawData: RawMatchData): ParsedMatchData => {
   try {
-    const winners = rawData.winners
-      ? JSON.parse(rawData.winners).winners || []
-      : []
+    const winners = rawData.winners ? rawData.winners || [] : []
     const losers = rawData.losers ? rawData.losers || [] : []
     const events = rawData.events ? rawData.events || [] : []
     const started_at = rawData.started_at
