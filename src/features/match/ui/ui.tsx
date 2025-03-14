@@ -15,7 +15,7 @@ export const MatchContainer = ({ id }: { id: string }) => {
   const { data, isLoading } = useMatchData(id)
 
   if (isLoading) return <LoadingContent text="Загружаем матч..." />
-  const parsedData = data || {}
+  const parsedData = data.data || {}
   const parsedPick = data?.lobby || {}
   const isMatchFinished =
     picks?.state === GameState.FINISHED ||
