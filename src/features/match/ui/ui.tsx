@@ -58,8 +58,8 @@ export const MatchContainer = ({ id }: { id: string }) => {
         <EventLog
           events={parsedData.events}
           players={[
-            ...(parsedData.winners || []),
-            ...(parsedData.losers || []),
+            ...(Array.isArray(parsedData.winners) ? parsedData.winners : []),
+            ...(Array.isArray(parsedData.losers) ? parsedData.losers : []),
           ]}
         />
       ),
