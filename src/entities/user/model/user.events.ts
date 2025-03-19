@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
 
-export const queueIO = io("http://localhost:5000" + "/queue", {
+export const queueIO = io("https://api.hardtournaments.space" + "/queue", {
   autoConnect: false,
 });
