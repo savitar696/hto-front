@@ -1,0 +1,189 @@
+.spaceArea {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 111;
+
+  @media only screen and (max-width: 555.98px) {
+    .wrapper {
+      align-items: flex-end !important;
+
+      .modal {
+        border-bottom-left-radius: var(--radii-0) !important;
+        border-bottom-right-radius: var(--radii-0) !important;
+      }
+    }
+  }
+
+  .wrapper {
+    inset: 0;
+    z-index: 111;
+    background: rgba(22, 22, 26, 0.9) none repeat scroll 0 0;
+    -moz-box-pack: end;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    .buttonWrapper {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      z-index: 113;
+
+      button:hover,
+      button:focus {
+        background: transparent none repeat scroll 0 0;
+        border-color: rgba(255, 255, 255, 0.18) !important;
+      }
+    }
+  }
+
+  .modal {
+    position: absolute;
+    z-index: 1000;
+    max-height: 100%;
+    background: rgb(255, 255, 255) none repeat scroll 0 0;
+    box-shadow: rgba(27, 32, 50, 0.1) 0 6px 16px;
+    border: 1px solid rgba(22, 22, 26, 0.08);
+    color: rgb(22, 22, 26);
+    padding: var(--space-8);
+    width: 350px;
+    transform-origin: center center 0;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+
+    &::-webkit-scrollbar {
+      width: 1px;
+      border-radius: 14px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: transparent;
+    }
+
+    .header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .title {
+        font-size: 22px;
+        line-height: 28px;
+        font-weight: var(--fontWeights-semibold);
+        margin: 0;
+      }
+    }
+
+    .body {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+
+      .text {
+        font-family: inherit;
+        font-weight: var(--fontWeights-medium);
+        color: rgb(110, 110, 110);
+        vertical-align: inherit;
+      }
+
+      .textInput {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+
+        .text {
+          color: var(--black100);
+          font-size: 15px;
+          line-height: 22px;
+          font-weight: var(--fontWeights-medium);
+        }
+
+        .inputWrapper:focus-within {
+          background: transparent none repeat scroll 0 0;
+          border-color: var(--black30);
+        }
+
+        .inputWrapper {
+          align-items: center;
+          flex-direction: row;
+          font-size: 15px;
+          border: 1px solid transparent;
+          background: rgba(22, 22, 26, 0.04) none repeat scroll 0 0;
+          height: 56px;
+          padding: 0 8px 0 20px;
+          border-radius: 16px;
+          transition: var(--transition15);
+          display: flex;
+          justify-content: space-between;
+
+          .input {
+            background: transparent none repeat scroll 0 0;
+            border-width: 0;
+            min-height: 100%;
+            color: var(--black80);
+            outline: currentcolor none medium;
+            font-size: var(--fontSizes-2);
+            padding: var(--space-0);
+            font-weight: var(--fontWeights-medium);
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    .footer {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+  }
+}
+
+.modalItem {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  .modalItemProfile {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: var(--space-4);
+
+    .modalItemUser {
+      font-size: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+
+      .modalUsername {
+        color: var(--black100);
+        text-decoration: none;
+        line-height: 22px;
+        font-size: var(--fontSizes-1);
+        font-weight: var(--fontWeights-semibold);
+      }
+
+      .modalUserFollowers {
+        color: var(--black60);
+        font-weight: var(--fontWeights-medium);
+        font-size: var(--fontSizes-0);
+      }
+    }
+  }
+}

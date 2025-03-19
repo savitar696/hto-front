@@ -1,0 +1,216 @@
+footer {
+  margin-top: var(--space-13);
+  padding: 0 72px;
+
+  .header {
+    display: grid;
+    justify-content: space-between;
+    justify-items: center;
+    grid-template: "wallpaper links other social"/400px 175px 175px 175px;
+    padding-bottom: 56px;
+    column-gap: 30px;
+
+    .wallpaper {
+      align-items: center;
+      width: 100%;
+      -webkit-user-select: none;
+      background-image: url("../../../src/shared/static/images/bedwars/2v2.png");
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      border-radius: var(--radii-4);
+      filter: grayscale(1);
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      transition: var(--transition15);
+      cursor: pointer;
+
+      &:hover {
+        filter: grayscale(0);
+      }
+
+      svg {
+        filter: invert(1);
+      }
+    }
+
+    .item {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      justify-content: space-between;
+
+      .bottom {
+        display: flex;
+        flex-direction: row;
+        gap: var(--space-2);
+        justify-content: space-around;
+        align-items: center;
+
+        img {
+          cursor: pointer;
+          filter: grayscale(1);
+          transition: var(--transition15);
+          user-select: none;
+
+          &:hover {
+            filter: grayscale(0);
+          }
+        }
+      }
+
+      .title {
+        font-family: inherit;
+        vertical-align: inherit;
+        font-size: var(--fontSizes-5);
+        line-height: 24px;
+        font-weight: var(--fontWeights-semibold);
+      }
+
+      .text {
+        font-family: inherit;
+        vertical-align: inherit;
+        font-size: var(--fontSizes-2);
+        line-height: 22px;
+        font-weight: var(--fontWeights-semibold);
+        transition: var(--transition15);
+        text-decoration: none;
+        color: var(--black60);
+        cursor: pointer;
+
+        &:hover {
+          color: var(--black100);
+        }
+      }
+
+      .community {
+        display: flex;
+        flex-direction: row;
+        gap: var(--space-6);
+        width: 100%;
+        justify-content: space-between !important;
+
+        a {
+          text-decoration: none;
+          color: var(--black60);
+          transition: var(--transition15);
+
+          &:hover {
+            color: var(--black100);
+          }
+        }
+      }
+    }
+  }
+
+  .footer {
+    flex-wrap: wrap;
+    border-top: 1px solid var(--black08);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: var(--space-8);
+    padding-top: 40px;
+    padding-bottom: 40px;
+
+    .item {
+      font-family: inherit;
+      vertical-align: inherit;
+      font-size: var(--fontSizes-0);
+      line-height: 20px;
+      font-weight: var(--fontWeights-medium);
+      color: var(--black60);
+      display: flex;
+      flex-direction: row;
+      gap: var(--space-4);
+
+      a {
+        text-decoration: none;
+        color: var(--black60);
+        transition: var(--transition15);
+
+        &:hover {
+          color: var(--black100);
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1150.98px) {
+  footer {
+    padding: var(--space-0) !important;
+  }
+  .header {
+    padding-bottom: 32px !important;
+    display: grid;
+    column-gap: 32px !important;
+    row-gap: 32px;
+    justify-items: center !important;
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-areas: "updates updates" "links marketplace" "social social" !important;
+  }
+  .wallpaper {
+    justify-self: center;
+    grid-area: updates;
+    height: 100px !important;
+    width: 100% !important;
+  }
+
+  .item {
+    .title {
+      font-size: var(--fontSizes-3) !important;
+    }
+
+    .text {
+      font-size: var(--fontSizes-1) !important;
+    }
+
+    &:nth-child(1) {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+      grid-area: marketplace;
+    }
+
+    &:nth-child(2) {
+      grid-column: 2 / 2;
+      grid-area: links;
+    }
+
+    &:nth-child(4) {
+      justify-content: center;
+      align-items: center;
+      justify-self: center;
+      grid-area: social;
+
+      .title {
+        display: none !important;
+        visibility: hidden;
+      }
+    }
+  }
+  .community {
+    a {
+      width: 28px !important;
+      height: 28px !important;
+    }
+
+    svg {
+      width: 24px !important;
+      height: 24px !important;
+    }
+  }
+  .footer {
+    .item {
+      &:first-child {
+        order: 1 !important;
+      }
+
+      a {
+        text-align: center !important;
+      }
+    }
+  }
+}

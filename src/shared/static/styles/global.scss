@@ -1,0 +1,46 @@
+@import "normalize";
+@import "vars";
+@import "fonts";
+
+
+* {
+  list-style-type: none;
+  scroll-behavior: smooth
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  font-weight: var(--fontWeights-regular);
+  line-height: 1.4;
+  max-width: 100%;
+  color: var(--black100);
+  background: var(--white100) none repeat scroll 0 0;
+}
+
+::selection {
+  background: var(--black20); /* Safari */
+}
+
+::-moz-selection {
+  background: var(--black20); /* Firefox */
+}
+
+html {
+  overflow-y: scroll;
+  scrollbar-color: var(--black100) var(--white100);
+  scrollbar-width: thin;
+  height: 100%;
+}
+
+body::-webkit-scrollbar {
+  width: 2px;
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--white100);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: var(--black100);
+  border-radius: 20px;
+}

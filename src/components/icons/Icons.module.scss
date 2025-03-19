@@ -1,0 +1,17 @@
+@keyframes aGradient {
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.PremiumBackgroundGradient {
+  background: var(--gradient);
+  animation: 4s linear 0s infinite normal none running aGradient;
+  width: 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  border-radius: 100%;
+}

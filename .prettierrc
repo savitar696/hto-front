@@ -1,0 +1,77 @@
+{
+  "rules": {
+    "no-console": "warn",
+    "no-debugger": "warn",
+    "no-empty": [
+      "error",
+      {
+        "allowEmptyCatch": true
+      }
+    ],
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "no-var": "warn",
+    "prefer-const": "off",
+    "prefer-template": "error",
+    "prefer-destructuring": [
+      "error",
+      {
+        "object": true,
+        "array": false
+      }
+    ],
+    "object-shorthand": "error",
+    "no-else-return": "error",
+    "no-restricted-globals": [
+      "error",
+      "event",
+      "fdescribe"
+    ],
+    "no-restricted-syntax": [
+      "error",
+      "ForInStatement"
+    ],
+    "no-param-reassign": "error",
+    "max-params": [
+      "error",
+      3
+    ],
+    "max-lines": [
+      "error",
+      {
+        "max": 200
+      }
+    ],
+    "max-lines-per-function": [
+      "error",
+      {
+        "max": 30
+      }
+    ],
+    "max-nested-callbacks": [
+      "error",
+      3
+    ],
+    "complexity": [
+      "error",
+      {
+        "max": 10
+      }
+    ],
+    "no-useless-constructor": "error",
+    "no-return-await": "error",
+    "no-await-in-loop": "error",
+    "no-shadow": "error",
+    "consistent-return": "error",
+    "camelcase": "error",
+    "func-names": "error",
+    "prefer-arrow-callback": "error",
+    "prefer-rest-params": "error",
+    "prefer-spread": "error",
+    "no-redeclare": "error"
+  }
+}

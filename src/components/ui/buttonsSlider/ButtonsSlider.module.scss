@@ -1,0 +1,65 @@
+.buttonsSlider {
+  display: flex;
+  background: rgba(22, 22, 26, 0.08) none repeat scroll 0 0;
+  border-radius: 16px;
+  align-items: center;
+  position: relative;
+
+  button {
+    display: flex;
+    -moz-box-align: center;
+    align-items: center;
+    -moz-box-pack: center;
+    justify-content: center;
+    flex-flow: row nowrap;
+    position: relative;
+    white-space: nowrap;
+    background: transparent none repeat scroll 0 0;
+    cursor: pointer;
+    min-width: auto;
+    border: 1px solid transparent;
+    border-radius: 14px;
+    font-size: var(--fontSizes-0);
+    font-weight: var(--fontWeights-medium);
+    font-family: inherit;
+    transition: var(--transition15);
+    transform-origin: center center 0;
+    user-select: none;
+    color: rgb(22, 22, 26);
+    padding-left: 16px;
+    padding-right: 16px;
+
+    &:not(:disabled):hover,
+    &:not(:disabled):focus {
+      color: rgb(22, 22, 26);
+      background: transparent none repeat scroll 0 0;
+    }
+  }
+
+  .background {
+    transform: translateX(180px);
+    width: 104.767px;
+    left: 0;
+    position: absolute;
+    height: 40px;
+    transition: all 0.15s ease-in-out 0s;
+    border-radius: 14px;
+    background: rgb(255, 255, 255) none repeat scroll 0 0;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .buttonsSlider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    button {
+      display: flex;
+      flex-direction: row !important;
+      height: 40px;
+      gap: var(--space-2);
+      align-items: center;
+    }
+  }
+}

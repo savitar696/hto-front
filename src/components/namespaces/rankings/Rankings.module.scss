@@ -1,0 +1,145 @@
+@media only screen and (max-width: 765.98px) {
+  .head {
+    margin: 0 !important;
+    flex-direction: column;
+    gap: var(--space-4);
+
+    .title {
+      font-size: 32px !important;
+    }
+  }
+}
+
+.head {
+  width: 100%;
+  max-width: 1220px;
+  margin: 28px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+
+  .title {
+    font-size: var(--fontSizes-10);
+    margin: var(--space-0);
+    font-weight: var(--fontWeights-semibold);
+  }
+
+  .description {
+    font-size: var(--fontSizes-5);
+    color: var(--black60);
+    font-weight: var(--fontWeights-medium);
+  }
+}
+
+.rankingsTable:before {
+  content: "";
+  z-index: -1;
+  border: 1px solid rgba(22, 22, 26, 0.08);
+  position: absolute;
+  inset: 42px 0 0;
+  border-radius: 14px;
+}
+
+.rankingsTable {
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 0;
+  position: relative;
+  width: 100%;
+  max-width: 1220px;
+  margin: 28px auto;
+
+  tbody {
+    :nth-last-child(1) {
+      border-bottom: none;
+    }
+  }
+
+  .rankingsTableHead {
+    vertical-align: inherit;
+    border: 0 none;
+    font: inherit;
+
+    th {
+      padding-bottom: 24px;
+      width: 77px;
+      font-size: 13px;
+      text-align: start;
+      color: rgba(22, 22, 26, 0.6);
+      font-weight: var(--fontWeights-medium);
+    }
+
+    th:nth-child(1) {
+      width: 5%;
+      padding-left: 24px;
+    }
+
+    th:nth-child(2) {
+      width: 35%;
+    }
+
+    th:nth-child(3) {
+      width: 15%;
+    }
+
+    th:nth-child(4) {
+      width: 10%;
+    }
+  }
+}
+
+.rankingsTableWrapper {
+  vertical-align: inherit;
+  max-width: 100%;
+  min-width: 0;
+  flex-shrink: 0;
+  flex-direction: column;
+  flex-basis: auto;
+  display: flex;
+  -moz-box-align: stretch;
+  align-items: stretch;
+  min-height: 0;
+}
+
+.rankingsItem {
+  border-bottom: 1px solid rgba(22, 22, 26, 0.08);
+  vertical-align: middle;
+  height: 96px;
+  cursor: pointer;
+
+  th:nth-child(1) {
+    padding-left: 24px;
+  }
+
+  th {
+    vertical-align: middle;
+    font-weight: var(--fontWeights-semibold);
+    text-align: start;
+
+    img {
+      width: 56px;
+      height: 56px;
+    }
+  }
+}
+
+.firstPlace {
+  background-color: var(--yellow);
+}
+
+.secondPlace {
+  background-color: var(--black20);
+}
+
+.thirdPlace {
+  background-color: var(--orange);
+}
+
+.rankingsItemUser {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: var(--space-6);
+}
