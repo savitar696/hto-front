@@ -1,5 +1,6 @@
 import { createState, useState } from "@hookstate/core";
 import {
+  BedWars2v2Image,
   BedWars4v4Image,
   BedWars6v6Image,
   RainbowImage,
@@ -734,6 +735,12 @@ export namespace Player {
             <div className={style.tabBody}>
               <TabPanel>
                 <div className={style.match}>
+                  <GameItem
+                    data={data}
+                    games={games}
+                    image={BedWars2v2Image}
+                    type={"Premium"}
+                  />
                   <GameItem
                     data={data}
                     games={games}

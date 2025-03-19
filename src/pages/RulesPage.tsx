@@ -13,7 +13,7 @@ export const RulesPage: FC = () => {
 
   return (
     <div style={{ minHeight: "calc(100vh - 333px)" }}>
-      <Rules.Head />
+      {/* <Rules.Head />
       <Rules.BasicProvisions />
       <Rules.GameProcess />
       <Rules.Communication />
@@ -21,7 +21,8 @@ export const RulesPage: FC = () => {
       <Rules.InteractionAdministration />
       <Rules.YouTube />
       <Rules.CategoryDurationOfViolations />
-      <Rules.AppealsProcess />
+      <Rules.AppealsProcess /> */}
+      <h2>правила проекта хардлиги</h2>
     </div>
   );
 };
