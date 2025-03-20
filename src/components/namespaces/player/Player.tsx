@@ -30,6 +30,7 @@ import { shallow } from "zustand/shallow";
 import { useUser } from "@entities/user";
 import { BiSolidErrorCircle } from "react-icons/bi";
 import { Tooltip } from "react-tooltip";
+import { getMapImage, MapImages, MapName } from "@shared/lib/utils/Maps";
 
 const globalState = createState({
   tab: 1,
@@ -393,16 +394,22 @@ export namespace Player {
                   <div className={style.item}>
                     <span className={style.title}>Статус</span>
                     <div className={style.status}>
-                      <div
+                      <span
+                        className={style.title}
                         style={{
-                          backgroundColor: data?.online
-                            ? "var(--green)"
-                            : "var(--red)",
+                          color:
+                            data.role &&
+                            data?.role.some(
+                              (role: any) => role.name === "ADMIN"
+                            )
+                              ? "var(--red)"
+                              : "none",
                         }}
-                        className={style.circle}
-                      ></div>
-                      <span className={style.title}>
-                        {data?.online ? "Онлайн" : "Оффлайн"}
+                      >
+                        {data.role &&
+                        data?.role.some((role: any) => role.name === "ADMIN")
+                          ? "Администратор"
+                          : "Игрок"}
                       </span>
                     </div>
                   </div>
@@ -493,7 +500,7 @@ export namespace Player {
                   </td>
                   <td>
                     <div className={style.map}>
-                      <img src="https://i.imgur.com/wieWJ74.jpeg" alt="Карта" />
+                      <img src={getMapImage(item.map_name)} alt="Карта" />
                       {item.map_name || "Неизвестная карта"}
                     </div>
                   </td>

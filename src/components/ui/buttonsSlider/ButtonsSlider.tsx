@@ -1,4 +1,4 @@
-import React, { FC, useLayoutEffect, useRef } from "react";
+import React, { FC, useLayoutEffect, useRef, useState, useEffect } from "react";
 
 import { ComponentInterface } from "../../../shared/lib/types";
 import style from "./ButtonsSlider.module.scss";
@@ -13,23 +13,37 @@ export const ButtonsSlider: FC<ButtonsSliderI> = ({
   items,
   onStateChanged,
 }) => {
-  const [state, setState] = React.useState(0);
-  const [width, setWidth] = React.useState(0);
-  const ref: any = useRef(null);
-  const [matches, setMatches]: any = React.useState(0);
+  const [state, setState] = useState(0);
+  const [width, setWidth] = useState(0);
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [matches, setMatches] = useState(false);
 
   useLayoutEffect(() => {
-    if (ref.current !== null) {
-      setWidth(ref.current.offsetWidth);
-      const handler = (e: any) => setMatches(e.matches);
-      const mediaMatch = window.matchMedia(
-        `(max-width: ${ref.current.offsetWidth}px)`
-      );
-      setMatches(mediaMatch.matches);
-      mediaMatch.addListener(handler);
-      return () => mediaMatch.removeListener(handler);
-    }
+    const updateWidth = () => {
+      if (ref.current) {
+        setWidth(ref.current.offsetWidth);
+      }
+    };
+
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+
+    return () => {
+      window.removeEventListener("resize", updateWidth);
+    };
   }, []);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(`(max-width: ${width}px)`);
+    const handler = (e: MediaQueryListEvent) => setMatches(e.matches);
+
+    setMatches(mediaQuery.matches);
+    mediaQuery.addEventListener("change", handler);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handler);
+    };
+  }, [width]);
 
   return (
     <div
@@ -37,8 +51,8 @@ export const ButtonsSlider: FC<ButtonsSliderI> = ({
       style={{
         ...styles,
         flexDirection: matches ? "column" : "row",
-        gap: matches ? "var(--space-2)" : "var(--space-2)",
-        height: matches ? "auto" : styles.height ? styles.height : "60px",
+        gap: "var(--space-2)",
+        height: matches ? "auto" : styles.height ?? "60px",
         padding: matches ? "2px" : "4px",
       }}
       ref={ref}
@@ -46,41 +60,23 @@ export const ButtonsSlider: FC<ButtonsSliderI> = ({
       <div
         style={{
           transform: matches
-            ? `translateY(${
-                state === 0
-                  ? 2
-                  : state + 1 === items.length
-                  ? state * styles.height
-                    ? styles.height
-                    : 48 - 2
-                  : state * styles.height
-                  ? styles.height
-                  : 48
-              }px)`
-            : `translateX(${
-                state === 0
-                  ? 4
-                  : state + 1 === items.length
-                  ? (state * width) / items.length - 4
-                  : state * 170
-              }px)`,
-          width: matches ? "100%" : width / items.length,
+            ? `translateY(${state * (styles.height ?? 48)}px)`
+            : `translateX(${(state * width) / items.length}px)`,
+          width: matches ? "100%" : `${width / items.length}px`,
           position: "absolute",
           height: matches ? "40px" : styles.height ? "84%" : "60px",
-          transition: "all 0.15s ease-in-out 0s",
+          transition: "all 0.15s ease-in-out",
           borderRadius: "14px",
-          background: "rgb(255, 255, 255) none repeat scroll 0 0",
+          background: "rgb(255, 255, 255)",
         }}
         className={style.background}
-      ></div>
-      {items.map((item, key: number) => (
+      />
+      {items.map((item) => (
         <div
-          key={key}
+          key={item.index}
           style={{ display: "flex", width: "100%" }}
           onClick={() => {
-            if (onStateChanged != null) {
-              onStateChanged(item.index);
-            }
+            onStateChanged?.(item.index);
             setState(item.index);
           }}
         >

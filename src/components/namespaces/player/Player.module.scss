@@ -490,6 +490,9 @@ hr {
               border-radius: 8px;
               transition: var(--transition15);
             }
+            :hover {
+              filter: grayscale(0);
+            }
           }
         }
 

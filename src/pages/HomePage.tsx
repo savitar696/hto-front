@@ -23,6 +23,14 @@ export const HomePage: FC = () => {
     layout.container.set(true);
   }, [layout.container, layout.footer.state, layout.footer.topPeace]);
 
+  const formatDate = (date: Date): string => {
+    return date.toLocaleDateString("ru-RU", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+  };
+
   return (
     <div style={{ minHeight: "calc(100vh - 333px)" }}>
       <Home.Heading>
@@ -65,40 +73,29 @@ export const HomePage: FC = () => {
         </Home.HeadingTabs>
       </Home.Heading>
 
-      {/* <Home.ArticlesWrapper>
+      <Home.ArticlesWrapper>
         <Home.ArticleHeading>Последние статьи</Home.ArticleHeading>
         <Home.Articles>
           <Home.ArticleItem
-            image={
-              "https://sun9-6.userapi.com/impg/wqv7TWmkva-_DDitar4IH0iQYQJqT0SY0CpM4g/8FvTnATRgfg.jpg?size=1024x1024&quality=96&sign=b443bb70d4e8017cfe37cd8b9b60aeae&type=album"
-            }
-            title={
-              "К сожалению, нам придется перенести дату открытия на неопределенный срок времени."
-            }
-            date={"9 Сентября, 2022"}
-            url={"vk.com"}
+            image={"https://i.imgur.com/8DFy1Cg.png"}
+            title={"Ура, новый дизайн у сайта! у шайтана мама шлюха"}
+            date={formatDate(new Date())}
+            url={"player/YaClary"}
           />
           <Home.ArticleItem
-            image={"https://i.imgur.com/kuULB0U.png"}
-            title={
-              "Увы, но по техническим причинам нам требуется перенести дату открытия сайта. Теперь, мы планируем сделать это 9 сентября."
-            }
-            date={"28 Августа, 2022"}
-            url={"vk.com"}
+            image={"https://i.imgur.com/tHlJML8.png"}
+            title={"saxue в ахуе от пениса на экране"}
+            date={formatDate(new Date())}
+            url={"player/YaClary"}
           />
           <Home.ArticleItem
-            image={
-              "https://sun9-76.userapi.com/impg/hcNV2tnQJR5iHYfzGsvPwkIenS1y04K4ignWaw/ZC-N7h0jxvY.jpg?size=1920x812&quality=95&sign=3bd64e1b6f26397efa4a03b4528b4dfc&type=album"
-            }
-            title={
-              "Приветствуем! Представляем вашему вниманию группу строителей нашего сервера.\n" +
-              "В этой группе будет выходить различная информация по обновлениям карт. У вас есть шанс увидеть карты, которые по какой-либо причине не добавили. Или даже повлиять на выход карт на вашем любимом режиме. Также, в группе имеется уже три поста с новыми и ребилд картами. "
-            }
-            date={"26 Августа, 2022"}
-            url={"vk.com"}
+            image={"https://i.imgur.com/wVid9AF.png"}
+            title={"всем обнул рейтинга "}
+            date={formatDate(new Date())}
+            url={"player/YaClary"}
           />
         </Home.Articles>
-      </Home.ArticlesWrapper> */}
+      </Home.ArticlesWrapper>
     </div>
   );
 };

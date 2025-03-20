@@ -50,9 +50,7 @@ export namespace Subscription {
             <motion.div
               variants={multipleStarModalAnimation}
               initial={"initial"}
-            >
-              <PremiumBackgroundGradient width={5000} height={5000} />
-            </motion.div>
+            ></motion.div>
             <Modal.Content width={500} setState={state.setHandler}>
               <div className={modalStyle.header}>
                 <h1 className={modalStyle.title}>
@@ -210,10 +208,13 @@ export namespace Subscription {
         <div className={style.intro}>
           <div className={style.wrapper}>
             <RainbowText
-              styles={{ fontSize: "var(--fontSizes-16)", lineHeight: "160px" }}
-              blur={false}
+              styles={{
+                fontSize: "var(--fontSizes-16)",
+                lineHeight: "160px",
+              }}
+              blur={true}
             >
-              Premium+
+              Premium
             </RainbowText>
             <span className={style.description}>
               Получите новые впечатления от игры и уникальные функции
@@ -359,14 +360,39 @@ export namespace Subscription {
     );
   };
 
+  export const AdvancedRating = () => {
+    return (
+      <div
+        className={style.slide}
+        style={{ background: "#EEFFE1", flexDirection: "column" }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "var(--space-4)",
+            width: "100%",
+          }}
+        ></div>
+        <div className={style.info} style={{ gap: "var(--space-2)" }}>
+          <span className={style.title}>Дополнительный рейтинг</span>
+          <span className={style.description}>
+            Получите дополнительный рейтинг после выигранной игры.
+          </span>
+        </div>
+      </div>
+    );
+  };
+
   export const PriorityCaptain = () => {
     return (
       <div
         className={style.slide}
         style={{
           background: "#E8EAF6",
-          display: "grid",
-          gridTemplateColumns: "auto 400px",
+          display: "flex", // Используем flex вместо grid
+          flexDirection: "row", // Размещаем элементы в строку (по умолчанию)
+          justifyContent: "space-between", // Добавляем пространство между элементами
           overflow: "hidden",
         }}
       >
@@ -383,7 +409,7 @@ export namespace Subscription {
           </span>
         </div>
         <div className={style.playerItems}>
-          <div className={style.player}>
+          <div className={style.player} style={{ width: "400px" }}>
             <div className={style.defaultInfo}>
               <button className={style.avatarButton}>
                 <Avatar

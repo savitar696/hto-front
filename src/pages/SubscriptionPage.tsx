@@ -22,6 +22,7 @@ export const SubscriptionPage: FC = () => {
           <Subscription.PremiumMatchmaking />
           <Subscription.PriorityCaptain />
           <Subscription.AnimatedWallpaper />
+          <Subscription.AdvancedRating />
         </Subscription.Slides>
       </Container>
     </Fragment>

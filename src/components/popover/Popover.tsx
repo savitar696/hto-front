@@ -17,11 +17,6 @@ export const Popover: FC<Popover> = ({ state, ref, anchor, children }) => {
   const contentRef: any = useRef(0);
   const wrapperRef: any = useRef(0);
   const [indexState, setIndexState]: any = React.useState(0);
-  console.log(
-    state.value.find((obj) => {
-      console.log(obj.index, wrapperRef.current?.textContent);
-    })
-  );
   const candidate = state.value.find(
     (obj) => obj.index === wrapperRef.current?.textContent
   );
