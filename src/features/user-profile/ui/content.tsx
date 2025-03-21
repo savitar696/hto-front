@@ -27,7 +27,7 @@ export const ContentProfile = ({
               (match: GamePayload) => !["load", "temp"].includes(match.map_id),
             )
             .sort((a: any, b: any) =>
-              b["ended_at"].localeCompare(a["ended_at"]),
+              b["created_at"].localeCompare(a["created_at"]),
             )
             .map((match: GamePayload) => (
               <MatchCard

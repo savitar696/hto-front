@@ -22,8 +22,6 @@ export const VoteTimer = ({
   useEffect(() => {
     const updateTimer = () => {
       const now = getMoscowTime().toMillis()
-      console.log("Current time:", now)
-      console.log("Vote end time:", voteRightEnd)
 
       const newTimeLeft = Math.max(0, Math.floor((voteRightEnd - now) / 1000))
       setTimeLeft(newTimeLeft)
