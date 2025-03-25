@@ -63,11 +63,10 @@ export const useQueue = (payload: any) => {
   )
 
   const joinQueue = useCallback(() => {
-    // reset()
-    // start()
-    // setSearch(true)
-    // queueIO.connect()
-    handleError("Поиск выключен")
+    reset()
+    start()
+    setSearch(true)
+    queueIO.connect()
   }, [reset, start])
 
   const outQueue = useCallback(() => {
