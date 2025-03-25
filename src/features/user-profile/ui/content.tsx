@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Flex, Grid, Text } from "@chakra-ui/react"
 import { GamePayload } from "@entities/game"
 import { MapImages, MapName } from "@shared/config"
@@ -86,7 +85,7 @@ const MatchCard = ({
           right="0"
           p="4"
           py="6"
-          bg="linear-gradient(transparent, rgba(0,0,0,0.7))" // Градиент для читаемости
+          bg="linear-gradient(transparent, rgba(0,0,0,0.7))"
           lineHeight={0.8}
         >
           <Text
