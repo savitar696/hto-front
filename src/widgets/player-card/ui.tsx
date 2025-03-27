@@ -1,15 +1,14 @@
 import { Box, Flex, Icon, Text } from "@chakra-ui/react"
 import { Avatar } from "@shared/ui/avatar"
-import { useColorModeValue } from "@components/ui/color-mode"
 import { Player } from "@features/map-selector/model"
 import { GradientText } from "@shared/ui/premium-text/ui.tsx"
 import { PiCrownSimpleFill } from "react-icons/pi"
 
 export const PlayerCard = ({ player }: { player: Player }) => {
-  const cardBg = useColorModeValue("white", "#0F0F0F") // Фон карточки
-  const textColor = useColorModeValue("blackAlpha.900", "#ffffff") // Основной текст
-  const borderColor = useColorModeValue("blackAlpha.100", "whiteAlpha.50") // Цвет границ
-  const secondaryTextColor = useColorModeValue("blackAlpha.600", "#a0a0a0")
+  const cardBg = "white"
+  const textColor = "blackAlpha.900"
+  const borderColor = "blackAlpha.100"
+  const secondaryTextColor = "blackAlpha.600"
 
   return (
     <Box

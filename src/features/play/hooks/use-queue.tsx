@@ -129,13 +129,11 @@ export const useQueue = (payload: any) => {
   useEffect(() => {
     queueIO.on("connect", handleConnect)
     queueIO.on("join.event", handleJoinEvent)
-    queueIO.on("disconnect", outQueue)
     return () => {
       queueIO.off("connect", handleConnect)
       queueIO.off("join.event", handleJoinEvent)
-      queueIO.off("disconnect", outQueue)
     }
-  }, [handleConnect, handleJoinEvent, outQueue])
+  }, [handleConnect, handleJoinEvent])
 
   useEffect(() => {
     const audio1 = new Audio(foundedSound)

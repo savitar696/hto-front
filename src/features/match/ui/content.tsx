@@ -26,7 +26,6 @@ interface Props {
 export const MatchOverview = ({ picks, state, loading, id }: Props) => {
   const bgColor = useColorModeValue("white", "#0d0d0d")
   const textColor = useColorModeValue("#000", "gray.300")
-  const borderColor = useColorModeValue("gray.100", "#1a1a1a")
   const [copy, setCopy] = React.useState("Копировать")
 
   const copyURL = () => {
@@ -44,7 +43,7 @@ export const MatchOverview = ({ picks, state, loading, id }: Props) => {
         templateColumns={{ base: "1fr", md: "auto 200px auto" }}
         gap={6}
         border="1px solid"
-        borderColor={borderColor}
+        borderColor={"gray.100"}
         borderRadius="2xl"
         p={6}
         bg={bgColor}
@@ -54,8 +53,8 @@ export const MatchOverview = ({ picks, state, loading, id }: Props) => {
             team_{picks.teams[0][0].name.toLowerCase()}
           </Text>
           <Avatar
-            src={`https://skin.vimeworld.com/helm/3d/${picks.teams[0][0].name}.png`}
-            size="xl"
+            src={`https://skin.vimeworld.com/helm/${picks.teams[0][0].name}.png`}
+            size="md"
             background={"none"}
           />
         </Flex>
@@ -74,8 +73,8 @@ export const MatchOverview = ({ picks, state, loading, id }: Props) => {
 
         <Flex align="center" gap={4}>
           <Avatar
-            src={`https://skin.vimeworld.com/helm/3d/${picks.teams[1][0].name}.png`}
-            size="xl"
+            src={`https://skin.vimeworld.com/helm/${picks.teams[1][0].name}.png`}
+            size="md"
             background={"none"}
           />
           <Text fontSize="md" fontWeight="semibold" color={textColor}>
@@ -135,7 +134,7 @@ export const MatchOverview = ({ picks, state, loading, id }: Props) => {
               </Flex>
               <Box
                 border="1px solid"
-                borderColor={borderColor}
+                borderColor={"gray.100"}
                 p={2}
                 borderRadius="8px"
                 minWidth="400px"
