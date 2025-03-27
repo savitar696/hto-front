@@ -15,23 +15,22 @@ export const MatchContainer = ({ id }: { id: string }) => {
   const { data, isLoading } = useMatchData(id)
 
   if (isLoading) return <LoadingContent text="Загружаем матч..." />
-  const parsedData = data || {}
-  const parsedPick = data?.lobby || {}
+  const parsedData = (data && data.data) || {}
   const isMatchFinished =
     picks?.state === GameState.FINISHED ||
-    ["load", undefined].includes(data?.map_id)
+    ["load", undefined].includes(parsedData?.map_id)
 
   const items = [
     {
       title: "Обзор",
       value: TABS.MATCH,
       content:
-        parsedPick && !isMatchFinished ? (
+        parsedData && !isMatchFinished ? (
           <MatchOverview
-            picks={parsedPick.lobby}
+            picks={parsedData.lobby}
             state={GameState.FINISHED}
             loading={isLoading}
-            id={parsedPick.lobby.game_id}
+            id={parsedData.lobby.game_id}
           />
         ) : (
           picks && (

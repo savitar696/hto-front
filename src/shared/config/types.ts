@@ -1,4 +1,4 @@
-export const API_URL = "https://api.hardtournaments.space"
+export const API_URL = "http://localhost:5000"
 
 export interface Item {
   label: string

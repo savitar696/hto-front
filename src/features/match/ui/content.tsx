@@ -13,7 +13,8 @@ import { getMapKey } from "@features/user-profile/model/map"
 import { MapImages, MapName } from "@shared/config"
 import { FiInfo } from "react-icons/fi"
 import { MatchPick } from "@features/match/hooks"
-import { Button } from "@components/ui/button.tsx"
+import { Button } from "@shared/ui/button"
+import React from "react"
 
 interface Props {
   picks: MatchPick
@@ -26,6 +27,16 @@ export const MatchOverview = ({ picks, state, loading, id }: Props) => {
   const bgColor = useColorModeValue("white", "#0d0d0d")
   const textColor = useColorModeValue("#000", "gray.300")
   const borderColor = useColorModeValue("gray.100", "#1a1a1a")
+  const [copy, setCopy] = React.useState("Копировать")
+
+  const copyURL = () => {
+    navigator.clipboard.writeText("https://discord.gg/rHHVvFXqju")
+    setCopy("Скопировано")
+
+    setTimeout(() => {
+      setCopy("Копировать")
+    }, 2500)
+  }
   if (loading) return <div>Loading...</div>
   return (
     <Flex direction="column" gap={3}>
@@ -87,78 +98,114 @@ export const MatchOverview = ({ picks, state, loading, id }: Props) => {
             alignItems="center"
             flexDirection="column"
             paddingTop="8px"
-            gap={2}
+            gap={4}
           >
+            <Flex alignItems="center" flexDirection={"column"}>
+              <Flex
+                alignItems="center"
+                justifyContent="space-between"
+                minWidth="400px"
+              >
+                <Text fontWeight={600} fontSize="14px" color={textColor}>
+                  Карта:
+                </Text>
+                <PopoverRoot positioning={{ placement: "right" }}>
+                  <PopoverTrigger asChild>
+                    <IconButton
+                      aria-label="Информация"
+                      size="xs"
+                      variant="ghost"
+                      cursor={"pointer"}
+                    >
+                      <FiInfo />
+                    </IconButton>
+                  </PopoverTrigger>
+                  <PopoverContent minWidth={350}>
+                    <PopoverBody>
+                      <Text
+                        whiteSpace="pre-line"
+                        fontSize="sm"
+                        color={textColor}
+                      >
+                        {picks.logs?.join("\n")}
+                      </Text>
+                    </PopoverBody>
+                  </PopoverContent>
+                </PopoverRoot>
+              </Flex>
+              <Box
+                border="1px solid"
+                borderColor={borderColor}
+                p={2}
+                borderRadius="8px"
+                minWidth="400px"
+                bg={bgColor}
+              >
+                <Flex alignItems="center" gap={3}>
+                  <Image
+                    src={MapImages[MapName[getMapKey(picks.maps[0])!]]}
+                    height="40px"
+                    width="90px"
+                    borderRadius="4px"
+                    backgroundPosition="center center"
+                    backgroundSize="cover"
+                    backgroundRepeat="no-repeat"
+                  />
+                  <Text fontWeight={600} color={textColor}>
+                    {picks.maps[0]}
+                  </Text>
+                </Flex>
+              </Box>
+            </Flex>
             <Flex
-              alignItems="center"
+              alignItems="start"
               justifyContent="space-between"
               minWidth="400px"
+              flexDirection="column"
+              gap="8px"
             >
               <Text fontWeight={600} fontSize="14px" color={textColor}>
-                Карта:
+                Голосовой канал
               </Text>
-              <PopoverRoot positioning={{ placement: "right" }}>
-                <PopoverTrigger asChild>
-                  <IconButton
-                    aria-label="Информация"
-                    size="xs"
-                    variant="ghost"
-                    cursor={"pointer"}
-                  >
-                    <FiInfo />
-                  </IconButton>
-                </PopoverTrigger>
-                <PopoverContent minWidth={350}>
-                  <PopoverBody>
-                    <Text whiteSpace="pre-line" fontSize="sm" color={textColor}>
-                      {picks.logs?.join("\n")}
-                    </Text>
-                  </PopoverBody>
-                </PopoverContent>
-              </PopoverRoot>
-            </Flex>
-            <Box
-              border="1px solid"
-              borderColor={borderColor}
-              p={2}
-              borderRadius="8px"
-              minWidth="400px"
-              bg={bgColor}
-            >
-              <Flex alignItems="center" gap={3}>
-                <Image
-                  src={MapImages[MapName[getMapKey(picks.maps[0])!]]}
-                  height="40px"
-                  width="90px"
-                  borderRadius="4px"
-                  backgroundPosition="center center"
-                  backgroundSize="cover"
-                  backgroundRepeat="no-repeat"
+              <Flex
+                justify={"start"}
+                direction="row"
+                alignItems="center"
+                borderRadius="16px"
+                padding="0 8px 0 20px"
+                height="56px"
+                background="rgba(22, 22, 26, 0.04) none repeat scroll 0 0"
+                border="1px solid transparent"
+                width="100%"
+                fontSize="15px"
+              >
+                <input
+                  type={"text"}
+                  readOnly
+                  value={"https://discord.gg/rHHVvFXqju"}
+                  style={{
+                    background: "transparent none repeat scroll 0 0",
+                    borderWidth: 0,
+                    minHeight: "100%",
+                    color: "rgba(22, 22, 26, 0.8)",
+                    outline: "currentcolor none medium",
+                    fontSize: "15px",
+                    width: "80%",
+                    fontWeight: "500",
+                    padding: 0,
+                  }}
                 />
-                <Text fontWeight={600} color={textColor}>
-                  {picks.maps[0]}
-                </Text>
+                <Button
+                  onClick={() => copyURL()}
+                  styles={{
+                    backgroundColor: "var(--black100)",
+                    color: "var(--white100)",
+                    border: "none",
+                  }}
+                >
+                  {copy}
+                </Button>
               </Flex>
-            </Box>
-            <Flex direction="row" gap={2} pt="2">
-              {/*<Text fontWeight={600} fontSize="14px" textAlign="center" color={textColor}>Если игру сразу не засчитало - не переживайте, ее скоро засчитают</Text>*/}
-              <Button
-                borderRadius="12px"
-                size="sm"
-                variant="outline"
-                onClick={() =>
-                  (window.location.href = "https://discord.gg/EnyrgVHCQd")
-                }
-              >
-                Подключиться к Discord
-              </Button>
-              {/* <Button
-                size="sm"
-                borderRadius="12px"
-                variant="outline"
-              >
-                Позвать администратора
-              </Button> */}
             </Flex>
           </Flex>
         )}

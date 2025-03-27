@@ -138,13 +138,17 @@ export const useUser = create<User>((set) => ({
           </div>,
           errorToast,
         )
-        localStorage.setItem("token", "")
         set({
           isLoading: false,
           isAuth: false,
           payload: null,
         })
       }
+    } else {
+      set({
+        isAuth: false,
+        isLoading: false,
+      })
     }
   },
 }))
