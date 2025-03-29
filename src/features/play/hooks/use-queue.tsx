@@ -70,10 +70,11 @@ export const useQueue = (payload: any) => {
   }, [reset, start])
 
   const outQueue = useCallback(() => {
-    reset()
-    pause()
-    setSearch(false)
-    queueIO.disconnect()
+    // reset()
+    // pause()
+    // setSearch(false)
+    // queueIO.disconnect()
+    handleError("На данный момент, поиск для этого режима отключен.")
   }, [reset, pause])
 
   const handleServerError = useCallback(
