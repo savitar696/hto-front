@@ -23,7 +23,7 @@ export const Card: FC<GameType> = ({ type, image, available }) => {
         alignItems: "flex-end",
         justifyContent: "center",
         cursor: available ? "pointer" : "default",
-        filter: available ? "grayscale(1)" : "grayscale(0)",
+        filter: available ? "grayscale(1)" : "grayscale(1)",
         transition: "all 0.2s ease-in-out",
       },
       hover: { filter: available ? "grayscale(0)" : "grayscale(1)" },
