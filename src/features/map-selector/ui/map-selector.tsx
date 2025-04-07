@@ -1,11 +1,11 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react"
-import { useUser } from "@entities/user"
-import { MatchPick, useMapBan } from "../model"
+import { useMapBan } from "../model"
 import { VoteTimer } from "../lib/vote-timer"
-import { Button } from "@components/ui/button"
+import { Button } from "@shared/ui/button"
 import { getMapKey } from "@features/user-profile/model/map"
 import { MapImages, MapName } from "@shared/config"
 import { useColorModeValue } from "@components/ui/color-mode"
+import { MatchPick } from "@features/match/hooks/types"
 
 export const MapSelector = ({
   picks,
@@ -15,10 +15,9 @@ export const MapSelector = ({
   game_id: string
 }) => {
   const userPick = picks.vote_right
-  ? picks.teams[1][0].name
-  : picks.teams[0][0].name
-  const { currentBan, isBanning, handleBan } = useMapBan(game_id)
-  const { profile } = useUser((state) => state.payload)
+    ? picks.teams[1].players[0].name
+    : picks.teams[0].players[0].name
+  const { handleBan } = useMapBan(game_id)
   const bgColor = useColorModeValue("white", "#0d0d0d")
 
   return (
@@ -61,10 +60,13 @@ export const MapSelector = ({
               </Text>
             </Flex>
             <Button
-              colorScheme="blackAlpha"
               onClick={() => handleBan(map)}
-              loading={isBanning && currentBan === map}
-              disabled={profile?.name !== userPick}
+              styles={{
+                backgroundColor: "var(--black100)",
+                color: "var(--white100)",
+              }}
+              //   loading={isBanning && currentBan === map}
+              //   disabled={profile?.name !== userPick}
             >
               Бан
             </Button>

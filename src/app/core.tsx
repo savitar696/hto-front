@@ -9,6 +9,7 @@ export const Core = withProviders(() => {
   useEffect(() => {
     localStorage.setItem("theme", "light")
   }, [])
+
   return (
     <BrowserRouter>
       <AuthProvider>

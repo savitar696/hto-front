@@ -2,7 +2,6 @@ import {
   Box,
   Flex,
   Text,
-  List,
   Link,
   Image,
   useBreakpointValue,
@@ -17,13 +16,14 @@ import {
   MenuTrigger,
 } from "@components/ui/menu"
 import { LogoDark, LogoWhite } from "@shared/static/logo"
-import { config, Item, TreeItems } from "@shared/config"
+import { config } from "@shared/config"
 import { LogoutDialog } from "@features/auth/ui/logout"
 import { useUser } from "@entities/user"
 import { UserPayload } from "@entities/user/model/user.types"
 import { AuthModal } from "@features/auth/ui/auth"
 import { useNavigate } from "react-router-dom"
 import { FC, useState } from "react"
+import { Input } from "@shared/ui/input"
 
 export const Shell: FC = () => {
   const color = useColorModeValue("black", "white")
@@ -55,17 +55,15 @@ export const Shell: FC = () => {
           </Text>
         </Flex>
 
-        {!isMobile && (
-          <Flex align="center" gap={4}>
-            <List.Root display="flex" alignItems="center" flexDirection="row">
-              {TreeItems.map((item: Item) => (
-                <Box key={item.url} mx="4">
-                  <NavigationText url={item.url}>{item.label}</NavigationText>
-                </Box>
-              ))}
-            </List.Root>
-          </Flex>
-        )}
+        <Input
+          placeholder="Поиск"
+          styles={{
+            minWidth: isMobile ? "100%" : "300px",
+          }}
+          options={{
+            useFocus: false,
+          }}
+        />
 
         <Flex align="center" gap={4}>
           <AvatarGroup
@@ -86,55 +84,7 @@ export const Shell: FC = () => {
                     ))}
                 </AvatarGroup>
                 <Button onClick={() => navigate("/play")}>Играть</Button>
-                {/* <DrawerRoot open={open} onOpenChange={(e) => setOpen(e.open)}>
-                  <DrawerBackdrop />
-                  <DrawerTrigger> */}
                 <ProfileRoot payload={payload} />
-                {/* <Avatar
-                      size="md"
-                      name={payload.profile.name}
-                      src={`https://skin.vimeworld.com/helm/${payload.profile.name}.png`}
-                      cursor="pointer"
-                      bg={open ? "yellow.200" : "transparent"}
-                    />
-                </DrawerTrigger>
-                  <DrawerContent>
-                    <DrawerHeader>
-                      <DrawerTitle>
-                        <Flex alignItems="center" gap="3">
-                          <Avatar
-                            size="md"
-                            name={payload.profile.name}
-                            src={`https://skin.vimeworld.com/helm/${payload.profile.name}.png`}
-                          />
-                          <Text fontWeight={600} fontSize="20px">
-                            {payload.profile.name}
-                          </Text>
-                        </Flex>
-                      </DrawerTitle>
-                    </DrawerHeader>
-                    <DrawerBody>
-                      <Flex
-                        flexDirection="column"
-                        gap="32px"
-                        alignItems="center"
-                        pt="5"
-                      >
-                        <Text fontSize="32px" fontWeight={600}>
-                          <Link href={`/profile/${payload.profile.name}`}>
-                            Профиль
-                          </Link>
-                        </Text>
-                        <Text fontSize="32px" fontWeight={600}>
-                          <Link href={`/settings`}>Настройки</Link>
-                        </Text>
-                        <Text fontSize="32px" fontWeight={600} cursor="pointer" onClick={handleLogout}>
-                          Выход
-                        </Text>
-                      </Flex>
-                    </DrawerBody>
-                  </DrawerContent>
-                </DrawerRoot> */}
               </>
             ) : (
               <>
@@ -166,30 +116,30 @@ export const Shell: FC = () => {
   )
 }
 
-const NavigationText = ({
-  url,
-  children,
-}: {
-  url: string
-  children: React.ReactNode
-}) => {
-  const navigate = useNavigate()
+// const NavigationText = ({
+//   url,
+//   children,
+// }: {
+//   url: string
+//   children: React.ReactNode
+// }) => {
+//   const navigate = useNavigate()
 
-  const handleNavigate = () => {
-    navigate(url)
-  }
+//   const handleNavigate = () => {
+//     navigate(url)
+//   }
 
-  return (
-    <Text
-      fontWeight="bold"
-      cursor="pointer"
-      onClick={handleNavigate}
-      _hover={{ textDecoration: "underline" }}
-    >
-      {children}
-    </Text>
-  )
-}
+//   return (
+//     <Text
+//       fontWeight="bold"
+//       cursor="pointer"
+//       onClick={handleNavigate}
+//       _hover={{ textDecoration: "underline" }}
+//     >
+//       {children}
+//     </Text>
+//   )
+// }
 
 const ProfileRoot = ({ payload }: { payload: UserPayload }) => {
   const { logout } = useUser((state) => state)

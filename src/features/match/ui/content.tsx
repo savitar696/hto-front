@@ -50,10 +50,10 @@ export const MatchOverview = ({ picks, state, loading, id }: Props) => {
       >
         <Flex align="center" gap={4} justify="flex-end">
           <Text fontSize="md" fontWeight="semibold" color={textColor}>
-            team_{picks.teams[0][0].name.toLowerCase()}
+            {picks.teams[0].name}
           </Text>
           <Avatar
-            src={`https://skin.vimeworld.com/helm/${picks.teams[0][0].name}.png`}
+            src={`https://skin.vimeworld.com/helm/${picks.teams[0].players[0].name}.png`}
             size="md"
             background={"none"}
           />
@@ -61,7 +61,7 @@ export const MatchOverview = ({ picks, state, loading, id }: Props) => {
 
         <Flex direction="column" align="center">
           <Text fontSize="sm" color={textColor}>
-            4v4
+            {picks.config.name}
           </Text>
           <Text fontSize="14px" fontWeight="bold" color={textColor}>
             {state}
@@ -73,22 +73,25 @@ export const MatchOverview = ({ picks, state, loading, id }: Props) => {
 
         <Flex align="center" gap={4}>
           <Avatar
-            src={`https://skin.vimeworld.com/helm/${picks.teams[1][0].name}.png`}
+            src={`https://skin.vimeworld.com/helm/${picks.teams[1].players[0].name}.png`}
             size="md"
             background={"none"}
           />
           <Text fontSize="md" fontWeight="semibold" color={textColor}>
-            team_{picks.teams[1][0].name.toLowerCase()}
+            {picks.teams[1].name}
           </Text>
         </Flex>
       </Grid>
 
       <Grid
-        templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }}
+        templateColumns={{
+          base: "1fr",
+          md: "repeat(auto-fill, minmax(400px, 1fr))",
+        }}
         gap={6}
         alignItems={"start"}
       >
-        <TeamPlayers players={picks.teams[0]} />
+        <TeamPlayers players={picks.teams[0].players} />
         {picks.maps.length > 1 ? (
           <MapSelector picks={picks} game_id={id} />
         ) : (
@@ -209,7 +212,7 @@ export const MatchOverview = ({ picks, state, loading, id }: Props) => {
           </Flex>
         )}
 
-        <TeamPlayers players={picks.teams[1]} />
+        <TeamPlayers players={picks.teams[1].players} />
       </Grid>
     </Flex>
   )

@@ -1,5 +1,4 @@
-import { MatchPick } from "@features/map-selector/model"
-
+import { MatchPick } from "@features/match/hooks/types"
 export type GamePayload = {
   id: string
   map_id: string

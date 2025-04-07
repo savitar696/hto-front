@@ -8,5 +8,5 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     getInfo()
   }, [])
 
-  return children
+  return <>{children}</>
 }

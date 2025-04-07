@@ -1,10 +1,10 @@
 import { Box, Flex, Icon, Text } from "@chakra-ui/react"
 import { Avatar } from "@shared/ui/avatar"
-import { Player } from "@features/map-selector/model"
 import { GradientText } from "@shared/ui/premium-text/ui.tsx"
 import { PiCrownSimpleFill } from "react-icons/pi"
+import { GamePlayer } from "@features/match/hooks/types"
 
-export const PlayerCard = ({ player }: { player: Player }) => {
+export const PlayerCard = ({ player }: { player: GamePlayer }) => {
   const cardBg = "white"
   const textColor = "blackAlpha.900"
   const borderColor = "blackAlpha.100"

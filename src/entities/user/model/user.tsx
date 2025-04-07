@@ -1,7 +1,7 @@
 import { create } from "zustand"
 import { User } from "./user.types"
 import toast from "react-hot-toast"
-import { errorToast, promiseToast, successToast } from "@shared/lib/utils"
+import { errorToast, successToast } from "@shared/lib/utils"
 import { api } from "@shared/api"
 
 export const useUser = create<User>((set) => ({
@@ -23,41 +23,37 @@ export const useUser = create<User>((set) => ({
     set({
       profile: payload,
     }),
-  auth: (token) => {
-    const authPromise = (async () => {
-      const response = await api.post("/auth", { token })
-      localStorage.setItem("token", response.data)
+  auth: async (token) => {
+    try {
+      const { data: newTokenResponse } = await api.post("/auth", { token })
 
-      const infoResponse = await api.get("/auth/info", {
-        headers: {
-          authorization: `Bearer ${response.data}`,
-        },
+      if (newTokenResponse.status && newTokenResponse.status !== 200) {
+        toast.error(newTokenResponse.response.message, errorToast)
+        return
+      }
+      localStorage.setItem("token", newTokenResponse)
+
+      const { data: infoToken } = await api.get("/auth/info", {
+        headers: { authorization: `Bearer ${newTokenResponse}` },
       })
 
-      set({
-        isAuth: true,
-        isLoading: false,
-        payload: infoResponse.data.data,
-      })
+      set((state) =>
+        state.payload !== infoToken.data
+          ? { isAuth: true, payload: infoToken.data }
+          : state,
+      )
 
-      return infoResponse.data
-    })()
-
-    return promiseToast(
-      authPromise,
-      {
-        title: "Успех",
-        subTitle: "Вы успешно вошли в аккаунт",
-      },
-      {
-        title: "Ошибка",
-        subTitle: "Токен является не валидным, попробуйте другой",
-      },
-      {
-        title: "Выполняется вход...",
-        subTitle: "Пожалуйста, подождите",
-      },
-    )
+      toast.success(
+        `Вы успешно вошли в аккаунт ${infoToken.data.profile.name}`,
+        successToast,
+      )
+    } catch (e: any) {
+      if (e.response) {
+        toast.error(`${e.response.data.message}`, errorToast)
+      } else {
+        toast.error("Произошла ошибка, попробуйте снова.", errorToast)
+      }
+    }
   },
   logout: () => {
     localStorage.setItem("token", "")

@@ -11,7 +11,6 @@ import {
   DialogTrigger,
 } from "@components/ui/dialog"
 import { useQueue } from "../hooks/use-queue"
-import { useColorModeValue } from "@components/ui/color-mode"
 
 interface JoinQueueProps {
   payload: any
@@ -40,10 +39,7 @@ export const JoinQueue: FC<PropsWithChildren<JoinQueueProps>> = ({
         <DialogHeader>
           <DialogTitle textAlign="center" fontSize="22px">
             Поиск игры
-            <Text
-              fontSize="14px"
-              color={useColorModeValue("gray.500", "whiteAlpha.700")}
-            >
+            <Text fontSize="14px" color={"gray.500"}>
               Перезагрузка страницы приведет к отключению Вас из очереди
             </Text>
           </DialogTitle>

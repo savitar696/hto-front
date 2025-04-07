@@ -4,9 +4,9 @@
 
   .textGradient {
     background: var(--gradient);
-    -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: 4s linear 0s infinite normal none running textGradient;
+    animation: 8s linear 0s infinite normal none running textGradient;
     font-weight: var(--fontWeights-semibold);
   }
 
@@ -16,15 +16,15 @@
     display: inline;
     filter: blur(32px);
     background: var(--gradient);
-    -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: 4s linear 0s infinite normal none running textGradient;
+    animation: 8s linear 0s infinite normal none running textGradient;
     font-weight: var(--fontWeights-semibold);
   }
 
   @keyframes textGradient {
     100% {
-      background-position: 200% center;
+      background-position: 100% center;
     }
   }
 }

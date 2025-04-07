@@ -1,4 +1,4 @@
-export const API_URL = "https://api.hardtournaments.space"
+export const API_URL = "http://localhost:5000"
 
 export interface Item {
   label: string
@@ -12,42 +12,39 @@ export const TreeItems: Item[] = [
 ]
 
 export enum MapName {
-  Zelnes = "Зелнес",
-  Aquarium = "Аквариум",
-  Awakening = "Пробуждение",
-  Junglius = "Джунглиос",
-  Zimperia = "Зимперия",
-  Zamki = "Замки",
-  Troster = "Тростер",
-  Actuon = "Актуон",
-  Unona = "Юнона",
-  Crimnentis = "Криментис",
-  Fernigad = "Фернигад",
-}
+    Actuon = "Актуон",
+    Actuon2 = "Актуон 2",
+    Alija = "Алия",
+    Aquarium = "Аквариум",
+    Awakening = "Пробуждение",
+    Castles = "Замки",
+    Crimentis = "Криментис",
+    Critaz = "Критаз",
+    Fernigad = "Фернигад",
+    FernigadXL = "Фернигад XL",
+    Fortis = "Фортис",
+    FortisL = "Фортис L",
+    Ivakuma = "Ивакума",
+    Junglius = "Джунглиос",
+    KrimentisXL = "Криментис XL",
+    Merbes = "Мэрбес",
+    Pluntrum = "Плунтрум",
+    Raskol = "Раскол",
+    Troster = "Тростер",
+    Unona = "Юнона",
+    Zelnes = "Зелнес",
+    Zimperia = "Зимперия",
+    ZimperiaXL = "Зимперия XL",
+  }
 
-export const MapImages: Record<MapName, string> = {
-  [MapName.Zelnes]:
-    "https://higexkonuqazjsxgdfbd.supabase.co/storage/v1/object/public/Banners/maps/Zelnes.jpg",
-  [MapName.Aquarium]:
-    "https://higexkonuqazjsxgdfbd.supabase.co/storage/v1/object/public/Banners/maps/Aquarium.jpg",
-  [MapName.Awakening]:
-    "https://higexkonuqazjsxgdfbd.supabase.co/storage/v1/object/public/Banners/maps/Awakening.jpg",
-  [MapName.Junglius]:
-    "https://higexkonuqazjsxgdfbd.supabase.co/storage/v1/object/public/Banners/maps/Junglius.png",
-  [MapName.Zimperia]:
-    "https://higexkonuqazjsxgdfbd.supabase.co/storage/v1/object/public/Banners/maps/Zimperia.jpg",
-  [MapName.Zamki]:
-    "https://higexkonuqazjsxgdfbd.supabase.co/storage/v1/object/public/Banners/maps/Castles.jpg",
-  [MapName.Troster]:
-    "https://higexkonuqazjsxgdfbd.supabase.co/storage/v1/object/public/Banners/maps/Troster.jpg",
-  [MapName.Actuon]:
-    "https://higexkonuqazjsxgdfbd.supabase.co/storage/v1/object/public/Banners/maps/Actuon.jpg",
-  [MapName.Unona]:
-    "https://higexkonuqazjsxgdfbd.supabase.co/storage/v1/object/public/Banners/maps/Unona.jpg",
-  [MapName.Crimnentis]:
-    "https://higexkonuqazjsxgdfbd.supabase.co/storage/v1/object/public/Banners/maps/Crimentis.jpg",
-  [MapName.Fernigad]:
-    "https://higexkonuqazjsxgdfbd.supabase.co/storage/v1/object/public/Banners/maps/Fernigad.jpg",
-}
+const BASE_URL =
+    "https://higexkonuqazjsxgdfbd.supabase.co/storage/v1/object/public/Banners/maps";
+
+export const MapImages: Record<MapName, string> = Object.fromEntries(
+    Object.entries(MapName).map(([key, _]) => {
+      const fileName = key === "Zamki" ? "Castles" : key;
+      return [MapName[key as keyof typeof MapName], `${BASE_URL}/${fileName}.jpg`];
+    })
+  ) as Record<MapName, string>;
 
 export const getMapImage = (map: MapName): string => MapImages[map]

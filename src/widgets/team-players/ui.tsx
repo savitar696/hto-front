@@ -1,8 +1,8 @@
 import { Flex } from "@chakra-ui/react"
+import { GamePlayer } from "@features/match/hooks"
 import { PlayerCard } from "@widgets/player-card"
-import { Player } from "@features/map-selector/model"
 
-export const TeamPlayers = ({ players }: { players: Player[] }) => {
+export const TeamPlayers = ({ players }: { players: GamePlayer[] }) => {
   return (
     <Flex flexDirection={"column"} gap={2} width={"100%"}>
       {players.map((player) => (

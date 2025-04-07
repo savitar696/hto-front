@@ -13,6 +13,7 @@ import { SettingsPage } from "@pages/settings/ui"
 import { PlayPage } from "@pages/play/ui"
 import { MatchPage } from "@pages/match/ui"
 import { ErrorPage } from "@pages/404/ui"
+import { MatchmakingClient } from "@pages/test-page"
 
 const routes = (): RouteObject[] => [
   {
@@ -72,6 +73,10 @@ const routes = (): RouteObject[] => [
       {
         path: paths.match,
         element: <MatchPage />,
+      },
+      {
+        path: "test",
+        element: <MatchmakingClient />,
       },
     ],
   },

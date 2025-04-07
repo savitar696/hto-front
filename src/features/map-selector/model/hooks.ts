@@ -14,7 +14,7 @@ export const useMapBan = (game_id: string) => {
 
       try {
         setIsBanning(true)
-        socket.emit("ban", {
+        socket.emit("ban.map", {
           game_id: game_id,
           name: profile.name,
           ban_map: map,

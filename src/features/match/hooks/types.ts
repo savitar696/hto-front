@@ -1,15 +1,30 @@
-import { Player } from "@features/map-selector/model"
-
-export type MatchPick = {
+export interface MatchPick {
+  gameType: any
   maps: string[]
-  players: Player[]
+  players: GamePlayer[]
+  ended_when: number
   vote_right: number
   vote_right_end: number
-  ended_when: number
   mapsSource: string[]
-  teams: Player[][]
+  teams: Team[]
   state: GameState
-  logs?: string[]
+  logs: string[]
+  config: any
+}
+
+export interface Team {
+  name: string
+  players: GamePlayer[]
+}
+
+export interface GamePlayer {
+  client_id: string
+  name: string
+  premium: boolean
+  rating: number
+  stats: any
+  captain: boolean
+  discordId: string | null
 }
 
 export enum GameState {

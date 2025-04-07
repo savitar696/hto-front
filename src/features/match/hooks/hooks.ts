@@ -19,6 +19,7 @@ export const useMatch = (id: string) => {
   const [state, setState] = useState<string | null>(null)
 
   const picks = useSocketEvent<MatchPick>({ event: EVENTS.LISTENER })
+  console.log(picks)
   useEffect(() => {
     if (picks) {
       setLoading(false)
@@ -37,15 +38,9 @@ export const useMatch = (id: string) => {
   useEffect(() => {
     socket.connect()
     socket.emit(EVENTS.JOIN, { game_id: id, name: profile.name })
-
-    const interval = setInterval(() => {
-      if (socket.connected) {
-        socket.emit("ban.listener", { game_id: id, name: profile.name })
-      }
-    }, 5000)
+    socket.emit(EVENTS.LISTENER, { game_id: id, name: profile.name })
 
     return () => {
-      clearInterval(interval)
       socket.disconnect()
     }
   }, [id, profile.name])
