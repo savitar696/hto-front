@@ -6,7 +6,8 @@ import { MatchReadyModal } from "@features/play/ui/match-ready-modal"
 import toast from "react-hot-toast"
 import { acceptedSound, foundedSound } from "@shared/static/music"
 
-const SERVER_URL = "http://testapi.hardtournaments.space"
+const SERVER_URL =
+  "https://hto-dev-backend-ntfxyp-361761-77-239-116-138.traefik.me"
 const NAMESPACE = "/matchmaking/v2"
 
 interface QueueJoinedData {

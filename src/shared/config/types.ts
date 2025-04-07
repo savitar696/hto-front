@@ -1,4 +1,4 @@
-export const API_URL = "http://testapi.hardtournaments.space"
+export const API_URL = "https://hto-dev-backend-ntfxyp-361761-77-239-116-138.traefik.me"
 
 export interface Item {
   label: string
